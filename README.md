@@ -18,7 +18,7 @@ Dr. Ching-Seh (Mike) Wu
 
 ## Team Members:
 Julia Chin
- Kimleng Hor
+Kimleng Hor
 Dominic Pham
 
 ### Project Overview
@@ -48,7 +48,7 @@ Our team will be creating a website to help people find recipes for maintaining 
 
 4. Users will be able to filter food recipes by:
     a. Popularity
-    b.Cooking difficulty
+    b. Cooking difficulty
     c. Spiciness
     d. Diet (e.g. Weight Loss, Muscle Building, Vegan, Ketogenic, etc)
     e. Type of meal (e.g. breakfast, lunch, dinner, snack, dessert, drink)
