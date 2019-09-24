@@ -17,9 +17,9 @@ Dr. Ching-Seh (Mike) Wu
 
 
 ## Team Members:
-Julia Chin
- Kimleng Hor
-Dominic Pham
++ Julia Chin
++ Kimleng Hor
++ Dominic Pham
 
 ### Project Overview
 
@@ -27,7 +27,7 @@ Our team will be creating a website to help people find recipes for maintaining 
 
 ### Structure Diagram (3-tier Architecture)
 
-<img src="/images/StructureDiagram.png" width=200>
+<img src="/images/StructureDiagram.png" width=400>
 
 ### Functional Requirements
 
