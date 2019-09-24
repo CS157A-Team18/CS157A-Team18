@@ -33,6 +33,7 @@ Our team will be creating a website to help people find recipes for maintaining 
 - The website will provide a form for users to fill in their information. The form requires first name, last name, email address, password and confirm password.
 - Users must provide complete information in order to proceed with the operation.
 - The system will check whether the information that is provided by the user existing in the database. 
+- The system will confirm the password is correct for a user account.
 
 2. Manage account.
 - Users will be able to change their information; such as email address, password but not their username.
@@ -43,25 +44,59 @@ Our team will be creating a website to help people find recipes for maintaining 
 - Users will be able to set their own preferences for food recipes; such as the level of spiciness, the food cultures, and many more.
 - The system will save the information and organize the pages to fit the user preference.
 
-4. Users will be able to filter food recipes by:
-    a. Popularity
-    b. Cooking difficulty
-    c. Spiciness
-    d. Diet (e.g. Weight Loss, Muscle Building, Vegan, Ketogenic, etc)
-    e. Type of meal (e.g. breakfast, lunch, dinner, snack, dessert, drink)
-    f. Type of cuisine (e.g. American, Asian, Mexican, etc)
-    g. Amount of time to cook meal
+4. Filter
+- Users will be able to filter food recipes by:
+    - Popularity 
+        - Users will be able to filter food recipes from most popular to least popular.
+    - Cooking difficulty
+        - Users will be able to filter food recipes based on easy, medium, hard to make.
+    - Spiciness
+        - Users will be able to filter food recipes based on light, medium, heavy spice levels.
+    - Diet
+        - Users will be able to filter food recipes by different types of diets.
+        - Examples of diets include but is not limited to the following:
+            - Weight loss
+            - Muscle building
+            - Vegan
+            - Ketogenic
+    - Type of meal
+        -  Users will be able to filter food recipes by different types of meals.
+        - Examples of meals include the following:
+            - Breakfast
+            - Lunch
+            - Dinner
+            - Snack
+            - Dessert
+            - Drink
+    - Type of cuisine (e.g. American, Asian, Mexican, etc)
+        - Users will be able to filter food recipes by different types of cuisines.
+        - Examples of cuisines include but is not limited to the following:
+            - American
+            - Asian
+            - Mexican
+            - Canadian
+    - Amount of time to cook meal
+        - Users will be able to filter food recipes based on the amount of time it takes to make.
     
 5. Search bar
-- Users should be able to find the items they want fairly easily. The results should display the most relevant items first by default.
+- Users will be able to use a search bar to easily navigate recipes. Users should be able to find the items they want fairly easily. The results should display the most relevant items first by default.
+- Users will be able to input keywords to narrow down their search.
+- Users will be able to change the filters to their preferences.
 - This function should be cross integrated with the users' food preferences. Additionally, users will have an option to sort the results by rating.
 - Results should be limited to a preset number (e.g., 25 results) for easier readability.
-6. Users will be able to see an instructional video, a picture of the meal, and a step-by-step guide on how to make the meal.
+
+6. Display instructional video, a picture of the meal, and step-by-step instruction guide
+- Users will be able to have access to an instructional video, a picture of the meal, and a step-by-step guide on how to make the meal.
+- Users will see a list of ingredients for the meal.
+- Users will be able to save recipes to their Favorites list.
+
 7. Post review & leave rating
-- Users will see a thumbs up and a thumbs down next to each recipe, representing liking and disliking, respectively. The like/dislike button will glow when selected.
+- Users will be able to rate a recipe by liking/disliking, and have an option to write a review.
+- Users will to able to click a thumbs up and a thumbs down next to each recipe, representing liking and disliking, respectively. The like/dislike button will glow when selected.
 - The like/dislike buttons should act like a toggle. For example, if the user previously clicked "dislike" and decides to click "like", the "dislike" button should be unselected. Likewise, if the user previously clicked "like" and decides to click "dislike", the "like" button should be unselected.
 - Reviews will simply be comments. Other users will have the option to like, dislike, and/or comment on reviews.
 - The like/dislike feature for the reviews will act in the same manner as described above.
+- User can select whether they would like to make the review public or to keep it private
 
 ### Nonfunctional Requirements
 + Usability
