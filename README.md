@@ -49,13 +49,37 @@ Our team will be creating a website to help people find recipes for maintaining 
 
 4. Filter
 - Users will be able to filter food recipes by:
-    a. Popularity
-    b. Cooking difficulty
-    c. Spiciness
-    d. Diet (e.g. Weight Loss, Muscle Building, Vegan, Ketogenic, etc)
-    e. Type of meal (e.g. breakfast, lunch, dinner, snack, dessert, drink)
-    f. Type of cuisine (e.g. American, Asian, Mexican, etc)
-    g. Amount of time to cook meal
+    - Popularity 
+        - Users will be able to filter food recipes from most popular to least popular.
+    - Cooking difficulty
+        - Users will be able to filter food recipes based on easy, medium, hard to make.
+    - Spiciness
+        - Users will be able to filter food recipes based on light, medium, heavy spice levels.
+    - Diet
+        - Users will be able to filter food recipes by different types of diets.
+        - Examples of diets include but is not limited to the following:
+            - Weight loss
+            - Muscle building
+            - Vegan
+            - Ketogenic
+    - Type of meal
+        -  Users will be able to filter food recipes by different types of meals.
+        - Examples of meals include the following:
+            - Breakfast
+            - Lunch
+            - Dinner
+            - Snack
+            - Dessert
+            - Drink
+    - Type of cuisine (e.g. American, Asian, Mexican, etc)
+        - Users will be able to filter food recipes by different types of cuisines.
+        - Examples of cuisines include but is not limited to the following:
+            - American
+            - Asian
+            - Mexican
+            - Canadian
+    - Amount of time to cook meal
+        - Users will be able to filter food recipes based on the amount of time it takes to make.
     
 5. Search bar
 - Users will be able to use a search bar to easily navigate recipes.
