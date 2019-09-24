@@ -36,6 +36,7 @@ Our team will be creating a website to help people find recipes for maintaining 
 - The website will provide a form for users to fill in their information. The form requires first name, last name, email address, password and confirm password.
 - Users must provide complete information in order to proceed with the operation.
 - The system will check whether the information that is provided by the user existing in the database. 
+- The system will confirm the password is correct for a user account.
 
 2. Manage account.
 - Users will be able to change their information; such as email address, password but not their username.
@@ -46,7 +47,8 @@ Our team will be creating a website to help people find recipes for maintaining 
 - Users will be able to set their own preferences for food recipes; such as the level of spiciness, the food cultures, and many more.
 - The system will save the information and organize the pages to fit the user preference.
 
-4. Users will be able to filter food recipes by:
+4. Filter
+- Users will be able to filter food recipes by:
     a. Popularity
     b. Cooking difficulty
     c. Spiciness
@@ -55,9 +57,20 @@ Our team will be creating a website to help people find recipes for maintaining 
     f. Type of cuisine (e.g. American, Asian, Mexican, etc)
     g. Amount of time to cook meal
     
-5. Users will be able to use a search bar to easily navigate recipes.
-6. Users will be able to see an instructional video, a picture of the meal, and a step-by-step guide on how to make the meal.
-7. Users will be able to rate a recipe by liking/disliking, and have an option to write a review.
+5. Search bar
+- Users will be able to use a search bar to easily navigate recipes.
+- Users will be able to input keywords to narrow down their search.
+- Users will be able to change the filters to their preferences.
+
+6. Display instructional video, a picture of the meal, and step-by-step instruction guide
+- Users will be able to have access to an instructional video, a picture of the meal, and a step-by-step guide on how to make the meal.
+- Users will see a list of ingredients for the meal.
+- Users will be able to save recipes to their Favorites list.
+
+7. Review forum
+- Users will be able to rate a recipe by liking/disliking, and have an option to write a review.
+- Users will be able to click a thumbs up or thumbs down icon.
+- User can select whether they would like to make the review public or to keep it private.
 
 ### Nonfunctional Requirements
 + Usability
