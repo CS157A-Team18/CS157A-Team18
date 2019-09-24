@@ -62,18 +62,32 @@ Our team will be creating a website to help people find recipes for maintaining 
 ### Nonfunctional Requirements
 + Usability
     - The graphical user interface shall be Bootstrap-based and built using HTML, CSS, and JavaScript.
+    - The page will have web responsive functionality i. e can be viewed using different device and will still work properly.
+    - Users will be able to undertand clearly and easily how to use the website.
+    - The website is designed to be user-friendly for everyone.
     
 + Implementation
     - The website shall use React for the frond end and Express for the backend.
+    - The website will be injected with MySQL databse which is provided by Oracle to read and write the data.
+    - The database will keep track on users' information; such as name, preference, and other more.
+    - The website will be hosted on the server and also the local server.
+    - The website will recommend user the type of food based on his/her preference.
     
 + Design
     - Sketch shall be used for prototyping.
+    - The design will be clean, clear and colorful.
 
 + Reliability
     - For security, two-factor authentication shall be enabled. Additionally, user passwords shall be encrypted with 256-bit AES.
     - For access control, only the creators of the website shall have the ability to manage the database and edit the site. Users shall only have the ability to navigate the website.
+    - The website should be running with no errors. All errors should be handled by throwing exceptions.
+    - The website server should be down in a small period of time during the maintenance.
     
 + Performance
+    - Retrieving data from the database should be under five seconds under the stable internet connection.
+    - The database should be able to handle big number of users and data without affecting the performance of the website.
+    - The website should be updated instantly whenver the user make changes. 
+    - Users will be able to find all items that are related to their searches.
 
 ### Bibliography
 Barclay, Eliza, et al. “It's Easy to Become Obese in America. These 7 Charts Explain Why.” Vox, Vox, 9 Aug. 2018, www.vox.com/2016/8/31/12368246/obesity-america-2018-charts.
