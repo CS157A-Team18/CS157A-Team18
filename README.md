@@ -101,7 +101,7 @@ Our team will be creating a website to help people find recipes for maintaining 
 ### Nonfunctional Requirements
 + Usability
     - The graphical user interface shall be Bootstrap-based and built using HTML, CSS, and JavaScript.
-    - The page will have web responsive functionality i. e can be viewed using different device and will still work properly.
+    - The page will have web responsive functionality i.e can be viewed using different device and will still work properly.
     - Users will be able to undertand clearly and easily how to use the website.
     - The website is designed to be user-friendly for everyone.
     
@@ -109,9 +109,9 @@ Our team will be creating a website to help people find recipes for maintaining 
     - The website shall use React for the front end and Express for the back end. Express will take care of the server side rendering while React takes care of the client side rendering. Server side rendering is necessary to prevent sensitive code from being exposed to the client (e.g., the database config file, and authentication code).
     - React will deal with the front end UI. The application will take advantage of its responsiveness to users.
     - The website will be injected with MySQL databse which is provided by Oracle to read and write the data.
-    - The database will keep track on users' information; such as name, preference, and other more.
-    - The website will be hosted on the server and also the local server.
-    - The website will recommend user the type of food based on his/her preference.
+    - The database will keep track of users' information; such as name, preference, and other more.
+    - The website will be hosted on the server.
+    - The website will recommend users the type of food based on his/her preference.
   
 + Design
     - Sketch shall be used for prototyping.
@@ -126,8 +126,7 @@ Our team will be creating a website to help people find recipes for maintaining 
     
 + Performance
     - Retrieving data from the database should be under five seconds under the stable internet connection.
-    - The database should be able to handle big number of users and data without affecting the performance of the website.
-    - The website should be updated instantly whenver the user make changes. 
+    - The website should be updated instantly whenever the user make changes. 
     - Users will be able to find all items that are related to their searches.
 
 ### Bibliography
