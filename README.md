@@ -102,7 +102,7 @@ Our team will be creating a website to help people find recipes for maintaining 
 + Usability
     - The graphical user interface shall be Bootstrap-based and built using HTML, CSS, and JavaScript.
     - The page will have web responsive functionality i.e can be viewed using different device and will still work properly.
-    - Users will be able to undertand clearly and easily how to use the website.
+    - Users will be able to understand clearly and easily how to use the website.
     - The website is designed to be user-friendly for everyone.
     
 + Implementation
@@ -126,7 +126,7 @@ Our team will be creating a website to help people find recipes for maintaining 
     
 + Performance
     - Retrieving data from the database should be under five seconds under the stable internet connection.
-    - The website should be updated instantly whenever the user make changes. 
+    - The website should be updated instantly whenever the user makes changes. 
     - Users will be able to find all items that are related to their searches.
 
 ### Bibliography
