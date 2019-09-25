@@ -101,18 +101,33 @@ Our team will be creating a website to help people find recipes for maintaining 
 ### Nonfunctional Requirements
 + Usability
     - The graphical user interface shall be Bootstrap-based and built using HTML, CSS, and JavaScript.
+    - The page will have web responsive functionality i.e can be viewed using different device and will still work properly.
+    - Users will be able to understand clearly and easily how to use the website.
+    - The website is designed to be user-friendly for everyone.
     
 + Implementation
     - The website shall use React for the front end and Express for the back end. Express will take care of the server side rendering while React takes care of the client side rendering. Server side rendering is necessary to prevent sensitive code from being exposed to the client (e.g., the database config file, and authentication code).
     - React will deal with the front end UI. The application will take advantage of its responsiveness to users.
-    
+    - The website will be injected with MySQL databse which is provided by Oracle to read and write the data.
+    - The database will keep track of users' information; such as name, preference, and other more.
+    - The website will be hosted on the server.
+    - The website will recommend users the type of food based on his/her preference.
+  
 + Design
     - Sketch shall be used for prototyping.
+    - The design will be clean, clear and colorful.
 
-+ Security
++ Security && Reliability
     - User data will be protected by credentials.
     - On top of credentials, two-factor authentication shall be enabled. This prevents an attacker from gaining access to a user's account should the account be compromised. Additionally, user passwords shall be encrypted with 256-bit AES. Should an attacker gain access to the database, the users' passwords will not be compromised.
     - For access control, only the creators of the website shall have the ability to manage the database and edit the site. Users shall only have the ability to navigate the website.
+    - The website should be running with no errors. All errors should be handled by throwing exceptions.
+    - The website server should be down in a small period of time during the maintenance.
+    
++ Performance
+    - Retrieving data from the database should be under five seconds under the stable internet connection.
+    - The website should be updated instantly whenever the user makes changes. 
+    - Users will be able to find all items that are related to their searches.
 
 ### Bibliography
 Barclay, Eliza, et al. “It's Easy to Become Obese in America. These 7 Charts Explain Why.” Vox, Vox, 9 Aug. 2018, www.vox.com/2016/8/31/12368246/obesity-america-2018-charts.
