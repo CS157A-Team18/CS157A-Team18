@@ -1,7 +1,6 @@
 var express = require('express');
 var router = express.Router();
 var mysql = require('mysql');
-var app = express()
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
@@ -16,9 +15,14 @@ router.get('/', function(req, res, next) {
   
   connection.query('SELECT * FROM emp', function(err, rows, fields) {
     if (err) throw err
-    res.render('index', {title: "id: " + rows[0]["id"] + ", " 
-    + "name: " + rows[0]["name"] + ", " 
-    + "age:" + rows[0]["age"]})
+
+    var studentJson = []
+
+    for(var i = 0; i < rows.length; i++) {
+      studentJson.push({"id":rows[i]["id"], "name":rows[i]["name"], "age":rows[i]["age"]})
+    }
+
+    res.json(studentJson)
   })
   
   connection.end()
