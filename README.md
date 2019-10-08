@@ -115,7 +115,7 @@ Our team will be creating a website to help people find recipes for maintaining 
     - For access control, only the creators of the website shall have the ability to manage the database and edit the site. Users shall only have the ability to navigate the website.
 
 ### Entity Relationship Model
-<img src="/images/ERModel" width=500>
+<img src="/images/ERModel.png" width=500>
 
 ### Entity Sets
 
