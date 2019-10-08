@@ -129,6 +129,60 @@ Our team will be creating a website to help people find recipes for maintaining 
     - The website should be updated instantly whenever the user makes changes. 
     - Users will be able to find all items that are related to their searches.
 
+### Entity Relationship Model
+<img src="/images/ERModel.png" width=500>
+
+### Entity Sets
+
+1. User 
+Attributes: username (primary key), first name, last name, and password
+The primary key for this set is username, which means the username must be unique.
+Password is stored safely with an encryption.
+This entity set stores the record and the information of the user.
+
+2. Food Allergy
+Attributes: name (primary key)
+This set has name as primary key because each food allergy has to be unique.
+This entity set stores all kinds of food allergies.
+
+3. Ingredients
+Attributes: name (primary key), measurement, quantity
+Name is the primary key of this set so that we can distinguish it from other ingredients.
+This entity set stores many kinds of ingredients.
+
+4. Recipe
+Attributes: timestamp (primary key), name, likes, dislikes, vid_url
+Each recipe will be determined with a timestamp as the primary key.
+This entity set stores the record of the recipe; such as name, likes, dislikes and video link.
+
+5. Meal Type
+	Attributes: name (primary key)
+This entity set stores the type of the food (breakfast, lunch, and dinner).
+
+
+### Relationships
+
+1. Has (between User and Food Allergy)
+This relationship has the record of a user who has a food allergy.
+It helps to prevent users from having the foods that are harming them.
+
+2. Cause (between Food Allergy and Ingredient)
+This relationship has the record of ingredients that cause specific allergy.
+
+3. Has (between Ingredient and Recipe)
+This relationship allows us to access the ingredients which are related to the specific recipe.
+
+4. Has (between Recipe and Meal Type)
+This relationship determines the meal type of the recipe. It can be breakfast, lunch or dinner.
+
+5. Favorites (between User and Recipe)
+Each user can have many favorite recipes, and this relationship keeps track by using username.
+
+6. Likes (between User and Recipe)
+This relationship linked user and recipe together in order to determine which recipe is liked or disliked by the user.
+
+
+
 ### Bibliography
 Barclay, Eliza, et al. “It's Easy to Become Obese in America. These 7 Charts Explain Why.” Vox, Vox, 9 Aug. 2018, www.vox.com/2016/8/31/12368246/obesity-america-2018-charts.
 
