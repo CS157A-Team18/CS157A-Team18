@@ -146,7 +146,7 @@ This set has name as primary key because each food allergy has to be unique.
 This entity set stores all kinds of food allergies.
 
 3. Ingredients
-Attributes: name (primary key), measurement, quantity
+Attributes: name (primary key)
 Name is the primary key of this set so that we can distinguish it from other ingredients.
 This entity set stores many kinds of ingredients.
 
@@ -181,6 +181,41 @@ Each user can have many favorite recipes, and this relationship keeps track by u
 6. Likes (between User and Recipe)
 This relationship linked user and recipe together in order to determine which recipe is liked or disliked by the user.
 
+### Schema & Table Screenshots
+***Bolded keys are the primary keys***
+
+1. user(__username__, first_name, last_name, password)
+<img src="/images/user.png">
+
+2. food_allergy(__name__)
+<img src="/images/food_allergy.png">
+
+3. user_food_allergy_junction_table(__username__, __food_allergy_name__)
+<img src="/images/user_food_allergy_junction_table.png">
+
+4. user_recipe_junction_table_favorites(__username__, __timestamp__)
+<img src="/images/user_recipe_junction_table_favorites.png">
+
+5. user_recipe_junction_table_likes (__username__, __timestamp__) 
+<img src="/images/user_recipe_junction_table_likes.png">
+
+6. ingredient (__name__)
+<img src="/images/ingredient.png">
+
+7. food_allergy_ingredient_junction_table (__food_allergy_name__, __ingredient_name__)
+<img src="/images/food_allergy_ingredient_junction_table.png">
+
+8. recipe_ingredient_junction_table (__recipe_timestamp__, __ingredient_name__, quantity, measurement)
+<img src="/images/recipe_ingredient_junction_table.png">
+
+9. recipe (__name__)
+<img src="/images/recipe.png">
+
+10. meal_type (__name__)
+<img src="/images/meal_type.png">
+
+11. recipe_meal_type_junction_table (__recipe_timestamp__, __meal_type_name__)
+<img src="/images/recipe_meal_type_junction_table.png">
 
 
 ### Bibliography
