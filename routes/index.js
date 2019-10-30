@@ -1,31 +1,21 @@
 var express = require('express');
+var db = require('../database/dbQuery.js');
 var router = express.Router();
-var mysql = require('mysql');
+const util = require('util');
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
-  var connection = mysql.createConnection({
-    host: 'localhost',
-    user: 'root',
-    password: 'Kimleng123$',
-    database: 'cs157a',
-  });
-  
-  connection.connect()
-  
-  connection.query('SELECT * FROM emp', function(err, rows, fields) {
-    if (err) throw err
-
-    var studentJson = []
-
-    for(var i = 0; i < rows.length; i++) {
-      studentJson.push({"id":rows[i]["id"], "name":rows[i]["name"], "age":rows[i]["age"]})
+  /* Code for testing getUserCredentials() function. Replace 'bun' with any username
+  *  in the DB and verify that the response is as expected
+  */
+  db.getUserCredentials('bun').then(rows => {
+    if (rows.length == 0) {
+      res.sendStatus(401)
+      return
     }
 
-    res.json(studentJson)
+    res.send(util.format('Password: %s', rows[0]['password']))
   })
-  
-  connection.end()
 });
 
 module.exports = router;
