@@ -61,6 +61,8 @@ export default function Login() {
         state.confirmPassword = ""
         state.firstName = ""
         state.lastName = ""
+        document.getElementById("standard-username").value = ""
+        document.getElementById("standard-password").value = ""
     }
 
     const updateEmail = e => {
