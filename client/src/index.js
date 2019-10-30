@@ -50,10 +50,18 @@ export default function Login() {
         email: "",
         password: "",
         confirmPassword: "",
-        firstname: "",
-        lastname: "",
+        firstName: "",
+        lastName: "",
         isLogin: true
     };
+
+    const resetState = () => {
+        state.email = ""
+        state.password = ""
+        state.confirmPassword = ""
+        state.firstName = ""
+        state.lastName = ""
+    }
 
     const updateEmail = e => {
         state.email = e.target.value
@@ -68,11 +76,11 @@ export default function Login() {
     }
 
     const updateFirstname = e => {
-        state.firstname = e.target.value
+        state.firstName = e.target.value
     }
 
     const updateLastname = e => {
-        state.lastname = e.target.value
+        state.lastName = e.target.value
     }
     
     const handleClose = () => {
@@ -117,6 +125,7 @@ export default function Login() {
         document.getElementById("firstTextField").style.display = "block";
         document.getElementById("lastTextField").style.display = "block";
         state.isLogin = false
+        resetState()
     }
 
     const switchToLoginPage = () => {
@@ -129,6 +138,7 @@ export default function Login() {
         document.getElementById("firstTextField").style.display = "none";
         document.getElementById("lastTextField").style.display = "none";
         state.isLogin = true
+        resetState()
     }
 
     const classes = styles();
