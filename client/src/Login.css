@@ -10,3 +10,15 @@
 div.thirdTextField {
     display: none;
 }
+
+div.firstnameTextField {
+    display: none;
+}
+
+div.lastnameTextField {
+    display: none;
+}
+
+div.MuiSnackbarContent-root {
+    background-color: crimson;
+}
