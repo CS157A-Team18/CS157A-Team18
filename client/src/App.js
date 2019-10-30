@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import './App.css';
+import Login from './index';
 
 class App extends Component {
   state = { users: [] }
@@ -14,6 +15,7 @@ class App extends Component {
   render() {
     return (
       <div className="App">
+        <Login/>
         <h1>Users</h1>
         <ul>
           {this.state.users.map(user =>
