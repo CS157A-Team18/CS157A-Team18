@@ -3,9 +3,12 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
+const config = require('./config/config.js');
+var cors = require('cors');
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
+var loginRouter = require('./routes/login');
 
 var app = express();
 
@@ -19,8 +22,21 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
+// Allow Cross Origin Resource Sharing
+const corsOptions = {
+  origin: (origin, callback) => {
+    if (origin != config.REACT_ENDPOINT) {
+      callback(new Error('Not allowed by CORS'))
+    } else {
+      callback(null, true)
+    }
+  }
+}
+app.use(cors(corsOptions))
+
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
+app.use('/api/login', loginRouter)
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

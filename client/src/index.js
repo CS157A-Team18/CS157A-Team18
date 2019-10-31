@@ -4,6 +4,7 @@ import App from './App';
 import * as serviceWorker from './serviceWorker';
 import React from 'react';
 import './Login.css';
+import {config} from './config/config.js'
 
 //from material ui
 import Grid from '@material-ui/core/Grid';
@@ -13,6 +14,7 @@ import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import Link from '@material-ui/core/Link';
 import Snackbar from '@material-ui/core/Snackbar';
+var util = require('util');
 
 const styles = makeStyles(theme => ({
     root: {
@@ -47,7 +49,7 @@ export default function Login() {
 
 
     const state = {
-        email: "",
+        username: "",
         password: "",
         confirmPassword: "",
         firstName: "",
@@ -56,7 +58,7 @@ export default function Login() {
     };
 
     const resetState = () => {
-        state.email = ""
+        state.username = ""
         state.password = ""
         state.confirmPassword = ""
         state.firstName = ""
@@ -65,8 +67,8 @@ export default function Login() {
         document.getElementById("standard-password").value = ""
     }
 
-    const updateEmail = e => {
-        state.email = e.target.value
+    const updateUsername = e => {
+        state.username = e.target.value
     }
     
     const updatePassword = e => {
@@ -90,8 +92,6 @@ export default function Login() {
     };
 
     const handleSubmit = () => {
-        //distinguish between login and signup
-        console.log(state.isLogin)
         //Login
         if (state.isLogin) {
             if (document.getElementById("standard-username").value === "" || document.getElementById("standard-password").value === "") {
@@ -99,7 +99,22 @@ export default function Login() {
                 //setOpen(true);
                 console.log("Please fill in all requirements!!!")
             } else {
-                //login successfully
+                fetch(util.format('%s/api/login', config.EXPRESS_BACKEND), {
+                    method: "POST",
+                    headers: {
+                        'Content-type': 'application/json'
+                    },
+                    body: JSON.stringify(state)
+                })
+                .then(result => {
+                    console.log(result) // 401 = Unauthorized; 200 = OK
+                    if (result.ok) {
+                        // Handle successful login here
+                        return
+                    }
+
+                    // Handle non-successful login here
+                })
             }
         } else {
             //Sign up
@@ -184,14 +199,14 @@ export default function Login() {
                                 />
                             </div>
 
-                            <div className={"emailTextField"} noValidate id="emailField">
+                            <div className={"usernameTextField"} noValidate id="usernameField">
                                 <TextField
                                     id="standard-username"
                                     label="Username"
                                     margin="normal"
                                     autoFocus
                                     fullWidth
-                                    onChange={updateEmail}
+                                    onChange={updateUsername}
                                 />
                             </div>
 
