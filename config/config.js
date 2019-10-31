@@ -2,6 +2,9 @@ const dotenv = require('dotenv');
 dotenv.config();
 
 module.exports = {
+    // Backend endpoint
+    REACT_ENDPOINT: "http://localhost:3000",
+
     // RDS credentials
     RDS_ENDPOINT: process.env.RDS_ENDPOINT || "localhost",
     RDS_USERNAME: process.env.RDS_USERNAME || "root",
