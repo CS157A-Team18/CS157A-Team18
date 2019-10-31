@@ -1,4 +1,6 @@
-const DAO = require('./dao.js')
+const DAO = require('./dao.js');
+const aes256 = require('aes256');
+const config = require('../config/config.js');
 
 var dbAccessObject = new DAO.Database()
 
@@ -7,4 +9,13 @@ function getUserCredentials(username) {
     return dbAccessObject.query(query, [username])
 }
 
-module.exports = {getUserCredentials}
+function addUser(username, firstName, lastName, password) {
+    const query = `
+        INSERT INTO user 
+            VALUES(?, ?, ?, ?)
+    `
+    const encryptedPassword = aes256.encrypt(config.AES_KEY, password)
+    return dbAccessObject.query(query, [username, firstName, lastName, encryptedPassword])
+}
+
+module.exports = {getUserCredentials, addUser}
