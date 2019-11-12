@@ -9,7 +9,7 @@ class App extends Component {
   render() {
     return (
       <div className="App">
-        <Recipe Name="Barbeque Pecans" Image="https://icl.coop/wp-content/uploads/2015/10/BBQ-Pecans.jpg"/>
+        <Recipe name="Barbeque Pecans" image="https://icl.coop/wp-content/uploads/2015/10/BBQ-Pecans.jpg"/>
         {/* <Recipe Name="cat" Description="cute" Image="https://i.ytimg.com/vi/NCZ0eg1zEvw/maxresdefault.jpg"/> */}
         {/* <Dashboard/> */}
       </div>
