@@ -4,7 +4,7 @@ import App from './App';
 import * as serviceWorker from './serviceWorker';
 import React from 'react';
 import './Login.css';
-import {config} from './config/config.js'
+import {config} from './config/config.js';
 
 //from material ui
 import Grid from '@material-ui/core/Grid';
@@ -14,6 +14,7 @@ import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import Link from '@material-ui/core/Link';
 import Snackbar from '@material-ui/core/Snackbar';
+import Dashboard from './Dashboard';
 var util = require('util');
 
 const styles = makeStyles(theme => ({
@@ -110,7 +111,8 @@ export default function Login() {
                     console.log(result) // 401 = Unauthorized; 200 = OK
                     if (result.ok) {
                         // Handle successful login here
-                        return
+                        //go to the Dashboard
+                        return 
                     }
                     // Handle non-successful login here
                 })

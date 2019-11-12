@@ -19,6 +19,7 @@ import GridList from '@material-ui/core/GridList';
 import GridListTile from '@material-ui/core/GridListTile';
 import GridListTileBar from '@material-ui/core/GridListTileBar';
 import StarBorderIcon from '@material-ui/icons/StarBorder';
+import { Link } from "react-router-dom";
 
 //images
 import food1 from './images/food1.jpg';
@@ -155,7 +156,7 @@ export default function Dashboard() {
     const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
 
     const handleProfileMenuOpen = event => {
-        setAnchorEl(event.currentTarget);
+        //setAnchorEl(event.currentTarget);
     };
 
     const handleMobileMenuClose = () => {
@@ -277,7 +278,8 @@ export default function Dashboard() {
 
                     </div>
 
-                    <label id="name">Kimleng Hor</label>
+                    {/* <label id="name">Kimleng Hor</label> */}
+                    <Link to="/profile" id="name">Kimleng Hor</Link>
                     <div className={classes.sectionMobile}>
                         <IconButton
                             aria-label="show more"
