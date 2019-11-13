@@ -8,6 +8,7 @@ import Grid from '@material-ui/core/Grid';
 import IconButton from '@material-ui/core/IconButton';
 import CreateIcon from '@material-ui/icons/Create';
 import CheckIcon from '@material-ui/icons/Check';
+import Button from '@material-ui/core/Button';
 import './Profile.css';
 
 const state = {
@@ -39,19 +40,19 @@ const handleEdit = () => {
     document.getElementById("username").disabled = !state.isDisable
     document.getElementById("password").disabled = !state.isDisable
 
-    if (state.isDisable == true) {
-        document.getElementById("editLabel").textContent = "Done"
-        document.getElementById("checkIcon").style.display = "inline"
-        document.getElementById("editIcon").style.display = "none"
+    if (state.isDisable === true) {
+        // document.getElementById("editLabel").textContent = "Done"
+        document.getElementById("doneButton").style.display = "inline"
+        document.getElementById("editButton").style.display = "none"
         state.isDisable = false
     } else {
 
         //submit changes
         //update database here
 
-        document.getElementById("editLabel").textContent = "Edit"
-        document.getElementById("editIcon").style.display = "inline"
-        document.getElementById("checkIcon").style.display = "none"
+        //document.getElementById("editLabel").textContent = "Edit"
+        document.getElementById("editButton").style.display = "inline"
+        document.getElementById("doneButton").style.display = "none"
         state.isDisable = true
     }
 }
@@ -64,16 +65,17 @@ export default function Profile() {
                 <div className={classes.paper}>
                     <form className={classes.form} noValidate id="submitForm">
                         <label id="welcome">Personal Information</label>
-
-                        <IconButton onClick= {handleEdit} id="editIcon">
+                        <Button onClick= {handleEdit} id="editButton">[Edit]</Button>
+                        <Button onClick= {handleEdit} id="doneButton">[Done]</Button>
+                        {/* <IconButton onClick= {handleEdit} id="editIcon">
                             <CreateIcon></CreateIcon>
                         </IconButton>
 
                         <IconButton onClick= {handleEdit} id="checkIcon">
                             <CheckIcon></CheckIcon>
-                        </IconButton>
+                        </IconButton> */}
 
-                        <label id="editLabel">Edit</label>
+                        {/* <label id="editLabel">Edit</label> */}
 
                         <TextField
                             id="firstname"

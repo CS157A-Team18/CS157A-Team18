@@ -1,3 +1,7 @@
-#checkIcon {
+#doneButton {
     display: none;
+}
+
+#welcome {
+    text-decoration: underline;
 }

@@ -4,6 +4,7 @@ import { BrowserRouter as Router, Switch, Route, Link, Redirect } from "react-ro
 import Login from './index';
 import Dashboard from './Dashboard';
 import Profile from './Profile';
+import PersonalRecipe from './PersonalRecipe';
 
 class App extends Component {
   render() {
@@ -19,6 +20,9 @@ class App extends Component {
             </Route>
             <Route path="/profile">
               <Profile/>
+            </Route>
+            <Route path="/personalRecipe">
+              <PersonalRecipe/>
             </Route>
             <Redirect from="/" to="/login" />
           </Switch>
