@@ -5,6 +5,8 @@ import Login from './index';
 import Dashboard from './Dashboard';
 import Profile from './Profile';
 import PersonalRecipe from './PersonalRecipe';
+import Preference from './Preference';
+import Allergy from './Allergy';
 
 class App extends Component {
   render() {
@@ -23,6 +25,12 @@ class App extends Component {
             </Route>
             <Route path="/personalRecipe">
               <PersonalRecipe/>
+            </Route>
+            <Route path="/preference">
+              <Preference/>
+            </Route>
+            <Route path = "/allergy">
+              <Allergy/>
             </Route>
             <Redirect from="/" to="/login" />
           </Switch>
