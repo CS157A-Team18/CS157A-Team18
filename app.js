@@ -10,6 +10,7 @@ var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var loginRouter = require('./routes/login');
 var signupRouter = require('./routes/signup.js');
+const util = require('util');
 
 var app = express();
 
@@ -26,8 +27,8 @@ app.use(express.static(path.join(__dirname, 'public')));
 // Allow Cross Origin Resource Sharing
 const corsOptions = {
   origin: (origin, callback) => {
-    if (origin != config.REACT_ENDPOINT) {
-      callback(new Error('Not allowed by CORS'))
+    if (origin != config.REACT_ENDPOINT && origin != null) {
+      callback(new Error(util.format('Not allowed by CORS, endpoint=[%s]', origin)))
     } else {
       callback(null, true)
     }
