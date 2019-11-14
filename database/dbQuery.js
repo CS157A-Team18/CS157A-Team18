@@ -18,4 +18,9 @@ function addUser(username, firstName, lastName, password) {
     return dbAccessObject.query(query, [username, firstName, lastName, encryptedPassword])
 }
 
-module.exports = {getUserCredentials, addUser}
+function getUserFirstNameAndLastName(username) {
+    const query = `SELECT first_name, last_name FROM user WHERE username = ?`
+    return dbAccessObject.query(query, [username])
+}
+
+module.exports = {getUserCredentials, addUser, getUserFirstNameAndLastName}
