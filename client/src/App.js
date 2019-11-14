@@ -7,6 +7,7 @@ import Profile from './Profile';
 import PersonalRecipe from './PersonalRecipe';
 import Preference from './Preference';
 import Allergy from './Allergy';
+import Upload from './Upload';
 
 class App extends Component {
   render() {
@@ -31,6 +32,9 @@ class App extends Component {
             </Route>
             <Route path = "/allergy">
               <Allergy/>
+            </Route>
+            <Route path="/upload">
+              <Upload/>
             </Route>
             <Redirect from="/" to="/login" />
           </Switch>
