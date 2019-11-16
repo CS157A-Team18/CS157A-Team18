@@ -7,7 +7,8 @@ import Button from '@material-ui/core/Button';
 import './Profile.css';
 
 const state = {
-    isDisable: true
+    isDisable: true,
+    isPasswordDisable: true
 }
 
 const styles = makeStyles(theme => ({
@@ -33,7 +34,6 @@ const handleEdit = () => {
     document.getElementById("firstname").disabled = !state.isDisable
     document.getElementById("lastname").disabled = !state.isDisable
     document.getElementById("username").disabled = !state.isDisable
-    document.getElementById("password").disabled = !state.isDisable
 
     if (state.isDisable === true) {
         // document.getElementById("editLabel").textContent = "Done"
@@ -45,10 +45,30 @@ const handleEdit = () => {
         //submit changes
         //update database here
 
-        //document.getElementById("editLabel").textContent = "Edit"
         document.getElementById("editButton").style.display = "inline"
         document.getElementById("doneButton").style.display = "none"
         state.isDisable = true
+    }
+}
+
+const handlePasswordEdit = () => {
+    document.getElementById("password").disabled = !state.isPasswordDisable
+    document.getElementById("newPassword").disabled = !state.isPasswordDisable
+    document.getElementById("confirmPassword").disabled = !state.isPasswordDisable
+
+    if (state.isPasswordDisable === true) {
+        // document.getElementById("editLabel").textContent = "Done"
+        document.getElementById("passwordDoneButton").style.display = "inline"
+        document.getElementById("passwordEditButton").style.display = "none"
+        state.isPasswordDisable = false
+    } else {
+
+        //submit changes
+        //update database here
+
+        document.getElementById("passwordEditButton").style.display = "inline"
+        document.getElementById("passwordDoneButton").style.display = "none"
+        state.isPasswordDisable = true
     }
 }
 
@@ -96,9 +116,31 @@ export default function Profile() {
                             disabled = 'true'
                         />
 
+                        <label id="welcome">Password</label>
+                        <Button onClick= {handlePasswordEdit} id="passwordEditButton">[Edit]</Button>
+                        <Button onClick= {handlePasswordEdit} id="passwordDoneButton">[Done]</Button>
+                        
                         <TextField
                             id="password"
-                            label="Password"
+                            label="Current Password"
+                            margin="normal"
+                            fullWidth
+                            type='password'
+                            disabled = 'true'
+                        />
+
+                        <TextField
+                            id="newPassword"
+                            label="New Password"
+                            margin="normal"
+                            fullWidth
+                            type='password'
+                            disabled = 'true'
+                        />
+
+                        <TextField
+                            id="confirmPassword"
+                            label="Confirm Password"
                             margin="normal"
                             fullWidth
                             type='password'
