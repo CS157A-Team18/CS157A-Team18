@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import './App.css';
-import { BrowserRouter as Router, Switch, Route, Link, Redirect } from "react-router-dom";
+import { BrowserRouter as Router, Switch, Route, Redirect } from "react-router-dom";
 import Login from './index';
 import Dashboard from './Dashboard';
 import Profile from './Profile';
@@ -8,6 +8,7 @@ import PersonalRecipe from './PersonalRecipe';
 import Preference from './Preference';
 import Allergy from './Allergy';
 import Upload from './Upload';
+import Recipe from './Components/Recipes/Recipe'
 
 class App extends Component {
   render() {
@@ -35,6 +36,9 @@ class App extends Component {
             </Route>
             <Route path="/upload">
               <Upload/>
+            </Route>
+            <Route path="/recipe">
+              <Recipe/>
             </Route>
             <Redirect from="/" to="/login" />
           </Switch>

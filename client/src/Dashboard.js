@@ -14,12 +14,12 @@ import AccountCircle from '@material-ui/icons/AccountCircle';
 import MailIcon from '@material-ui/icons/Mail';
 import NotificationsIcon from '@material-ui/icons/Notifications';
 import MoreIcon from '@material-ui/icons/MoreVert';
-import Button from '@material-ui/core/Button';
 import GridList from '@material-ui/core/GridList';
 import GridListTile from '@material-ui/core/GridListTile';
 import GridListTileBar from '@material-ui/core/GridListTileBar';
 import StarBorderIcon from '@material-ui/icons/StarBorder';
 import { Link } from "react-router-dom";
+//import { Button } from '@material-ui/core';
 
 //images
 import food1 from './images/food1.jpg';
@@ -237,17 +237,12 @@ export default function Dashboard() {
                     <Typography className={classes.title} variant="h6" noWrap>
                         Delight
                     </Typography>
+                    {/* <Link to="/dashboard" id="menu-button">Home</Link> */}
+                    <Link to="/personalRecipe" id="menu-button">Recipes</Link>
+                    <Link to="/upload" id="menu-button">Upload</Link>
+                    
                     {/* <Button id="menu-button">
-                    Home
-                    </Button>
-                    <Button id="menu-button">
-                    Experiences
-                    </Button>
-                    <Button id="menu-button">
-                    LiveVR
-                    </Button>
-                    <Button id="menu-button">
-                    Marketplace
+                        Marketplace
                     </Button> */}
 
                     <div className={classes.search}>

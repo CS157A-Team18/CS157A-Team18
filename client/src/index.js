@@ -14,7 +14,6 @@ import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import Link from '@material-ui/core/Link';
 import Snackbar from '@material-ui/core/Snackbar';
-import Dashboard from './Dashboard';
 var util = require('util');
 
 const styles = makeStyles(theme => ({
@@ -46,7 +45,7 @@ export default function Login() {
 
     //error slide up
     const [open, setOpen] = React.useState(false);
-    const [transition, setTransition] = React.useState(undefined);
+    const [transition] = React.useState(undefined);
 
 
     const state = {

@@ -10,9 +10,7 @@ import Clear from '@material-ui/icons/Clear';
 import DeleteOutline from '@material-ui/icons/DeleteOutline';
 import Edit from '@material-ui/icons/Edit';
 import Add from '@material-ui/icons/Add';
-import IconButton from '@material-ui/core/IconButton';
-import SvgIcon from '@material-ui/core/SvgIcon';
-import AddCircleIcon from '@material-ui/icons/AddCircle';
+import { Button } from '@material-ui/core';
 
 const tableIcons = {
     Check: forwardRef((props, ref) => <Check {...props} ref={ref} />),
@@ -163,6 +161,14 @@ export default function Upload() {
                     <br/>
                     <br/>
                     <input type="file" name="picture" accept="image/*" id="imagePicker"></input>
+                    <Button id="submitButton" 
+                            variant="contained" 
+                            color="primary" 
+                            // className={classes.button} 
+                            // onClick= {handleSubmit}
+                            >
+                            Add Recipe
+                    </Button>
                 </div>
             </div>
     );
