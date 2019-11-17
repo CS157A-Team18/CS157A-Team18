@@ -35,15 +35,26 @@ const handleEdit = () => {
     document.getElementById("lastname").disabled = !state.isDisable
     document.getElementById("username").disabled = !state.isDisable
 
+
     if (state.isDisable === true) {
-        // document.getElementById("editLabel").textContent = "Done"
+        // Case when text fields are editable
+
+        // Sets the text field color to black
+        document.getElementById("firstname").style.color = "black"
+        document.getElementById("lastname").style.color = "black"
+        document.getElementById("username").style.color = "black"
+
         document.getElementById("doneButton").style.display = "inline"
         document.getElementById("editButton").style.display = "none"
         state.isDisable = false
     } else {
-
         //submit changes
         //update database here
+
+        // Sets the text field color to gray
+        document.getElementById("firstname").style.color = "gray"
+        document.getElementById("lastname").style.color = "gray"
+        document.getElementById("username").style.color = "gray"
 
         document.getElementById("editButton").style.display = "inline"
         document.getElementById("doneButton").style.display = "none"
@@ -57,14 +68,24 @@ const handlePasswordEdit = () => {
     document.getElementById("confirmPassword").disabled = !state.isPasswordDisable
 
     if (state.isPasswordDisable === true) {
-        // document.getElementById("editLabel").textContent = "Done"
+        // Case when text fields are editable
+
+        // Sets the text field color to black
+        document.getElementById("password").style.color = "black"
+        document.getElementById("newPassword").style.color = "black"
+        document.getElementById("confirmPassword").style.color = "black"
+
         document.getElementById("passwordDoneButton").style.display = "inline"
         document.getElementById("passwordEditButton").style.display = "none"
         state.isPasswordDisable = false
     } else {
-
         //submit changes
         //update database here
+
+        // Sets the text field color to gray
+        document.getElementById("password").style.color = "gray"
+        document.getElementById("newPassword").style.color = "gray"
+        document.getElementById("confirmPassword").style.color = "gray"
 
         document.getElementById("passwordEditButton").style.display = "inline"
         document.getElementById("passwordDoneButton").style.display = "none"
