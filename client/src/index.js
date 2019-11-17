@@ -4,7 +4,7 @@ import App from './App';
 import * as serviceWorker from './serviceWorker';
 import React from 'react';
 import './Login.css';
-import {config} from './config/config.js'
+import {config} from './config/config.js';
 
 //from material ui
 import Grid from '@material-ui/core/Grid';
@@ -45,7 +45,7 @@ export default function Login() {
 
     //error slide up
     const [open, setOpen] = React.useState(false);
-    const [transition, setTransition] = React.useState(undefined);
+    const [transition] = React.useState(undefined);
 
 
     const state = {
@@ -110,7 +110,8 @@ export default function Login() {
                     console.log(result) // 401 = Unauthorized; 200 = OK
                     if (result.ok) {
                         // Handle successful login here
-                        return
+                        //go to the Dashboard
+                        return 
                     }
                     // Handle non-successful login here
                 })

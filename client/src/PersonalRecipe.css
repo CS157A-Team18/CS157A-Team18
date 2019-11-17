@@ -1,0 +1,19 @@
+.table {
+    width: 50%;
+    padding-left: 25%;
+    padding-top: 5%;
+}
+
+.MuiTable-root {
+    padding-left: 100px;
+    padding-right: 100px;
+    border-collapse: inherit !important;
+}
+
+.MuiTableFooter-root {
+    display: none !important;
+}
+
+/* .MuiToolbar-gutters {
+    padding-left: 45% !important;
+} */

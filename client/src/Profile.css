@@ -1,0 +1,11 @@
+#doneButton {
+    display: none;
+}
+
+#passwordDoneButton {
+    display: none;
+}
+
+#welcome {
+    text-decoration: underline;
+}
