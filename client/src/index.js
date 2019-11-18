@@ -4,6 +4,7 @@ import App from './App';
 import * as serviceWorker from './serviceWorker';
 import React from 'react';
 import './Login.css';
+import {config} from './config/config.js';
 
 //from material ui
 import Grid from '@material-ui/core/Grid';
@@ -13,8 +14,10 @@ import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import Link from '@material-ui/core/Link';
 import Snackbar from '@material-ui/core/Snackbar';
+var util = require('util');
 
 const styles = makeStyles(theme => ({
+
     root: {
         height: '100vh',
     },
@@ -43,34 +46,41 @@ export default function Login() {
 
     //error slide up
     const [open, setOpen] = React.useState(false);
-    const [transition, setTransition] = React.useState(undefined);
+    const [transition] = React.useState(undefined);
 
 
     const state = {
-        email: "",
+        username: "",
         password: "",
         confirmPassword: "",
+        email: "",
         firstName: "",
         lastName: "",
         isLogin: true
     };
 
+
     const resetState = () => {
-        state.email = ""
+        state.username = ""
         state.password = ""
         state.confirmPassword = ""
+        state.email = ""
         state.firstName = ""
         state.lastName = ""
         document.getElementById("standard-username").value = ""
         document.getElementById("standard-password").value = ""
     }
 
-    const updateEmail = e => {
-        state.email = e.target.value
+    const updateUsername = e => {
+        state.username = e.target.value
     }
     
     const updatePassword = e => {
         state.password = e.target.value
+    }
+
+    const updateEmail = e => {
+        state.email = e.target.value
     }
 
     const updateConfirmPassword = e => {
@@ -90,8 +100,6 @@ export default function Login() {
     };
 
     const handleSubmit = () => {
-        //distinguish between login and signup
-        console.log(state.isLogin)
         //Login
         if (state.isLogin) {
             if (document.getElementById("standard-username").value === "" || document.getElementById("standard-password").value === "") {
@@ -99,12 +107,28 @@ export default function Login() {
                 //setOpen(true);
                 console.log("Please fill in all requirements!!!")
             } else {
-                //login successfully
+                fetch(util.format('%s/api/login', config.EXPRESS_BACKEND), {
+                    method: "POST",
+                    headers: {
+                        'Content-type': 'application/json'
+                    },
+                    body: JSON.stringify(state)
+                })
+                .then(result => {
+                    console.log(result) // 401 = Unauthorized; 200 = OK
+                    if (result.ok) {
+                        // Handle successful login here
+                        //go to the Dashboard
+                        return 
+                    }
+                    // Handle non-successful login here
+                })
             }
         } else {
             //Sign up
             if (document.getElementById("standard-username").value === "" || 
                 document.getElementById("standard-password").value === "" ||
+                document.getElementById("email").value === "" ||
                 document.getElementById("firstname").value === "" ||
                 document.getElementById("lastname").value === "" ||
                 document.getElementById("confirmPassword").value === "") {
@@ -112,18 +136,33 @@ export default function Login() {
                 //setOpen(true);
                 console.log("Please fill in all requirements!!!")
             } else {
-                //sign up successfully
+                fetch(util.format('%s/api/signup', config.EXPRESS_BACKEND), {
+                    method: "POST",
+                    headers: {
+                        'Content-type': 'application/json'
+                    },
+                    body: JSON.stringify(state)
+                })
+                .then(result => {
+                    console.log(result) // 500 = Internal Service Error; 201 = CREATED
+                    if (result.ok) {
+                        // Handle successful signup here
+                        return
+                    }
+                    // Handle non-successful signup here
+                })
             }
         }
     }
 
     const switchToSignupPage = () => {
-        document.getElementById("submitButton").innerHTML = "Sign up"
-        document.getElementById("welcome").innerHTML = "Sign up"
+        document.getElementById("submitButton").innerHTML = "SIGNUP"
+        document.getElementById("welcome").innerHTML = "<b>Sign up</b>"
         document.getElementById("forgotLink").style.display = "none";
         document.getElementById("createAccountLink").style.display = "none";
         document.getElementById("backLink").style.display = "block";
         document.getElementById("confirmTextField").style.display = "block";
+        document.getElementById("emailField").style.display = "block";
         document.getElementById("firstTextField").style.display = "block";
         document.getElementById("lastTextField").style.display = "block";
         state.isLogin = false
@@ -131,11 +170,12 @@ export default function Login() {
     }
 
     const switchToLoginPage = () => {
-        document.getElementById("submitButton").innerHTML = "Login"
-        document.getElementById("welcome").innerHTML = "Login"
+        document.getElementById("submitButton").innerHTML = "LOGIN"
+        document.getElementById("welcome").innerHTML = "<b>Log In to Delight</b>"
         document.getElementById("forgotLink").style.display = "block";
         document.getElementById("createAccountLink").style.display = "block";
         document.getElementById("backLink").style.display = "none";
+        document.getElementById("emailField").style.display = "none";
         document.getElementById("confirmTextField").style.display = "none";
         document.getElementById("firstTextField").style.display = "none";
         document.getElementById("lastTextField").style.display = "none";
@@ -162,8 +202,7 @@ export default function Login() {
                 <Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square>
                     <div className={classes.paper}>
                         <form className={classes.form} noValidate id="submitForm">
-                            <label id="welcome">Login</label>
-
+                            <label id="welcome"><b>Log In to Delight</b></label>
                             <div className={"firstnameTextField"} noValidate id="firstTextField">
                                 <TextField
                                     id="firstname"
@@ -186,12 +225,22 @@ export default function Login() {
 
                             <div className={"emailTextField"} noValidate id="emailField">
                                 <TextField
+                                    id="email"
+                                    label="Email"
+                                    margin="normal"
+                                    fullWidth
+                                    onChange={updateEmail}
+                                />
+                            </div>
+
+                            <div className={"usernameTextField"} noValidate id="usernameField">
+                                <TextField
                                     id="standard-username"
                                     label="Username"
                                     margin="normal"
                                     autoFocus
                                     fullWidth
-                                    onChange={updateEmail}
+                                    onChange={updateUsername}
                                 />
                             </div>
 
