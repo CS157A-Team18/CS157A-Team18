@@ -10,9 +10,9 @@
     border-collapse: inherit !important;
 }
 
-.MuiTableFooter-root {
+/* .MuiTableFooter-root {
     display: none !important;
-}
+} */
 
 /* .MuiToolbar-gutters {
     padding-left: 45% !important;
