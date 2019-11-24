@@ -23,4 +23,32 @@ function getUserFirstNameAndLastName(username) {
     return dbAccessObject.query(query, [username])
 }
 
-module.exports = {getUserCredentials, addUser, getUserFirstNameAndLastName}
+function editPersonalInformation(username, firstName, lastName) {
+    const query = `UPDATE user 
+                    SET 
+                        username = ?,
+                        first_name = ?,
+                        last_name = ?
+                    WHERE username = ?`
+    return dbAccessObject.query(query, [username, firstName, lastName, username])
+}
+
+function getPersonalInformation(username) {
+    const query = `SELECT 
+                    username, 
+                    first_name, 
+                    last_name 
+                   FROM 
+                    user 
+                   WHERE 
+                    username = ?`
+    return dbAccessObject.query(query, [username])
+}
+
+module.exports = { 
+    getUserCredentials, 
+    addUser, 
+    getUserFirstNameAndLastName,
+    editPersonalInformation,
+    getPersonalInformation
+}

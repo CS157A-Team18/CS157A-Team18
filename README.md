@@ -6,7 +6,7 @@ This directory is where the Express backend lays. In this directory, do:
 
 This will install the required dependencies for this project.
 
-### `PORT=3001 npm start`
+### `npm start`
 
 This will start the `express` server on port 3001.
 
