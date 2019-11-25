@@ -147,6 +147,14 @@ export default function Login() {
         }
     }
 
+    const switchToForgotPasswordPage = () => {
+        document.getElementById("submitButton").innerHTML = "Reset Password"
+        document.getElementById("welcome").innerHTML = "<b>Forgot Password</b><br>Please enter your email address and we will send you an email about how to reset your password.</br>"
+        document.getElementById("emailField").style.display = "block";
+        state.isLogin = false
+        resetState()
+    }
+
     const switchToSignupPage = () => {
         document.getElementById("submitButton").innerHTML = "SIGNUP"
         document.getElementById("welcome").innerHTML = "<b>Sign up</b>"
@@ -258,7 +266,7 @@ export default function Login() {
 
                             <Grid container>
                                 <Grid item xs>
-                                    <Link href="#" variant="body2" id = "forgotLink">
+                                    <Link href="#" onClick={switchToForgotPasswordPage} variant="body2" id = "forgotLink">
                                         Forgot password?
                                     </Link>
                                 </Grid>
