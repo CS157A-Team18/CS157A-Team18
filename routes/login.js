@@ -1,7 +1,6 @@
 var express = require('express');
 var router = express.Router();
 const db = require('../database/dbQuery.js');
-const config = require('../config/config.js');
 const aes256 = require('aes256');
 
 router.post('/', function(req, res, next) {
@@ -12,7 +11,7 @@ router.post('/', function(req, res, next) {
       return
     }
 
-    if (req.body.password != aes256.decrypt(config.AES_KEY, rows[0]["password"])) {
+    if (req.body.password != aes256.decrypt(process.env.AES_KEY, rows[0]["password"])) {
       res.sendStatus(401)
       return
     }

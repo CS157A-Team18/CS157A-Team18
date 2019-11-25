@@ -3,7 +3,8 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
-const config = require('./config/config.js');
+const dotenv = require('dotenv');
+dotenv.config();
 var cors = require('cors');
 
 var indexRouter = require('./routes/index');
@@ -27,7 +28,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 // Allow Cross Origin Resource Sharing
 const corsOptions = {
   origin: (origin, callback) => {
-    if (origin != config.REACT_ENDPOINT && origin != null) {
+    if (origin != process.env.REACT_ENDPOINT && origin != null) {
       callback(new Error(util.format('Not allowed by CORS, endpoint=[%s]', origin)))
     } else {
       callback(null, true)
@@ -58,7 +59,7 @@ app.use(function(err, req, res, next) {
 });
 
 app.listen(process.env.PORT || 3001, function () {
-  console.log('Listening on port 3001!')
+  console.log(util.format('Listening on port %s!', process.env.PORT || 3001))
 })
 
 module.exports = app;

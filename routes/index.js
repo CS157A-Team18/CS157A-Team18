@@ -15,32 +15,7 @@ function makeID(length) {
 
 /* GET home page. */
 router.get('/', function (req, res, next) {
-  // Test for getting personal information
-  db.getPersonalInformation("dom").then(rows => {
-    var response = {
-      dataBefore: {
-        username: rows[0].username,
-        first_name: rows[0].first_name,
-        last_name: rows[0].last_name
-      },
-      dataAfter: {
-        username: "",
-        first_name: "",
-        last_name: ""
-      }
-    }
-
-    // Test for changing personal information
-    const randomFirstName = makeID(10)
-    const randomLastName = makeID(10)
-    
-    db.editPersonalInformation("dom", randomFirstName, randomLastName)
-    response.dataAfter.username = "dom"
-    response.dataAfter.first_name = randomFirstName
-    response.dataAfter.last_name = randomLastName
-    res.send(response)
-  });
-  
+  res.send("Backend working correctly using .env file")
 });
 
 module.exports = router;
