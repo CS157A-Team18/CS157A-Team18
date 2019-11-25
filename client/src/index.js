@@ -50,7 +50,6 @@ export default function Login() {
 
 
     const state = {
-        username: "",
         password: "",
         confirmPassword: "",
         email: "",
@@ -61,18 +60,12 @@ export default function Login() {
 
 
     const resetState = () => {
-        state.username = ""
         state.password = ""
         state.confirmPassword = ""
         state.email = ""
         state.firstName = ""
         state.lastName = ""
-        document.getElementById("standard-username").value = ""
         document.getElementById("standard-password").value = ""
-    }
-
-    const updateUsername = e => {
-        state.username = e.target.value
     }
     
     const updatePassword = e => {
@@ -102,7 +95,7 @@ export default function Login() {
     const handleSubmit = () => {
         //Login
         if (state.isLogin) {
-            if (document.getElementById("standard-username").value === "" || document.getElementById("standard-password").value === "") {
+            if (document.getElementById(document.getElementById("standard-password").value === "")) {
                 //setTransition();
                 //setOpen(true);
                 console.log("Please fill in all requirements!!!")
@@ -126,8 +119,7 @@ export default function Login() {
             }
         } else {
             //Sign up
-            if (document.getElementById("standard-username").value === "" || 
-                document.getElementById("standard-password").value === "" ||
+            if (document.getElementById("standard-password").value === "" ||
                 document.getElementById("email").value === "" ||
                 document.getElementById("firstname").value === "" ||
                 document.getElementById("lastname").value === "" ||
@@ -175,7 +167,7 @@ export default function Login() {
         document.getElementById("forgotLink").style.display = "block";
         document.getElementById("createAccountLink").style.display = "block";
         document.getElementById("backLink").style.display = "none";
-        document.getElementById("emailField").style.display = "none";
+        document.getElementById("emailField").style.display = "block";
         document.getElementById("confirmTextField").style.display = "none";
         document.getElementById("firstTextField").style.display = "none";
         document.getElementById("lastTextField").style.display = "none";
@@ -230,17 +222,6 @@ export default function Login() {
                                     margin="normal"
                                     fullWidth
                                     onChange={updateEmail}
-                                />
-                            </div>
-
-                            <div className={"usernameTextField"} noValidate id="usernameField">
-                                <TextField
-                                    id="standard-username"
-                                    label="Username"
-                                    margin="normal"
-                                    autoFocus
-                                    fullWidth
-                                    onChange={updateUsername}
                                 />
                             </div>
 
