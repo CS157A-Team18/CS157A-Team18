@@ -10,6 +10,10 @@ import Clear from '@material-ui/icons/Clear';
 import DeleteOutline from '@material-ui/icons/DeleteOutline';
 import Edit from '@material-ui/icons/Edit';
 import Add from '@material-ui/icons/Add';
+import ChevronLeft from '@material-ui/icons/ChevronLeft';
+import ChevronRight from '@material-ui/icons/ChevronRight';
+import FirstPage from '@material-ui/icons/FirstPage';
+import LastPage from '@material-ui/icons/LastPage';
 import { Button } from '@material-ui/core';
 
 const tableIcons = {
@@ -18,7 +22,11 @@ const tableIcons = {
     Delete: forwardRef((props, ref) => <DeleteOutline {...props} ref={ref} />),
     SortArrow: forwardRef((props, ref) => <ArrowUpward {...props} ref={ref} />),
     Edit: forwardRef((props, ref) => <Edit {...props} ref={ref} />),
+    NextPage: forwardRef((props, ref) => <ChevronRight {...props} ref={ref} />),
+    PreviousPage: forwardRef((props, ref) => <ChevronLeft {...props} ref={ref} />),
     Add: forwardRef((props, ref) => <Add {...props} ref={ref} />),
+    FirstPage: forwardRef((props, ref) => <FirstPage {...props} ref={ref} />),
+    LastPage: forwardRef((props, ref) => <LastPage {...props} ref={ref} />),
 };
 
 const styles = makeStyles(theme => ({
@@ -51,11 +59,15 @@ export default function Upload() {
           { title: 'Name', field: 'name' },
           { title: 'Amount', field: 'amount' },
         ],
+        instructionColumns: [
+            { title: 'Steps', field: 'description' },
+        ],
         data: [
-          { name: 'Soy sauce', amount: 63 },
+          { name: 'Soy sauce', amount: 63, description: "First step" },
           {
             name: 'Sugar',
-            amount:90
+            amount:90,
+            description: "Second step"
           },
         ],
       });
@@ -126,8 +138,8 @@ export default function Upload() {
                     />
                 </div>
 
-                <label id ="titleLabel">Description:</label>
-                <div>
+                <label id ="titleLabel">Instructions:</label>
+                {/* <div>
                     <br/>
                     <TextField
                         id="outlined-multiline-flexible"
@@ -139,6 +151,54 @@ export default function Upload() {
                         className={classes.textField}
                         margin="normal"
                         variant="outlined"
+                    />
+                </div> */}
+                <div className={classes.section}>
+                    <MaterialTable className={classes.table}
+                        icons={tableIcons}
+                        title=""
+                        columns={state.instructionColumns}
+                        data={state.data}
+                        editable={{
+                            onRowAdd: newData =>
+                            new Promise(resolve => {
+                                setTimeout(() => {
+                                resolve();
+                                setState(prevState => {
+                                    const data = [...prevState.data];
+                                    data.push(newData);
+                                    return { ...prevState, data };
+                                });
+                                }, 600);
+                            }),
+                            onRowUpdate: (newData, oldData) =>
+                            new Promise(resolve => {
+                                setTimeout(() => {
+                                resolve();
+                                if (oldData) {
+                                    setState(prevState => {
+                                    const data = [...prevState.data];
+                                    data[data.indexOf(oldData)] = newData;
+                                    return { ...prevState, data };
+                                    });
+                                }
+                                }, 600);
+                            }),
+                            onRowDelete: oldData =>
+                            new Promise(resolve => {
+                                setTimeout(() => {
+                                resolve();
+                                setState(prevState => {
+                                    const data = [...prevState.data];
+                                    data.splice(data.indexOf(oldData), 1);
+                                    return { ...prevState, data };
+                                });
+                                }, 600);
+                            }),
+                        }}
+                        options={{
+                            search: false
+                        }}
                     />
                 </div>
 
