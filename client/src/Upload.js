@@ -59,11 +59,15 @@ export default function Upload() {
           { title: 'Name', field: 'name' },
           { title: 'Amount', field: 'amount' },
         ],
+        instructionColumns: [
+            { title: 'Steps', field: 'description' },
+        ],
         data: [
-          { name: 'Soy sauce', amount: 63 },
+          { name: 'Soy sauce', amount: 63, description: "First step" },
           {
             name: 'Sugar',
-            amount:90
+            amount:90,
+            description: "Second step"
           },
         ],
       });
@@ -135,7 +139,7 @@ export default function Upload() {
                 </div>
 
                 <label id ="titleLabel">Instructions:</label>
-                <div>
+                {/* <div>
                     <br/>
                     <TextField
                         id="outlined-multiline-flexible"
@@ -147,6 +151,54 @@ export default function Upload() {
                         className={classes.textField}
                         margin="normal"
                         variant="outlined"
+                    />
+                </div> */}
+                <div className={classes.section}>
+                    <MaterialTable className={classes.table}
+                        icons={tableIcons}
+                        title=""
+                        columns={state.instructionColumns}
+                        data={state.data}
+                        editable={{
+                            onRowAdd: newData =>
+                            new Promise(resolve => {
+                                setTimeout(() => {
+                                resolve();
+                                setState(prevState => {
+                                    const data = [...prevState.data];
+                                    data.push(newData);
+                                    return { ...prevState, data };
+                                });
+                                }, 600);
+                            }),
+                            onRowUpdate: (newData, oldData) =>
+                            new Promise(resolve => {
+                                setTimeout(() => {
+                                resolve();
+                                if (oldData) {
+                                    setState(prevState => {
+                                    const data = [...prevState.data];
+                                    data[data.indexOf(oldData)] = newData;
+                                    return { ...prevState, data };
+                                    });
+                                }
+                                }, 600);
+                            }),
+                            onRowDelete: oldData =>
+                            new Promise(resolve => {
+                                setTimeout(() => {
+                                resolve();
+                                setState(prevState => {
+                                    const data = [...prevState.data];
+                                    data.splice(data.indexOf(oldData), 1);
+                                    return { ...prevState, data };
+                                });
+                                }, 600);
+                            }),
+                        }}
+                        options={{
+                            search: false
+                        }}
                     />
                 </div>
 
