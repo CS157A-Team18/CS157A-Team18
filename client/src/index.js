@@ -4,7 +4,6 @@ import App from './App';
 import * as serviceWorker from './serviceWorker';
 import React from 'react';
 import './Login.css';
-import {config} from './config/config.js';
 
 //from material ui
 import Grid from '@material-ui/core/Grid';
@@ -99,7 +98,7 @@ export default function Login() {
                 //setOpen(true);
                 console.log("Please fill in all requirements!!!")
             } else {
-                fetch(util.format('%s/api/login', config.EXPRESS_BACKEND), {
+                fetch(util.format('%s/api/login', process.env.REACT_APP_EXPRESS_BACKEND), {
                     method: "POST",
                     headers: {
                         'Content-type': 'application/json'
@@ -127,7 +126,7 @@ export default function Login() {
                 //setOpen(true);
                 console.log("Please fill in all requirements!!!")
             } else {
-                fetch(util.format('%s/api/signup', config.EXPRESS_BACKEND), {
+                fetch(util.format('%s/api/signup', process.env.REACT_APP_EXPRESS_BACKEND), {
                     method: "POST",
                     headers: {
                         'Content-type': 'application/json'
