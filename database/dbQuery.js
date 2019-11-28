@@ -8,13 +8,12 @@ function getUserCredentials(username) {
     return dbAccessObject.query(query, [username])
 }
 
-function addUser(username, firstName, lastName, password) {
+function addUser(uid, firstName, lastName) {
     const query = `
         INSERT INTO user 
-            VALUES(?, ?, ?, ?)
+            VALUES(?, ?, ?)
     `
-    const encryptedPassword = aes256.encrypt(process.env.AES_KEY, password)
-    return dbAccessObject.query(query, [username, firstName, lastName, encryptedPassword])
+    return dbAccessObject.query(query, [uid, firstName, lastName])
 }
 
 function getUserFirstNameAndLastName(username) {

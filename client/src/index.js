@@ -4,6 +4,7 @@ import App from './App';
 import * as serviceWorker from './serviceWorker';
 import React from 'react';
 import './Login.css';
+import { config } from './config/config.js';
 
 //from material ui
 import Grid from '@material-ui/core/Grid';
@@ -13,6 +14,8 @@ import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import Link from '@material-ui/core/Link';
 import Snackbar from '@material-ui/core/Snackbar';
+
+import { login, signUp, getUID } from './firebase/firebaseAuth.js'
 var util = require('util');
 
 const styles = makeStyles(theme => ({
@@ -38,7 +41,7 @@ const styles = makeStyles(theme => ({
         width: '100%', // Fix IE 11 issue.
         marginTop: theme.spacing(1),
     },
-  }));
+}));
 
 export default function Login() {
 
@@ -69,7 +72,7 @@ export default function Login() {
     const updateUsername = e => {
         state.username = e.target.value
     }
-    
+
     const updatePassword = e => {
         state.password = e.target.value
     }
@@ -85,53 +88,59 @@ export default function Login() {
     const updateLastname = e => {
         state.lastName = e.target.value
     }
-    
+
     const handleClose = () => {
         setOpen(false);
     };
 
-    const handleSubmit = () => {
-        //Login
-        if (state.isLogin) {
-            if (document.getElementById("standard-username").value === "" || document.getElementById("standard-password").value === "") {
-                //setTransition();
-                //setOpen(true);
-                console.log("Please fill in all requirements!!!")
-            } else {
-                fetch(util.format('%s/api/login', process.env.REACT_APP_EXPRESS_BACKEND), {
+    const handleLogin = () => {
+        // Case when there is invalid input
+        if (document.getElementById("standard-username").value === "" || document.getElementById("standard-password").value === "") {
+            //setTransition();
+            //setOpen(true);
+            console.log("Please fill in all requirements!!!")
+            return
+        }
+
+        // Case when input is valid. This function attempts to log the user in
+        login(state.username, state.password).then(() => {
+            // Handle successful login
+            console.log("Logged in successfully")
+        })
+        .catch(err => {
+            console.log(err)
+        })
+    }
+
+    const handleSignup = () => {
+        // Case when there is invalid input
+        if (document.getElementById("standard-username").value === "" ||
+            document.getElementById("standard-password").value === "" ||
+            document.getElementById("firstname").value === "" ||
+            document.getElementById("lastname").value === "" ||
+            document.getElementById("confirmPassword").value === "") {
+            //setTransition();
+            //setOpen(true);
+            console.log("Please fill in all requirements!!!")
+            return
+        }
+
+        // Successfully passed verifications and creating account
+        signUp(state.username, state.password).then(() => {
+            getUID().then(user => {
+                const userDetails = {
+                    uid: user.uid,
+                    firstName: state.firstName,
+                    lastName: state.lastName
+                }
+
+                // Calls backend to add user info to DB
+                fetch(util.format('%s/api/signup', config.EXPRESS_BACKEND), {
                     method: "POST",
                     headers: {
                         'Content-type': 'application/json'
                     },
-                    body: JSON.stringify(state)
-                })
-                .then(result => {
-                    console.log(result) // 401 = Unauthorized; 200 = OK
-                    if (result.ok) {
-                        // Handle successful login here
-                        //go to the Dashboard
-                        return 
-                    }
-                    // Handle non-successful login here
-                })
-            }
-        } else {
-            //Sign up
-            if (document.getElementById("standard-username").value === "" || 
-                document.getElementById("standard-password").value === "" ||
-                document.getElementById("firstname").value === "" ||
-                document.getElementById("lastname").value === "" ||
-                document.getElementById("confirmPassword").value === "") {
-                //setTransition();
-                //setOpen(true);
-                console.log("Please fill in all requirements!!!")
-            } else {
-                fetch(util.format('%s/api/signup', process.env.REACT_APP_EXPRESS_BACKEND), {
-                    method: "POST",
-                    headers: {
-                        'Content-type': 'application/json'
-                    },
-                    body: JSON.stringify(state)
+                    body: JSON.stringify(userDetails)
                 })
                 .then(result => {
                     console.log(result) // 500 = Internal Service Error; 201 = CREATED
@@ -141,8 +150,16 @@ export default function Login() {
                     }
                     // Handle non-successful signup here
                 })
-            }
+            })
+        })
+    }
+
+    const handleSubmit = () => {
+        if (state.isLogin) {
+            handleLogin()
+            return
         }
+        handleSignup()
     }
 
     const switchToSignupPage = () => {
@@ -180,13 +197,13 @@ export default function Login() {
                 onClose={handleClose}
                 TransitionComponent={transition}
                 ContentProps={{
-                'aria-describedby': 'message-id',
+                    'aria-describedby': 'message-id',
                 }}
                 message={<span id="message-id">Please fill in all the requirements</span>}
             />
 
             <Grid container className={classes.root}>
-                <Grid item xs={false} sm={4} md={7} className={classes.image} />  
+                <Grid item xs={false} sm={4} md={7} className={classes.image} />
                 <Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square>
                     <div className={classes.paper}>
                         <form className={classes.form} noValidate id="submitForm">
@@ -245,42 +262,42 @@ export default function Login() {
                                 />
                             </div>
 
-                            <Button id="submitButton" 
-                                    variant="contained" 
-                                    color="primary" 
-                                    className={classes.button} 
-                                    fullWidth 
-                                    onClick= {handleSubmit}>
-                                    Login
+                            <Button id="submitButton"
+                                variant="contained"
+                                color="primary"
+                                className={classes.button}
+                                fullWidth
+                                onClick={handleSubmit}>
+                                Login
                             </Button>
 
                             <Grid container>
                                 <Grid item xs>
-                                    <Link href="#" variant="body2" id = "forgotLink">
+                                    <Link href="#" variant="body2" id="forgotLink">
                                         Forgot password?
                                     </Link>
                                 </Grid>
 
                                 <Grid item xs>
-                                    <Link href="#" onClick={switchToLoginPage} variant="body2" id = "backLink">
+                                    <Link href="#" onClick={switchToLoginPage} variant="body2" id="backLink">
                                         Back to login
                                     </Link>
                                 </Grid>
 
                                 <Grid item xs>
-                                    <Link href="#" onClick={switchToSignupPage} variant="body2" id = "createAccountLink">
+                                    <Link href="#" onClick={switchToSignupPage} variant="body2" id="createAccountLink">
                                         Create a new account
                                     </Link>
                                 </Grid>
 
                             </Grid>
-                            
+
                         </form>
                     </div>
-                </Grid> 
+                </Grid>
             </Grid>
         </div>
-    );   
+    );
 }
 
 ReactDOM.render(<App />, document.getElementById('root'));

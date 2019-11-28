@@ -3,7 +3,7 @@ var router = express.Router();
 const db = require('../database/dbQuery.js');
 
 router.post('/', function(req, res, next) {
-    db.addUser(req.body.username, req.body.firstName, req.body.lastName, req.body.password)
+    db.addUser(req.body.uid, req.body.firstName, req.body.lastName)
     .then(() => {
       res.sendStatus(201) // 201 CREATED
     })
