@@ -9,7 +9,8 @@ var cors = require('cors');
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
-var signupRouter = require('./routes/signup.js');
+var signupRouter = require('./routes/signup');
+var uploadRouter = require('./routes/upload');
 const util = require('util');
 
 var app = express();
@@ -39,6 +40,7 @@ app.use(cors(corsOptions))
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/api/signup', signupRouter);
+app.use('/api/upload', uploadRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
