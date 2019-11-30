@@ -15,6 +15,7 @@ import ChevronRight from '@material-ui/icons/ChevronRight';
 import FirstPage from '@material-ui/icons/FirstPage';
 import LastPage from '@material-ui/icons/LastPage';
 import { Button } from '@material-ui/core';
+import {uploadFile} from './firebase/firebaseStorage.js'
 
 const tableIcons = {
     Check: forwardRef((props, ref) => <Check {...props} ref={ref} />),
@@ -51,6 +52,11 @@ const styles = makeStyles(theme => ({
         width: 500,
     },
 }));
+
+const handleSubmit = () => {
+    const file = document.getElementById('imagePicker')
+    uploadFile(file.files[0])
+}
 
 export default function Upload() {
 
@@ -225,7 +231,7 @@ export default function Upload() {
                             variant="contained" 
                             color="primary" 
                             // className={classes.button} 
-                            // onClick= {handleSubmit}
+                            onClick={handleSubmit}
                             >
                             Add Recipe
                     </Button>
