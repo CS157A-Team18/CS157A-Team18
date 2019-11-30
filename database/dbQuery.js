@@ -1,12 +1,6 @@
 const DAO = require('./dao.js');
-const aes256 = require('aes256');
 
 var dbAccessObject = new DAO.Database()
-
-function getUserCredentials(username) {
-    const query = `SELECT password FROM user WHERE username = ?`
-    return dbAccessObject.query(query, [username])
-}
 
 function addUser(uid, firstName, lastName) {
     const query = `
@@ -16,35 +10,32 @@ function addUser(uid, firstName, lastName) {
     return dbAccessObject.query(query, [uid, firstName, lastName])
 }
 
-function getUserFirstNameAndLastName(username) {
-    const query = `SELECT first_name, last_name FROM user WHERE username = ?`
-    return dbAccessObject.query(query, [username])
+function getUserFirstNameAndLastName(uid) {
+    const query = `SELECT first_name, last_name FROM user WHERE uid = ?`
+    return dbAccessObject.query(query, [uid])
 }
 
-function editPersonalInformation(username, firstName, lastName) {
+function editPersonalInformation(uid, firstName, lastName) {
     const query = `UPDATE user 
                     SET 
-                        username = ?,
                         first_name = ?,
                         last_name = ?
-                    WHERE username = ?`
-    return dbAccessObject.query(query, [username, firstName, lastName, username])
+                    WHERE uid = ?`
+    return dbAccessObject.query(query, [firstName, lastName, uid])
 }
 
-function getPersonalInformation(username) {
-    const query = `SELECT 
-                    username, 
+function getPersonalInformation(uid) {
+    const query = `SELECT
                     first_name, 
                     last_name 
                    FROM 
                     user 
                    WHERE 
-                    username = ?`
-    return dbAccessObject.query(query, [username])
+                    uid = ?`
+    return dbAccessObject.query(query, [uid])
 }
 
 module.exports = { 
-    getUserCredentials, 
     addUser, 
     getUserFirstNameAndLastName,
     editPersonalInformation,
