@@ -147,17 +147,9 @@ export default function Login() {
         }
     }
 
-    const switchToForgotPasswordPage = () => {
-        document.getElementById("submitButton").innerHTML = "Reset Password"
-        document.getElementById("welcome").innerHTML = "<b>Forgot Password</b><br>Please enter your email address and we will send you an email about how to reset your password.</br>"
-        document.getElementById("emailField").style.display = "block";
-        state.isLogin = false
-        resetState()
-    }
-
     const switchToSignupPage = () => {
-        document.getElementById("submitButton").innerHTML = "SIGNUP"
-        document.getElementById("welcome").innerHTML = "<b>Sign up</b>"
+        document.getElementById("submitButton").innerHTML = "SIGN UP"
+        document.getElementById("welcome").innerHTML = "<b>Create an account</b>"
         document.getElementById("forgotLink").style.display = "none";
         document.getElementById("createAccountLink").style.display = "none";
         document.getElementById("backLink").style.display = "block";
@@ -265,21 +257,21 @@ export default function Login() {
                             </Button>
 
                             <Grid container>
-                                <Grid item xs>
-                                    <Link href="#" onClick={switchToForgotPasswordPage} variant="body2" id = "forgotLink">
-                                        Forgot password?
+                                <Grid item xs={4}>
+                                    <Link href="#" variant="body2" id = "forgotLink">
+                                        <b>Forgot Password?</b>
                                     </Link>
                                 </Grid>
 
-                                <Grid item xs>
+                                <Grid item xs={4}>
                                     <Link href="#" onClick={switchToLoginPage} variant="body2" id = "backLink">
-                                        Back to login
+                                        <b>Back to Login</b>
                                     </Link>
                                 </Grid>
 
-                                <Grid item xs>
+                                <Grid item xs={4}>
                                     <Link href="#" onClick={switchToSignupPage} variant="body2" id = "createAccountLink">
-                                        Create a new account
+                                        <b>Create Account</b>
                                     </Link>
                                 </Grid>
 
