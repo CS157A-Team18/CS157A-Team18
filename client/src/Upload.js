@@ -16,6 +16,9 @@ import FirstPage from '@material-ui/icons/FirstPage';
 import LastPage from '@material-ui/icons/LastPage';
 import { Button } from '@material-ui/core';
 import {uploadFile} from './firebase/firebaseStorage.js'
+import { withStyles } from '@material-ui/core/styles';
+import Grid from '@material-ui/core/Grid';
+import ButtonGroup from '@material-ui/core/ButtonGroup';
 
 const tableIcons = {
     Check: forwardRef((props, ref) => <Check {...props} ref={ref} />),
@@ -30,7 +33,7 @@ const tableIcons = {
     LastPage: forwardRef((props, ref) => <LastPage {...props} ref={ref} />),
 };
 
-const styles = makeStyles(theme => ({
+const styles = theme => ({
     paper: {
         margin: theme.spacing(15, 8),
         padding: '2%',
@@ -51,36 +54,55 @@ const styles = makeStyles(theme => ({
         marginRight: theme.spacing(1),
         width: 500,
     },
-}));
+});
 
 const handleSubmit = () => {
     const file = document.getElementById('imagePicker')
     uploadFile(file.files[0])
 }
 
-export default function Upload() {
-
-    const [state, setState] = React.useState({
-        columns: [
-          { title: 'Name', field: 'name' },
-          { title: 'Amount', field: 'amount' },
-        ],
-        instructionColumns: [
-            { title: 'Steps', field: 'description' },
-        ],
-        data: [
-          { name: 'Soy sauce', amount: 63, description: "First step" },
-          {
-            name: 'Sugar',
-            amount:90,
-            description: "Second step"
-          },
-        ],
-      });
-
-    const classes = styles();
-    return (
+class Upload extends React.Component {
+    constructor(props) {
+        super(props);
         
+        this.state = {
+
+            uid: "",
+            recipeName: "",
+            mealTypeArray: ["breakfast", "lunch", "dinner"],
+            vidURL: "",
+            picURL: "",
+
+            columns: [
+                { title: 'Name', field: 'name' },
+                { title: 'Amount', field: 'amount'},
+                { title: 'Measurement', field: 'measurement'}
+            ],
+            instructionColumns: [
+                { title: 'Steps', field: 'description' },
+            ],
+            data: [
+                { name: 'Soy sauce', amount: 63, measurement: 'oz'},
+                {
+                name: 'Sugar',
+                amount:90,
+                measurement: 'kg'
+                },
+            ],
+            instructionData: [
+                {description: "First step"},
+                {description: "Second step"}
+            ],
+        }
+    }
+
+    componentDidMount = () => {
+        
+    }
+
+    render() { 
+        const { classes } = this.props
+        return (
             <div className={classes.paper}>
                 <label id="question">Create a new recipe</label>
                 
@@ -94,19 +116,30 @@ export default function Upload() {
                     />
                 </div>
 
+                <label id ="titleLabel">MealType:</label>
+                <div className={classes.section}>
+                    <Grid className={classes.button}>
+                        <ButtonGroup fullWidth aria-label="full width outlined button group">
+                            <Button> {this.state.mealTypeArray[0]} </Button>
+                            <Button>{this.state.mealTypeArray[1]}</Button>
+                            <Button>{this.state.mealTypeArray[2]}</Button>
+                        </ButtonGroup>
+                    </Grid>
+                </div>
+
                 <label id ="titleLabel">Ingredients:</label>
                 <div className={classes.section}>
                     <MaterialTable className={classes.table}
                         icons={tableIcons}
                         title=""
-                        columns={state.columns}
-                        data={state.data}
+                        columns={this.state.columns}
+                        data={this.state.data}
                         editable={{
                             onRowAdd: newData =>
                             new Promise(resolve => {
                                 setTimeout(() => {
                                 resolve();
-                                setState(prevState => {
+                                this.setState(prevState => {
                                     const data = [...prevState.data];
                                     data.push(newData);
                                     return { ...prevState, data };
@@ -118,7 +151,7 @@ export default function Upload() {
                                 setTimeout(() => {
                                 resolve();
                                 if (oldData) {
-                                    setState(prevState => {
+                                    this.setState(prevState => {
                                     const data = [...prevState.data];
                                     data[data.indexOf(oldData)] = newData;
                                     return { ...prevState, data };
@@ -130,7 +163,7 @@ export default function Upload() {
                             new Promise(resolve => {
                                 setTimeout(() => {
                                 resolve();
-                                setState(prevState => {
+                                this.setState(prevState => {
                                     const data = [...prevState.data];
                                     data.splice(data.indexOf(oldData), 1);
                                     return { ...prevState, data };
@@ -163,17 +196,17 @@ export default function Upload() {
                     <MaterialTable className={classes.table}
                         icons={tableIcons}
                         title=""
-                        columns={state.instructionColumns}
-                        data={state.data}
+                        columns={this.state.instructionColumns}
+                        data={this.state.instructionData}
                         editable={{
                             onRowAdd: newData =>
                             new Promise(resolve => {
                                 setTimeout(() => {
                                 resolve();
-                                setState(prevState => {
-                                    const data = [...prevState.data];
-                                    data.push(newData);
-                                    return { ...prevState, data };
+                                this.setState(prevState => {
+                                    const instructionData = [...prevState.instructionData];
+                                    instructionData.push(newData);
+                                    return { ...prevState, instructionData };
                                 });
                                 }, 600);
                             }),
@@ -182,10 +215,10 @@ export default function Upload() {
                                 setTimeout(() => {
                                 resolve();
                                 if (oldData) {
-                                    setState(prevState => {
-                                    const data = [...prevState.data];
-                                    data[data.indexOf(oldData)] = newData;
-                                    return { ...prevState, data };
+                                    this.setState(prevState => {
+                                    const instructionData = [...prevState.instructionData];
+                                    instructionData[instructionData.indexOf(oldData)] = newData;
+                                    return { ...prevState, instructionData };
                                     });
                                 }
                                 }, 600);
@@ -194,10 +227,10 @@ export default function Upload() {
                             new Promise(resolve => {
                                 setTimeout(() => {
                                 resolve();
-                                setState(prevState => {
-                                    const data = [...prevState.data];
-                                    data.splice(data.indexOf(oldData), 1);
-                                    return { ...prevState, data };
+                                this.setState(prevState => {
+                                    const instructionData = [...prevState.instructionData];
+                                    instructionData.splice(instructionData.indexOf(oldData), 1);
+                                    return { ...prevState, instructionData };
                                 });
                                 }, 600);
                             }),
@@ -238,4 +271,7 @@ export default function Upload() {
                 </div>
             </div>
     );
-} 
+    }
+}
+
+export default withStyles(styles)(Upload)
