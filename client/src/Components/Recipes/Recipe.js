@@ -6,6 +6,9 @@ import './Recipe.css';
 import LocalDiningIcon from '@material-ui/icons/LocalDining';
 import TextField from '@material-ui/core/TextField';
 import { withStyles } from '@material-ui/core/styles';
+import IconButton from '@material-ui/core/IconButton';
+import ThumbUpIcon from '@material-ui/icons/ThumbUp';
+import ThumbDownIcon from '@material-ui/icons/ThumbDown';
 
 // import color from '@material-ui/core/colors/red';
 
@@ -86,7 +89,18 @@ const styles = theme => ({
         super(props);
         
         this.state = {
+            likes: 15
         }
+    }
+
+    handleLike = e => {
+        document.getElementById("likeButton").style.color = "blue";
+        document.getElementById("dislikeButton").style.color = "gray";
+    }
+
+    handleDislike = e => {
+        document.getElementById("dislikeButton").style.color = "red";
+        document.getElementById("likeButton").style.color = "gray";
     }
 
     render() { 
@@ -123,6 +137,15 @@ const styles = theme => ({
                                 <label id ="titleLabel">Tutorial Link:</label>
                                 <a id ="linkRef" href= "https://www.youtube.com/watch?v=943loiK6M70">Click here for video tutorial</a>
                         </div>
+                        <div className={classes.section}>
+                            <label id ="titleLabel">Number of Likes: {this.state.likes}</label>
+                        </div>
+                        <IconButton id="likeButton" onClick = {this.handleLike} aria-label="like">
+                            <ThumbUpIcon />
+                        </IconButton>
+                        <IconButton id = "dislikeButton" onClick = {this.handleDislike} aria-label="dislike">
+                            <ThumbDownIcon />
+                        </IconButton>
                     </div>
                 </Grid>
                 <Grid item xs={false} sm={4} md={7} className={classes.image} />  

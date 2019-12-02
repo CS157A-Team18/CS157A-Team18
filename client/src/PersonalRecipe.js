@@ -48,13 +48,13 @@ const tableIcons = {
         this.state = { 
           columns: [
             { title: 'Food', field: 'name' },
-            { title: 'Image', field: 'image' },
+            { title: 'Likes', field: 'likes' },
           ],
           recipeData: [
-            { name: 'Banh mi', birthYear: 1987 },
+            { name: 'Banh mi', likes: 1987 },
             {
               name: 'Pho',
-              birthYear: 2017
+              likes: 2017
             },
           ],
         }
