@@ -292,13 +292,13 @@ export default function Login() {
                             </Button>
 
                             <Grid container align-items={'center'}>
-                                <Grid item xs={6} justify-self={'stretch'}>
+                                <Grid item xs={10} justify-self={'stretch'}>
                                     <Link href="#" onClick={switchToForgotPasswordPage} variant="body2" id = "forgotLink">
                                         <b>Forgot Password?</b>
                                     </Link>
                                 </Grid>
 
-                                <Grid item xs= {6} align-self={'end'}>
+                                <Grid item xs= {2} align-self={'end'}>
                                     <Link href="#" onClick={switchToSignupPage} variant="body2" id = "createAccountLink">
                                         <b>Sign Up</b>
                                     </Link>
