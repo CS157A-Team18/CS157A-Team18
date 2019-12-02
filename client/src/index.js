@@ -159,34 +159,7 @@ export default function Login() {
         //Login
         if (state.isLogin) {
             handleLogin();
-        } else {
-            //Sign up
-            if (document.getElementById("standard-password").value === "" ||
-                document.getElementById("email").value === "" ||
-                document.getElementById("firstname").value === "" ||
-                document.getElementById("lastname").value === "" ||
-                document.getElementById("confirmPassword").value === "") {
-                //setTransition();
-                //setOpen(true);
-                console.log("Please fill in all requirements!!!")
-            } else {
-                fetch(util.format('%s/api/signup', config.EXPRESS_BACKEND), {
-                    method: "POST",
-                    headers: {
-                        'Content-type': 'application/json'
-                    },
-                    body: JSON.stringify(state)
-                })
-                .then(result => {
-                    console.log(result) // 500 = Internal Service Error; 201 = CREATED
-                    if (result.ok) {
-                        // Handle successful signup here
-                        return
-                    }
-                    // Handle non-successful signup here
-                })
-            }
-        }
+        }   
         handleSignup()
     }
 
