@@ -69,11 +69,12 @@ class Upload extends React.Component {
 
             uid: "",
             recipeName: "",
-            mealTypeArray: ["breakfast", "lunch", "dinner"],
+            mealTypeArray: ["breakfast", "lunch", "dinner", "dessert", "snack", "supper"],
             vidURL: "",
             picURL: "",
+            selectedMealType: [],
 
-            columns: [
+            ingredientColumns: [
                 { title: 'Name', field: 'name' },
                 { title: 'Amount', field: 'amount'},
                 { title: 'Measurement', field: 'measurement'}
@@ -81,7 +82,7 @@ class Upload extends React.Component {
             instructionColumns: [
                 { title: 'Steps', field: 'description' },
             ],
-            data: [
+            ingredientData: [
                 { name: 'Soy sauce', amount: 63, measurement: 'oz'},
                 {
                 name: 'Sugar',
@@ -98,6 +99,66 @@ class Upload extends React.Component {
 
     componentDidMount = () => {
         
+    }
+
+    handleBreakfastTap = e => {
+        console.log(this.state.mealTypeArray[0])
+        if (this.state.selectedMealType.includes(1)) {
+            this.state.selectedMealType.splice(this.state.selectedMealType.indexOf(1), 1)
+        } else {
+            this.state.selectedMealType.push(1)
+        }
+        console.log(this.state.selectedMealType)
+    }
+
+    handleLunchTap = e => {
+        console.log(this.state.mealTypeArray[1])
+        if (this.state.selectedMealType.includes(4)) {
+            this.state.selectedMealType.splice(this.state.selectedMealType.indexOf(4), 1)
+        } else {
+            this.state.selectedMealType.push(4)
+        }
+        console.log(this.state.selectedMealType)
+    }
+
+    handleDinnerTap = e => {
+        console.log(this.state.mealTypeArray[2])
+        if (this.state.selectedMealType.includes(3)) {
+            this.state.selectedMealType.splice(this.state.selectedMealType.indexOf(3), 1)
+        } else {
+            this.state.selectedMealType.push(3)
+        }
+        console.log(this.state.selectedMealType)
+    }
+
+    handleDessertTap = e => {
+        console.log(this.state.mealTypeArray[3])
+        if (this.state.selectedMealType.includes(2)) {
+            this.state.selectedMealType.splice(this.state.selectedMealType.indexOf(2), 1)
+        } else {
+            this.state.selectedMealType.push(2)
+        }
+        console.log(this.state.selectedMealType)
+    }
+
+    handleSnackTap = e => {
+        console.log(this.state.mealTypeArray[4])
+        if (this.state.selectedMealType.includes(5)) {
+            this.state.selectedMealType.splice(this.state.selectedMealType.indexOf(5), 1)
+        } else {
+            this.state.selectedMealType.push(5)
+        }
+        console.log(this.state.selectedMealType)
+    }
+
+    handleSupperTap = e => {
+        console.log(this.state.mealTypeArray[5])
+        if (this.state.selectedMealType.includes(6)) {
+            this.state.selectedMealType.splice(this.state.selectedMealType.indexOf(6), 1)
+        } else {
+            this.state.selectedMealType.push(6)
+        }
+        console.log(this.state.selectedMealType)
     }
 
     render() { 
@@ -120,9 +181,12 @@ class Upload extends React.Component {
                 <div className={classes.section}>
                     <Grid className={classes.button}>
                         <ButtonGroup fullWidth aria-label="full width outlined button group">
-                            <Button> {this.state.mealTypeArray[0]} </Button>
-                            <Button>{this.state.mealTypeArray[1]}</Button>
-                            <Button>{this.state.mealTypeArray[2]}</Button>
+                            <Button onClick = {this.handleBreakfastTap}> {this.state.mealTypeArray[0]} </Button>
+                            <Button onClick = {this.handleLunchTap}> {this.state.mealTypeArray[1]}</Button>
+                            <Button onClick = {this.handleDinnerTap} >{this.state.mealTypeArray[2]}</Button>
+                            <Button onClick = {this.handleDessertTap} >{this.state.mealTypeArray[3]}</Button>
+                            <Button onClick = {this.handleSnackTap} >{this.state.mealTypeArray[4]}</Button>
+                            <Button onClick = {this.handleSupperTap} >{this.state.mealTypeArray[5]}</Button>
                         </ButtonGroup>
                     </Grid>
                 </div>
@@ -132,17 +196,17 @@ class Upload extends React.Component {
                     <MaterialTable className={classes.table}
                         icons={tableIcons}
                         title=""
-                        columns={this.state.columns}
-                        data={this.state.data}
+                        columns={this.state.ingredientColumns}
+                        data={this.state.ingredientData}
                         editable={{
                             onRowAdd: newData =>
                             new Promise(resolve => {
                                 setTimeout(() => {
                                 resolve();
                                 this.setState(prevState => {
-                                    const data = [...prevState.data];
-                                    data.push(newData);
-                                    return { ...prevState, data };
+                                    const ingredientData = [...prevState.ingredientData];
+                                    ingredientData.push(newData);
+                                    return { ...prevState, ingredientData };
                                 });
                                 }, 600);
                             }),
@@ -152,9 +216,9 @@ class Upload extends React.Component {
                                 resolve();
                                 if (oldData) {
                                     this.setState(prevState => {
-                                    const data = [...prevState.data];
-                                    data[data.indexOf(oldData)] = newData;
-                                    return { ...prevState, data };
+                                    const ingredientData = [...prevState.ingredientData];
+                                    ingredientData[ingredientData.indexOf(oldData)] = newData;
+                                    return { ...prevState, ingredientData };
                                     });
                                 }
                                 }, 600);
@@ -164,9 +228,9 @@ class Upload extends React.Component {
                                 setTimeout(() => {
                                 resolve();
                                 this.setState(prevState => {
-                                    const data = [...prevState.data];
-                                    data.splice(data.indexOf(oldData), 1);
-                                    return { ...prevState, data };
+                                    const ingredientData = [...prevState.ingredientData];
+                                    ingredientData.splice(ingredientData.indexOf(oldData), 1);
+                                    return { ...prevState, ingredientData };
                                 });
                                 }, 600);
                             }),
