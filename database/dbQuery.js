@@ -126,10 +126,61 @@ function addMealTypeToRecipeMealTypeJunctionTable(recipeId, mealType) {
     return dbAccessObject.query(query, [recipeId, mealType])
 }
 
+function getUserRecipes(uid) {
+    const query = `SELECT 
+                    id, name, likes, dislikes, img_url
+                   FROM recipe
+                   JOIN user_recipe_junction_table_uploads ON id = recipe_id
+                   WHERE uid = ?`
+    return dbAccessObject.query(query, [uid])
+}
+
+function getIndividualRecipeIngredients(recipeId) {
+    const query = `SELECT 
+	                ingredient.name, quantity, measurement
+                   FROM ingredient
+                   JOIN recipe_ingredient_junction_table ON id = ingredient_id
+                   JOIN recipe ON recipe_id = recipe.id
+                   WHERE recipe.id = ?`
+    return dbAccessObject.query(query, [recipeId])
+}
+
+function getIndividualRecipeInstructions(recipeId) {
+    const query = `SELECT 
+	                instruction
+                   FROM instruction
+                   WHERE recipe_id = ?
+                   ORDER BY \`order\` ASC`
+    return dbAccessObject.query(query, [recipeId])
+}
+
+function getInvididualRecipeMealTypes(recipeId) {
+    const query = `SELECT 
+	                meal_type_id, meal_type.name
+                   FROM meal_type
+                   JOIN recipe_meal_type_junction_table ON meal_type_id = meal_type.id
+                   JOIN recipe ON recipe_id = recipe.id
+                   WHERE recipe_id = ?`
+    return dbAccessObject.query(query, [recipeId])
+}
+
+function getAllRecipes() {
+    const query = `SELECT 
+                    id, name, likes, dislikes, img_url
+                   FROM recipe
+                   JOIN user_recipe_junction_table_uploads ON id = recipe_id`
+    return dbAccessObject.query(query)
+}
+
 module.exports = { 
     addUser, 
     getUserFirstNameAndLastName,
     editPersonalInformation,
     getPersonalInformation,
-    addRecipe
+    addRecipe,
+    getUserRecipes,
+    getIndividualRecipeIngredients,
+    getIndividualRecipeInstructions,
+    getInvididualRecipeMealTypes,
+    getAllRecipes
 }
