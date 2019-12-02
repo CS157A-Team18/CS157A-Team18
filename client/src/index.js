@@ -53,7 +53,6 @@ export default function Login() {
 
 
     const state = {
-        username: "",
         password: "",
         confirmPassword: "",
         email: "",
@@ -64,17 +63,12 @@ export default function Login() {
 
 
     const resetState = () => {
-        state.username = "
         state.password = ""
         state.confirmPassword = ""
         state.email = ""
         state.firstName = ""
         state.lastName = ""
         document.getElementById("standard-password").value = ""
-    }
-    
-    const updateUsername = e => {
-        state.username = e.target.value
     }
 
     const updatePassword = e => {
@@ -103,7 +97,7 @@ export default function Login() {
 
     const handleLogin = () => {
         // Case when there is invalid input
-        if (document.getElementById("standard-username").value === "" || document.getElementById("standard-password").value === "") {
+        if (document.getElementById("email").value === "" || document.getElementById("standard-password").value === "") {
             //setTransition();
             //setOpen(true);
             console.log("Please fill in all requirements!!!")
@@ -111,7 +105,7 @@ export default function Login() {
         }
 
         // Case when input is valid. This function attempts to log the user in
-        login(state.username, state.password).then(() => {
+        login(state.email, state.password).then(() => {
             // Handle successful login
             console.log("Logged in successfully")
         })
@@ -122,7 +116,7 @@ export default function Login() {
 
     const handleSignup = () => {
         // Case when there is invalid input
-        if (document.getElementById("standard-username").value === "" ||
+        if (document.getElementById("email").value === "" ||
             document.getElementById("standard-password").value === "" ||
             document.getElementById("firstname").value === "" ||
             document.getElementById("lastname").value === "" ||
@@ -134,7 +128,7 @@ export default function Login() {
         }
 
         // Successfully passed verifications and creating account
-        signUp(state.username, state.password).then(() => {
+        signUp(state.email, state.password).then(() => {
             getUID().then(user => {
                 const userDetails = {
                     uid: user.uid,
@@ -312,7 +306,7 @@ export default function Login() {
                                     label="Email"
                                     margin="normal"
                                     fullWidth
-                                    onChange={updateUsername}
+                                    onChange={updatePassword}
                                 />
                             </div>
 
