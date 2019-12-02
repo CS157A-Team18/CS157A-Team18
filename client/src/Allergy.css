@@ -1,0 +1,17 @@
+#firstAllergyButtons {
+    display: none;
+}
+
+#secondAllergyButtons {
+    display: none;
+    margin-top: 15px;
+}
+
+#continueButton {
+    display: none;
+}
+
+.nextButton {
+    text-align: center;
+    padding-left: 35%;
+}
