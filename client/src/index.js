@@ -168,10 +168,24 @@ export default function Login() {
         document.getElementById("createAccountLink").style.display = "block";
         document.getElementById("backLink").style.display = "none";
         document.getElementById("emailField").style.display = "block";
+        document.getElementById("passwordField").style.display = "block";
         document.getElementById("confirmTextField").style.display = "none";
         document.getElementById("firstTextField").style.display = "none";
         document.getElementById("lastTextField").style.display = "none";
         state.isLogin = true
+        resetState()
+    }
+
+    const switchToForgotPasswordPage = () => {
+        document.getElementById("submitButton").innerHTML = "Reset Password"
+        document.getElementById("welcome").innerHTML = "<b>Forgot Password</b>"
+        document.getElementById("ForgotContent").innerHTML = "Please enter your email address and we will send you an email about how to reset your password.";
+        document.getElementById("emailField").style.display = "block";
+        document.getElementById("backLink").style.display = "block";
+        document.getElementById("passwordField").style.display = "none";
+        document.getElementById("createAccountLink").style.display = "none";
+        document.getElementById("forgotLink").style.display = "none";
+        state.isLogin = false
         resetState()
     }
 
@@ -213,6 +227,10 @@ export default function Login() {
                                     fullWidth
                                     onChange={updateLastname}
                                 />
+                            </div>
+
+                            <div noValidate id="ForgotContent" style={{textAlign:'left', marginTop:'15px'}}>
+                                
                             </div>
 
                             <div className={"emailTextField"} noValidate id="emailField">
@@ -258,7 +276,7 @@ export default function Login() {
 
                             <Grid container>
                                 <Grid item xs={4}>
-                                    <Link href="#" variant="body2" id = "forgotLink">
+                                <Link href="#" onClick={switchToForgotPasswordPage} variant="body2" id = "forgotLink">
                                         <b>Forgot Password?</b>
                                     </Link>
                                 </Grid>
