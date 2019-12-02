@@ -16,6 +16,9 @@ import Link from '@material-ui/core/Link';
 import Snackbar from '@material-ui/core/Snackbar';
 var util = require('util');
 
+import { login, signUp, getUID } from './firebase/firebaseAuth.js'
+var util = require('util');
+
 const styles = makeStyles(theme => ({
 
     root: {
@@ -40,7 +43,7 @@ const styles = makeStyles(theme => ({
         width: '100%', // Fix IE 11 issue.
         marginTop: theme.spacing(1),
     },
-  }));
+}));
 
 export default function Login() {
 
@@ -67,7 +70,6 @@ export default function Login() {
         state.lastName = ""
         document.getElementById("standard-password").value = ""
     }
-    
     const updatePassword = e => {
         state.password = e.target.value
     }
@@ -87,10 +89,71 @@ export default function Login() {
     const updateLastname = e => {
         state.lastName = e.target.value
     }
-    
+
     const handleClose = () => {
         setOpen(false);
     };
+
+    const handleLogin = () => {
+        // Case when there is invalid input
+        if (document.getElementById("standard-username").value === "" || document.getElementById("standard-password").value === "") {
+            //setTransition();
+            //setOpen(true);
+            console.log("Please fill in all requirements!!!")
+            return
+        }
+
+        // Case when input is valid. This function attempts to log the user in
+        login(state.username, state.password).then(() => {
+            // Handle successful login
+            console.log("Logged in successfully")
+        })
+        .catch(err => {
+            console.log(err)
+        })
+    }
+
+    const handleSignup = () => {
+        // Case when there is invalid input
+        if (document.getElementById("standard-username").value === "" ||
+            document.getElementById("standard-password").value === "" ||
+            document.getElementById("firstname").value === "" ||
+            document.getElementById("lastname").value === "" ||
+            document.getElementById("confirmPassword").value === "") {
+            //setTransition();
+            //setOpen(true);
+            console.log("Please fill in all requirements!!!")
+            return
+        }
+
+        // Successfully passed verifications and creating account
+        signUp(state.username, state.password).then(() => {
+            getUID().then(user => {
+                const userDetails = {
+                    uid: user.uid,
+                    firstName: state.firstName,
+                    lastName: state.lastName
+                }
+
+                // Calls backend to add user info to DB
+                fetch(util.format('%s/api/signup', config.EXPRESS_BACKEND), {
+                    method: "POST",
+                    headers: {
+                        'Content-type': 'application/json'
+                    },
+                    body: JSON.stringify(userDetails)
+                })
+                .then(result => {
+                    console.log(result) // 500 = Internal Service Error; 201 = CREATED
+                    if (result.ok) {
+                        // Handle successful signup here
+                        return
+                    }
+                    // Handle non-successful signup here
+                })
+            })
+        })
+    }
 
     const handleSubmit = () => {
         //Login
@@ -145,6 +208,7 @@ export default function Login() {
                 })
             }
         }
+        handleSignup()
     }
 
     const switchToSignupPage = () => {
@@ -184,13 +248,13 @@ export default function Login() {
                 onClose={handleClose}
                 TransitionComponent={transition}
                 ContentProps={{
-                'aria-describedby': 'message-id',
+                    'aria-describedby': 'message-id',
                 }}
                 message={<span id="message-id">Please fill in all the requirements</span>}
             />
 
             <Grid container className={classes.root}>
-                <Grid item xs={false} sm={4} md={7} className={classes.image} />  
+                <Grid item xs={false} sm={4} md={7} className={classes.image} />
                 <Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square>
                     <div className={classes.paper}>
                         <form className={classes.form} noValidate id="submitForm">
@@ -215,13 +279,13 @@ export default function Login() {
                                 />
                             </div>
 
-                            <div className={"emailTextField"} noValidate id="emailField">
+                            <div className={"usernameTextField"} noValidate id="usernameField">
                                 <TextField
                                     id="email"
                                     label="Email"
                                     margin="normal"
                                     fullWidth
-                                    onChange={updateEmail}
+                                    onChange={updateUsername}
                                 />
                             </div>
 
@@ -247,13 +311,13 @@ export default function Login() {
                                 />
                             </div>
 
-                            <Button id="submitButton" 
-                                    variant="contained" 
-                                    color="primary" 
-                                    className={classes.button} 
-                                    fullWidth 
-                                    onClick= {handleSubmit}>
-                                    Login
+                            <Button id="submitButton"
+                                variant="contained"
+                                color="primary"
+                                className={classes.button}
+                                fullWidth
+                                onClick={handleSubmit}>
+                                Login
                             </Button>
 
                             <Grid container>
@@ -276,13 +340,13 @@ export default function Login() {
                                 </Grid>
 
                             </Grid>
-                            
+
                         </form>
                     </div>
-                </Grid> 
+                </Grid>
             </Grid>
         </div>
-    );   
+    );
 }
 
 ReactDOM.render(<App />, document.getElementById('root'));

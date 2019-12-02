@@ -1,13 +1,12 @@
 const mysql = require( 'mysql' );
-const config = require('../config/config.js')
 
 class Database {
     constructor() {
         const con = mysql.createConnection({
-            host: config.RDS_ENDPOINT,
-            user: config.RDS_USERNAME,
-            password: config.RDS_PASSWORD,
-            database: config.RDS_DATABASE
+            host: process.env.RDS_ENDPOINT,
+            user: process.env.RDS_USERNAME,
+            password: process.env.RDS_PASSWORD,
+            database: process.env.RDS_DATABASE
         })
         
         con.connect(function(err) {

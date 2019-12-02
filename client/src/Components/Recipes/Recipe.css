@@ -1,0 +1,13 @@
+#foodTitle {
+    font-weight: bold;
+    font-size: 90px;
+}
+
+#linkRef {
+    padding-left: 10px;
+}
+
+#ingredientLabel {
+    padding-left: 10px;
+    font-size: 14px;
+}
