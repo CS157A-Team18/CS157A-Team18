@@ -26,59 +26,85 @@ const tableIcons = {
   LastPage: forwardRef((props, ref) => <LastPage {...props} ref={ref} />),
 };
 
-export default function PersonalRecipe() {
-  const [state, setState] = React.useState({
-    columns: [
-      { title: 'Food', field: 'name' },
-      // { title: 'Price', field: 'birthYear', type: 'numeric' },
-    ],
-    data: [
-      { name: 'Banh mi', birthYear: 1987 },
-      {
-        name: 'Pho',
-        birthYear: 2017
-      },
-    ],
-  });
+// export default function PersonalRecipe() {
+//   const [state, setState] = React.useState({
+//     columns: [
+//       { title: 'Food', field: 'name' },
+//       // { title: 'Price', field: 'birthYear', type: 'numeric' },
+//     ],
+//     data: [
+//       { name: 'Banh mi', birthYear: 1987 },
+//       {
+//         name: 'Pho',
+//         birthYear: 2017
+//       },
+//     ],
+//   });
 
+  class PersonalRecipe extends React.Component {
+    constructor(props) {
+        super(props);
 
-  return (
-    <div className="table">
-        <MaterialTable
-            icons={tableIcons}
-            title="Your recipes"
-            columns={state.columns}
-            data={state.data}
-            editable={{
-              onRowUpdate: (newData, oldData) =>
-                new Promise(resolve => {
-                  setTimeout(() => {
-                  resolve();
-                  if (oldData) {
-                    setState(prevState => {
-                      const data = [...prevState.data];
-                      data[data.indexOf(oldData)] = newData;
-                      return { ...prevState, data };
-                    });
-                  }
-                  }, 600);
-                }),
-                onRowDelete: oldData =>
-                new Promise(resolve => {
-                    setTimeout(() => {
-                    resolve();
-                    setState(prevState => {
-                        const data = [...prevState.data];
-                        data.splice(data.indexOf(oldData), 1);
-                        return { ...prevState, data };
-                    });
-                    }, 600);
-                }),
-            }}
-            options={{
-                search: false
-            }}
-        />
-    </div>
-  );
-}
+        this.state = { 
+          columns: [
+            { title: 'Food', field: 'name' },
+            { title: 'Image', field: 'image' },
+          ],
+          recipeData: [
+            { name: 'Banh mi', birthYear: 1987 },
+            {
+              name: 'Pho',
+              birthYear: 2017
+            },
+          ],
+        }
+
+    }
+    
+    render() {
+      //const { classes } = this.props
+      return (
+        <div className="table">
+            <MaterialTable
+                icons={tableIcons}
+                title="Your recipes"
+                columns={this.state.columns}
+                data={this.state.recipeData}
+                editable={{
+                  onRowUpdate: (newData, oldData) =>
+                    new Promise(resolve => {
+                      setTimeout(() => {
+                      resolve();
+                      if (oldData) {
+                        this.setState(prevState => {
+                          const recipeData = [...prevState.recipeData];
+                          recipeData[recipeData.indexOf(oldData)] = newData;
+                          return { ...prevState, recipeData };
+                        });
+                      }
+                      }, 600);
+                    }),
+                    onRowDelete: oldData =>
+                    new Promise(resolve => {
+                        setTimeout(() => {
+                        resolve();
+                        this.setState(prevState => {
+                            const recipeData = [...prevState.recipeData];
+                            recipeData.splice(recipeData.indexOf(oldData), 1);
+                            return { ...prevState, recipeData };
+                        });
+                        }, 600);
+                    }),
+                }}
+                options={{
+                    search: false
+                }}
+            />
+        </div>
+      );
+    }
+  }
+
+  export default PersonalRecipe;
+  
+//}

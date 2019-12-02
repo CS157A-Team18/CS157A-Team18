@@ -19,6 +19,7 @@ import GridListTile from '@material-ui/core/GridListTile';
 import GridListTileBar from '@material-ui/core/GridListTileBar';
 import StarBorderIcon from '@material-ui/icons/StarBorder';
 import { Link } from "react-router-dom";
+import { withStyles } from '@material-ui/core/styles';
 //import { Button } from '@material-ui/core';
 
 //images
@@ -29,7 +30,7 @@ import food4 from './images/food4.jpeg';
 import food5 from './images/food5.jpg';
 import food6 from './images/food6.jpeg';
 
-const useStyles = makeStyles(theme => ({
+const styles = theme => ({
     root: {
         display: 'flex',
         flexWrap: 'wrap',
@@ -112,7 +113,7 @@ const useStyles = makeStyles(theme => ({
         display: 'none',
         },
     },
-}));
+});
 
 const tileData = [
     {
@@ -147,181 +148,376 @@ const tileData = [
     },
 ];
 
-export default function Dashboard() {
-    const classes = useStyles();
-    const [anchorEl, setAnchorEl] = React.useState(null);
-    const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
 
-    const isMenuOpen = Boolean(anchorEl);
-    const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
+class Dashboard extends React.Component { 
+    constructor(props) {
+        super(props);
+        
+        this.state = {
+            anchorEl: null,
+            setAnchorEl: null,
+            mobileMoreAnchorEl: null,
+            setMobileMoreAnchorEl: null
+        }
+    }
+    
+    render() {
+        // const [anchorEl, setAnchorEl] = React.useState(null);
+        // const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
 
-    const handleProfileMenuOpen = event => {
-        //setAnchorEl(event.currentTarget);
-    };
+        const isMenuOpen = Boolean(this.state.anchorEl);
+        const isMobileMenuOpen = Boolean(this.state.mobileMoreAnchorEl);
 
-    const handleMobileMenuClose = () => {
-        setMobileMoreAnchorEl(null);
-    };
+        const handleProfileMenuOpen = event => {
+            //setAnchorEl(event.currentTarget);
+        };
 
-    const handleMenuClose = () => {
-        setAnchorEl(null);
-        handleMobileMenuClose();
-    };
+        const handleMobileMenuClose = () => {
+            this.state.setMobileMoreAnchorEl(null);
+        };
 
-    const handleMobileMenuOpen = event => {
-        setMobileMoreAnchorEl(event.currentTarget);
-    };
+        const handleMenuClose = () => {
+            this.state.setAnchorEl(null);
+            handleMobileMenuClose();
+        };
 
-    const menuId = 'primary-search-account-menu';
-    const renderMenu = (
-    <Menu
-        anchorEl={anchorEl}
-        anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
-        id={menuId}
-        keepMounted
-        transformOrigin={{ vertical: 'top', horizontal: 'right' }}
-        open={isMenuOpen}
-        onClose={handleMenuClose}
-    >
-    <MenuItem onClick={handleMenuClose}>Profile</MenuItem>
-    <MenuItem onClick={handleMenuClose}>My account</MenuItem>
-    </Menu>
-    );
+        const handleMobileMenuOpen = event => {
+            this.state.setMobileMoreAnchorEl(event.currentTarget);
+        };
 
-    const mobileMenuId = 'primary-search-account-menu-mobile';
-    const renderMobileMenu = (
-    <Menu
-        anchorEl={mobileMoreAnchorEl}
-        anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
-        id={mobileMenuId}
-        keepMounted
-        transformOrigin={{ vertical: 'top', horizontal: 'right' }}
-        open={isMobileMenuOpen}
-        onClose={handleMobileMenuClose}
-    >
-    <MenuItem>
-        <IconButton aria-label="show 4 new mails" color="inherit">
-            <Badge badgeContent={4} color="secondary">
-                <MailIcon />
-            </Badge>
-        </IconButton>
-        <p>Messages</p>
-    </MenuItem>
-    <MenuItem>
-        <IconButton aria-label="show 11 new notifications" color="inherit">
-            <Badge badgeContent={11} color="secondary">
-                <NotificationsIcon />
-            </Badge>
-        </IconButton>
-        <p>Notifications</p>
-    </MenuItem>
-    <MenuItem onClick={handleProfileMenuOpen}>
-        <IconButton
-            aria-label="account of current user"
-            aria-controls="primary-search-account-menu"
-            aria-haspopup="true"
-            color="inherit"
-            >
-            <AccountCircle />
-        </IconButton>
-    <p>Profile</p>
-    </MenuItem>
-    </Menu>
-    );
+        const menuId = 'primary-search-account-menu';
+        const renderMenu = (
+        <Menu
+            anchorEl={this.state.anchorEl}
+            anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
+            id={menuId}
+            keepMounted
+            transformOrigin={{ vertical: 'top', horizontal: 'right' }}
+            open={isMenuOpen}
+            onClose={handleMenuClose}
+        >
+        <MenuItem onClick={handleMenuClose}>Profile</MenuItem>
+        <MenuItem onClick={handleMenuClose}>My account</MenuItem>
+        </Menu>
+        );
 
-    return (
-    <div className = "main">
-        <div className={classes.grow}>
-            <AppBar position="static" id="appbar">
-                <Toolbar>
-                    <Typography className={classes.title} variant="h6" noWrap>
-                        Delight
-                    </Typography>
-                    {/* <Link to="/dashboard" id="menu-button">Home</Link> */}
-                    <Link to="/personalRecipe" id="menu-button">Recipes</Link>
-                    <Link to="/upload" id="menu-button">Upload</Link>
-                    
-                    {/* <Button id="menu-button">
-                        Marketplace
-                    </Button> */}
-
-                    <div className={classes.search}>
-                        <div className={classes.searchIcon}>
-                            <SearchIcon />
+        const mobileMenuId = 'primary-search-account-menu-mobile';
+        const renderMobileMenu = (
+        <Menu
+            anchorEl={this.state.mobileMoreAnchorEl}
+            anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
+            id={mobileMenuId}
+            keepMounted
+            transformOrigin={{ vertical: 'top', horizontal: 'right' }}
+            open={isMobileMenuOpen}
+            onClose={handleMobileMenuClose}
+        >
+        <MenuItem>
+            <IconButton aria-label="show 4 new mails" color="inherit">
+                <Badge badgeContent={4} color="secondary">
+                    <MailIcon />
+                </Badge>
+            </IconButton>
+            <p>Messages</p>
+        </MenuItem>
+        <MenuItem>
+            <IconButton aria-label="show 11 new notifications" color="inherit">
+                <Badge badgeContent={11} color="secondary">
+                    <NotificationsIcon />
+                </Badge>
+            </IconButton>
+            <p>Notifications</p>
+        </MenuItem>
+        <MenuItem onClick={handleProfileMenuOpen}>
+            <IconButton
+                aria-label="account of current user"
+                aria-controls="primary-search-account-menu"
+                aria-haspopup="true"
+                color="inherit"
+                >
+                <AccountCircle />
+            </IconButton>
+        <p>Profile</p>
+        </MenuItem>
+        </Menu>
+        );
+        const { classes } = this.props
+        return(
+            <div className = "main">
+            <div className={classes.grow}>
+                <AppBar position="static" id="appbar">
+                    <Toolbar>
+                        <Typography className={classes.title} variant="h6" noWrap>
+                            Delight
+                        </Typography>
+                        {/* <Link to="/dashboard" id="menu-button">Home</Link> */}
+                        <Link to="/personalRecipe" id="menu-button">Recipes</Link>
+                        <Link to="/upload" id="menu-button">Upload</Link>
+                        
+                        {/* <Button id="menu-button">
+                            Marketplace
+                        </Button> */}
+    
+                        <div className={classes.search}>
+                            <div className={classes.searchIcon}>
+                                <SearchIcon />
+                            </div>
+                            <InputBase
+                                placeholder="Search…"
+                                classes={{
+                                root: classes.inputRoot,
+                                input: classes.inputInput,
+                                }}
+                                inputProps={{ 'aria-label': 'search' }}
+                            />
                         </div>
-                        <InputBase
-                            placeholder="Search…"
-                            classes={{
-                            root: classes.inputRoot,
-                            input: classes.inputInput,
-                            }}
-                            inputProps={{ 'aria-label': 'search' }}
-                        />
-                    </div>
-                    <div className={classes.grow} />
-                    <div className={classes.sectionDesktop}>
-                        <IconButton
-                            edge="end"
-                            aria-label="account of current user"
-                            aria-controls={menuId}
-                            aria-haspopup="true"
-                            onClick={handleProfileMenuOpen}
-                            color="inherit"
-                        >
-                        <AccountCircle />
-                    </IconButton>
-
-                    </div>
-
-                    {/* <label id="name">Kimleng Hor</label> */}
-                    <Link to="/profile" id="name">Kimleng Hor</Link>
-                    <div className={classes.sectionMobile}>
-                        <IconButton
-                            aria-label="show more"
-                            aria-controls={mobileMenuId}
-                            aria-haspopup="true"
-                            onClick={handleMobileMenuOpen}
-                            color="inherit"
+                        <div className={classes.grow} />
+                        <div className={classes.sectionDesktop}>
+                            <IconButton
+                                edge="end"
+                                aria-label="account of current user"
+                                aria-controls={menuId}
+                                aria-haspopup="true"
+                                onClick={handleProfileMenuOpen}
+                                color="inherit"
                             >
-                            <MoreIcon />
+                            <AccountCircle />
                         </IconButton>
-                    </div>
-                </Toolbar>
-            </AppBar>
-
-            {renderMobileMenu}
-            {renderMenu}
+    
+                        </div>
+    
+                        {/* <label id="name">Kimleng Hor</label> */}
+                        <Link to="/profile" id="name">Kimleng Hor</Link>
+                        <div className={classes.sectionMobile}>
+                            <IconButton
+                                aria-label="show more"
+                                aria-controls={mobileMenuId}
+                                aria-haspopup="true"
+                                onClick={handleMobileMenuOpen}
+                                color="inherit"
+                                >
+                                <MoreIcon />
+                            </IconButton>
+                        </div>
+                    </Toolbar>
+                </AppBar>
+    
+                {renderMobileMenu}
+                {renderMenu}
+            </div>
+    
+            <div className = "titleView">
+                <label id="title">Eat fresh Live Healthy</label>
+                    <br/>
+                <label id="subtitle">A Healthy Food For A Wealthy Mood!</label>
+            </div>
+    
+            <div className={classes.root} id = "trending">
+                <label id="category">Recommended</label>
+                <GridList className={classes.gridList} cols={2.5}>
+                    {tileData.map(tile => (
+                    <GridListTile key={tile.img}>
+                        <img src={tile.img} alt={tile.title} />
+                        <GridListTileBar
+                            id = "gridlist"
+                            title={tile.title}
+                            classes={{
+                            root: classes.titleBar,
+                            title: classes.title,
+                        }}
+                        actionIcon={
+                            <IconButton aria-label={`star ${tile.title}`}>
+                                <StarBorderIcon className={classes.title} />
+                            </IconButton>
+                        }
+                        />
+                    </GridListTile>
+                    ))}
+                </GridList>
+            </div> 
         </div>
-
-        <div className = "titleView">
-            <label id="title">Eat fresh Live Healthy</label>
-                <br/>
-            <label id="subtitle">A Healthy Food For A Wealthy Mood!</label>
-        </div>
-
-        <div className={classes.root} id = "trending">
-            <label id="category">Recommended</label>
-            <GridList className={classes.gridList} cols={2.5}>
-                {tileData.map(tile => (
-                <GridListTile key={tile.img}>
-                    <img src={tile.img} alt={tile.title} />
-                    <GridListTileBar
-                        id = "gridlist"
-                        title={tile.title}
-                        classes={{
-                        root: classes.titleBar,
-                        title: classes.title,
-                    }}
-                    actionIcon={
-                        <IconButton aria-label={`star ${tile.title}`}>
-                            <StarBorderIcon className={classes.title} />
-                        </IconButton>
-                    }
-                    />
-                </GridListTile>
-                ))}
-            </GridList>
-        </div> 
-    </div>
-    );
+        );   
+        
+    }
 }
+
+export default withStyles(styles)(Dashboard)
+
+// export default function Dashboard() {
+//     const classes = useStyles();
+//     const [anchorEl, setAnchorEl] = React.useState(null);
+//     const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
+
+//     const isMenuOpen = Boolean(anchorEl);
+//     const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
+
+//     const handleProfileMenuOpen = event => {
+//         //setAnchorEl(event.currentTarget);
+//     };
+
+//     const handleMobileMenuClose = () => {
+//         setMobileMoreAnchorEl(null);
+//     };
+
+//     const handleMenuClose = () => {
+//         setAnchorEl(null);
+//         handleMobileMenuClose();
+//     };
+
+//     const handleMobileMenuOpen = event => {
+//         setMobileMoreAnchorEl(event.currentTarget);
+//     };
+
+//     const menuId = 'primary-search-account-menu';
+//     const renderMenu = (
+//     <Menu
+//         anchorEl={anchorEl}
+//         anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
+//         id={menuId}
+//         keepMounted
+//         transformOrigin={{ vertical: 'top', horizontal: 'right' }}
+//         open={isMenuOpen}
+//         onClose={handleMenuClose}
+//     >
+//     <MenuItem onClick={handleMenuClose}>Profile</MenuItem>
+//     <MenuItem onClick={handleMenuClose}>My account</MenuItem>
+//     </Menu>
+//     );
+
+//     const mobileMenuId = 'primary-search-account-menu-mobile';
+//     const renderMobileMenu = (
+//     <Menu
+//         anchorEl={mobileMoreAnchorEl}
+//         anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
+//         id={mobileMenuId}
+//         keepMounted
+//         transformOrigin={{ vertical: 'top', horizontal: 'right' }}
+//         open={isMobileMenuOpen}
+//         onClose={handleMobileMenuClose}
+//     >
+//     <MenuItem>
+//         <IconButton aria-label="show 4 new mails" color="inherit">
+//             <Badge badgeContent={4} color="secondary">
+//                 <MailIcon />
+//             </Badge>
+//         </IconButton>
+//         <p>Messages</p>
+//     </MenuItem>
+//     <MenuItem>
+//         <IconButton aria-label="show 11 new notifications" color="inherit">
+//             <Badge badgeContent={11} color="secondary">
+//                 <NotificationsIcon />
+//             </Badge>
+//         </IconButton>
+//         <p>Notifications</p>
+//     </MenuItem>
+//     <MenuItem onClick={handleProfileMenuOpen}>
+//         <IconButton
+//             aria-label="account of current user"
+//             aria-controls="primary-search-account-menu"
+//             aria-haspopup="true"
+//             color="inherit"
+//             >
+//             <AccountCircle />
+//         </IconButton>
+//     <p>Profile</p>
+//     </MenuItem>
+//     </Menu>
+//     );
+
+//     return (
+    // <div className = "main">
+    //     <div className={classes.grow}>
+    //         <AppBar position="static" id="appbar">
+    //             <Toolbar>
+    //                 <Typography className={classes.title} variant="h6" noWrap>
+    //                     Delight
+    //                 </Typography>
+    //                 {/* <Link to="/dashboard" id="menu-button">Home</Link> */}
+    //                 <Link to="/personalRecipe" id="menu-button">Recipes</Link>
+    //                 <Link to="/upload" id="menu-button">Upload</Link>
+                    
+    //                 {/* <Button id="menu-button">
+    //                     Marketplace
+    //                 </Button> */}
+
+    //                 <div className={classes.search}>
+    //                     <div className={classes.searchIcon}>
+    //                         <SearchIcon />
+    //                     </div>
+    //                     <InputBase
+    //                         placeholder="Search…"
+    //                         classes={{
+    //                         root: classes.inputRoot,
+    //                         input: classes.inputInput,
+    //                         }}
+    //                         inputProps={{ 'aria-label': 'search' }}
+    //                     />
+    //                 </div>
+    //                 <div className={classes.grow} />
+    //                 <div className={classes.sectionDesktop}>
+    //                     <IconButton
+    //                         edge="end"
+    //                         aria-label="account of current user"
+    //                         aria-controls={menuId}
+    //                         aria-haspopup="true"
+    //                         onClick={handleProfileMenuOpen}
+    //                         color="inherit"
+    //                     >
+    //                     <AccountCircle />
+    //                 </IconButton>
+
+    //                 </div>
+
+    //                 {/* <label id="name">Kimleng Hor</label> */}
+    //                 <Link to="/profile" id="name">Kimleng Hor</Link>
+    //                 <div className={classes.sectionMobile}>
+    //                     <IconButton
+    //                         aria-label="show more"
+    //                         aria-controls={mobileMenuId}
+    //                         aria-haspopup="true"
+    //                         onClick={handleMobileMenuOpen}
+    //                         color="inherit"
+    //                         >
+    //                         <MoreIcon />
+    //                     </IconButton>
+    //                 </div>
+    //             </Toolbar>
+    //         </AppBar>
+
+    //         {renderMobileMenu}
+    //         {renderMenu}
+    //     </div>
+
+    //     <div className = "titleView">
+    //         <label id="title">Eat fresh Live Healthy</label>
+    //             <br/>
+    //         <label id="subtitle">A Healthy Food For A Wealthy Mood!</label>
+    //     </div>
+
+    //     <div className={classes.root} id = "trending">
+    //         <label id="category">Recommended</label>
+    //         <GridList className={classes.gridList} cols={2.5}>
+    //             {tileData.map(tile => (
+    //             <GridListTile key={tile.img}>
+    //                 <img src={tile.img} alt={tile.title} />
+    //                 <GridListTileBar
+    //                     id = "gridlist"
+    //                     title={tile.title}
+    //                     classes={{
+    //                     root: classes.titleBar,
+    //                     title: classes.title,
+    //                 }}
+    //                 actionIcon={
+    //                     <IconButton aria-label={`star ${tile.title}`}>
+    //                         <StarBorderIcon className={classes.title} />
+    //                     </IconButton>
+    //                 }
+    //                 />
+    //             </GridListTile>
+    //             ))}
+    //         </GridList>
+    //     </div> 
+    // </div>
+    // );
+//}
