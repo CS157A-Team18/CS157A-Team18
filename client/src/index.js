@@ -159,6 +159,7 @@ export default function Login() {
         //Login
         if (state.isLogin) {
             handleLogin();
+            return;
         }   
         handleSignup()
     }
@@ -256,7 +257,7 @@ export default function Login() {
                                     label="Email"
                                     margin="normal"
                                     fullWidth
-                                    onChange={updatePassword}
+                                    onChange={updateEmail}
                                 />
                             </div>
 
