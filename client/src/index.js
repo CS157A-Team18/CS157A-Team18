@@ -19,6 +19,7 @@ import { login, signUp, getUID } from './firebase/firebaseAuth.js'
 var util = require('util');
 
 const styles = makeStyles(theme => ({
+
     root: {
         height: '100vh',
     },
@@ -51,30 +52,30 @@ export default function Login() {
 
 
     const state = {
-        username: "",
         password: "",
         confirmPassword: "",
+        email: "",
         firstName: "",
         lastName: "",
         isLogin: true
     };
 
+
     const resetState = () => {
-        state.username = ""
         state.password = ""
         state.confirmPassword = ""
+        state.email = ""
         state.firstName = ""
         state.lastName = ""
-        document.getElementById("standard-username").value = ""
         document.getElementById("standard-password").value = ""
-    }
-
-    const updateUsername = e => {
-        state.username = e.target.value
     }
 
     const updatePassword = e => {
         state.password = e.target.value
+    }
+
+    const updateEmail = e => {
+        state.email = e.target.value
     }
 
     const updateConfirmPassword = e => {
@@ -95,7 +96,7 @@ export default function Login() {
 
     const handleLogin = () => {
         // Case when there is invalid input
-        if (document.getElementById("standard-username").value === "" || document.getElementById("standard-password").value === "") {
+        if (document.getElementById("email").value === "" || document.getElementById("standard-password").value === "") {
             //setTransition();
             //setOpen(true);
             console.log("Please fill in all requirements!!!")
@@ -103,7 +104,7 @@ export default function Login() {
         }
 
         // Case when input is valid. This function attempts to log the user in
-        login(state.username, state.password).then(() => {
+        login(state.email, state.password).then(() => {
             // Handle successful login
             console.log("Logged in successfully")
         })
@@ -114,7 +115,7 @@ export default function Login() {
 
     const handleSignup = () => {
         // Case when there is invalid input
-        if (document.getElementById("standard-username").value === "" ||
+        if (document.getElementById("email").value === "" ||
             document.getElementById("standard-password").value === "" ||
             document.getElementById("firstname").value === "" ||
             document.getElementById("lastname").value === "" ||
@@ -126,7 +127,7 @@ export default function Login() {
         }
 
         // Successfully passed verifications and creating account
-        signUp(state.username, state.password).then(() => {
+        signUp(state.email, state.password).then(() => {
             getUID().then(user => {
                 const userDetails = {
                     uid: user.uid,
@@ -155,20 +156,22 @@ export default function Login() {
     }
 
     const handleSubmit = () => {
+        //Login
         if (state.isLogin) {
-            handleLogin()
-            return
-        }
+            handleLogin();
+            return;
+        }   
         handleSignup()
     }
 
     const switchToSignupPage = () => {
-        document.getElementById("submitButton").innerHTML = "Sign up"
-        document.getElementById("welcome").innerHTML = "Sign up"
+        document.getElementById("submitButton").innerHTML = "SIGN UP"
+        document.getElementById("welcome").innerHTML = "<b>Create an account</b>"
         document.getElementById("forgotLink").style.display = "none";
         document.getElementById("createAccountLink").style.display = "none";
         document.getElementById("backLink").style.display = "block";
         document.getElementById("confirmTextField").style.display = "block";
+        document.getElementById("emailField").style.display = "block";
         document.getElementById("firstTextField").style.display = "block";
         document.getElementById("lastTextField").style.display = "block";
         state.isLogin = false
@@ -176,15 +179,31 @@ export default function Login() {
     }
 
     const switchToLoginPage = () => {
-        document.getElementById("submitButton").innerHTML = "Login"
-        document.getElementById("welcome").innerHTML = "Login"
+        document.getElementById("submitButton").innerHTML = "LOGIN"
+        document.getElementById("welcome").innerHTML = "<b>Log In to Delight</b>"
         document.getElementById("forgotLink").style.display = "block";
         document.getElementById("createAccountLink").style.display = "block";
         document.getElementById("backLink").style.display = "none";
+        document.getElementById("emailField").style.display = "block";
+        document.getElementById("passwordField").style.display = "block";
         document.getElementById("confirmTextField").style.display = "none";
         document.getElementById("firstTextField").style.display = "none";
         document.getElementById("lastTextField").style.display = "none";
+        document.getElementById("ForgotContent").innerHTML = "";
         state.isLogin = true
+        resetState()
+    }
+
+    const switchToForgotPasswordPage = () => {
+        document.getElementById("submitButton").innerHTML = "Reset Password"
+        document.getElementById("welcome").innerHTML = "<b>Forgot Password</b>"
+        document.getElementById("ForgotContent").innerHTML = "Please enter your email address and we will send you an email about how to reset your password.";
+        document.getElementById("emailField").style.display = "block";
+        document.getElementById("backLink").style.display = "block";
+        document.getElementById("passwordField").style.display = "none";
+        document.getElementById("createAccountLink").style.display = "none";
+        document.getElementById("forgotLink").style.display = "none";
+        state.isLogin = false
         resetState()
     }
 
@@ -207,8 +226,10 @@ export default function Login() {
                 <Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square>
                     <div className={classes.paper}>
                         <form className={classes.form} noValidate id="submitForm">
-                            <label id="welcome">Login</label>
-
+                            <label id="welcome"><b>Log In to Delight</b></label>
+                            <div noValidate id="ForgotContent" style={{textAlign:'left', marginTop:'15px'}}>
+                                
+                            </div>
                             <div className={"firstnameTextField"} noValidate id="firstTextField">
                                 <TextField
                                     id="firstname"
@@ -229,14 +250,14 @@ export default function Login() {
                                 />
                             </div>
 
-                            <div className={"usernameTextField"} noValidate id="usernameField">
+                            <div className={"emailTextField"} noValidate id="emailField">
+
                                 <TextField
-                                    id="standard-username"
-                                    label="Username"
+                                    id="email"
+                                    label="Email"
                                     margin="normal"
-                                    autoFocus
                                     fullWidth
-                                    onChange={updateUsername}
+                                    onChange={updateEmail}
                                 />
                             </div>
 
@@ -271,25 +292,25 @@ export default function Login() {
                                 Login
                             </Button>
 
-                            <Grid container>
-                                <Grid item xs>
-                                    <Link href="#" variant="body2" id="forgotLink">
-                                        Forgot password?
+                            <Grid container align-items={'center'}>
+                                <Grid item xs={10} justify-self={'stretch'}>
+                                    <Link href="#" onClick={switchToForgotPasswordPage} variant="body2" id = "forgotLink">
+                                        <b>Forgot Password?</b>
                                     </Link>
                                 </Grid>
 
-                                <Grid item xs>
-                                    <Link href="#" onClick={switchToLoginPage} variant="body2" id="backLink">
-                                        Back to login
+                                <Grid item xs= {2} align-self={'end'}>
+                                    <Link href="#" onClick={switchToSignupPage} variant="body2" id = "createAccountLink">
+                                        <b>Sign Up</b>
                                     </Link>
                                 </Grid>
 
-                                <Grid item xs>
-                                    <Link href="#" onClick={switchToSignupPage} variant="body2" id="createAccountLink">
-                                        Create a new account
-                                    </Link>
-                                </Grid>
+                            </Grid>
 
+                            <Grid item xs={4}>
+                                    <Link href="#" onClick={switchToLoginPage} variant="body2" id = "backLink">
+                                        <b>Back to Login</b>
+                                    </Link>
                             </Grid>
 
                         </form>
