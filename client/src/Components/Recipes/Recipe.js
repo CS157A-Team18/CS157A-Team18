@@ -22,6 +22,9 @@ import ChevronRight from '@material-ui/icons/ChevronRight';
 import FirstPage from '@material-ui/icons/FirstPage';
 import LastPage from '@material-ui/icons/LastPage';
 import { Button } from '@material-ui/core';
+import {getUID} from '../../firebase/firebaseAuth'
+
+const util = require('util');
 // import List from '@material-ui/core/List';
 // import ListItem from '@material-ui/core/ListItem';
 // import ListItemText from '@material-ui/core/ListItemText';
@@ -104,16 +107,37 @@ const styles = theme => ({
                 },
             ],
             instructionData: [
-                {description: "First step"},
-                {description: "Second step"}
+                {instruction: "First step"},
+                {instruction: "Second step"}
             ],
         }
     }
 
     componentDidMount() {
-        //this.setState({recipe_id: this.getUrlVars()["recipe_id"]})
         this.state.recipe_id = this.getUrlVars()["recipe_id"]
-        console.log(this.state.recipe_id)
+        getUID().then(user => {
+            fetch(util.format('%s/api/recipe?uid=%s&recipe_id=%s', process.env.REACT_APP_EXPRESS_BACKEND, user.uid, this.state.recipe_id), {
+                method: "GET",
+                headers: {
+                    'Content-type': 'application/json'
+                }
+            })
+            .then(response => {
+                return response.json()
+            })
+            .then(responseData => {
+                this.setState({
+                    recipeName: responseData.name,
+                    likes: responseData.likes,
+                    dislikes: responseData.dislikes,
+                    tutorialLink: responseData.vidURL,
+                    pictureLink: responseData.imgURL,
+                    ingredientData: responseData.ingredients,
+                    instructionData: responseData.instructions
+                })
+            })
+        })
+        
     }
 
     getUrlVars = () => {
@@ -331,7 +355,7 @@ const styles = theme => ({
         
                     <div className="showMode" id="showMode">
                         <div className={classes.section}>
-                            <label id ="foodTitle">Barbeque Pecans</label>
+                            <label id ="foodTitle">{this.state.recipeName}</label>
                         </div>
                         
                         <div className={classes.section}>
@@ -345,12 +369,12 @@ const styles = theme => ({
                             <label id ="titleLabel">Instructions:</label>
                             <br/>
                             <ul>
-                                {this.state.instructionData.map(value => <li>{value.description}</li>)}
+                                {this.state.instructionData.map(value => <li>{value.instruction}</li>)}
                             </ul>
                         </div>
                         <div className={classes.section}>
                                 <label id ="titleLabel">Tutorial Link:</label>
-                                <a id ="linkRef" href= "https://www.youtube.com/watch?v=943loiK6M70">Click here for video tutorial</a>
+                                <a id ="linkRef" href={this.state.tutorialLink}>Click here for video tutorial</a>
                         </div>
 
                         <Button variant="outlined" color="primary" onClick={this.handleEdit}>
