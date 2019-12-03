@@ -49,12 +49,14 @@ const tableIcons = {
           columns: [
             { title: 'Food', field: 'name' },
             { title: 'Likes', field: 'likes' },
+            { title: 'Dislikes', field: 'dislikes' },
           ],
           recipeData: [
-            { name: 'Banh mi', likes: 1987 },
+            { name: 'Banh mi', likes: 1987, dislikes: 2 },
             {
               name: 'Pho',
-              likes: 2017
+              likes: 2017,
+              dislikes: 2 
             },
           ],
         }

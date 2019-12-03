@@ -89,18 +89,29 @@ const styles = theme => ({
         super(props);
         
         this.state = {
-            likes: 15
+            likes: 15,
+            dislikes: 15
         }
     }
 
     handleLike = e => {
-        document.getElementById("likeButton").style.color = "blue";
-        document.getElementById("dislikeButton").style.color = "gray";
+        if  (document.getElementById("likeButton").style.color == "blue") {
+            //deselect
+            document.getElementById("likeButton").style.color = "gray";
+        } else {
+            document.getElementById("likeButton").style.color = "blue";
+            document.getElementById("dislikeButton").style.color = "gray";
+        }
     }
 
     handleDislike = e => {
-        document.getElementById("dislikeButton").style.color = "red";
-        document.getElementById("likeButton").style.color = "gray";
+        if  (document.getElementById("dislikeButton").style.color == "red") {
+            //deselect
+            document.getElementById("dislikeButton").style.color = "gray";
+        } else {
+            document.getElementById("dislikeButton").style.color = "red";
+            document.getElementById("likeButton").style.color = "gray";
+        }
     }
 
     render() { 
