@@ -317,7 +317,8 @@ class Upload extends React.Component {
     
                         {/* <label id="name">Kimleng Hor</label> */}
                         <Link to="/profile" id="name">Kimleng Hor</Link>
-                        <div className={classes.sectionMobile}>
+                        <Link to="/login" id="name">Sign out</Link>
+                        {/* <div className={classes.sectionMobile}>
                             <IconButton
                                 aria-label="show more"
                                 aria-controls={mobileMenuId}
@@ -327,7 +328,7 @@ class Upload extends React.Component {
                                 >
                                 <MoreIcon />
                             </IconButton>
-                        </div>
+                        </div> */}
                     </Toolbar>
                 </AppBar>
             </div>
