@@ -19,6 +19,16 @@ import {uploadFile} from './firebase/firebaseStorage.js'
 import { withStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 import ButtonGroup from '@material-ui/core/ButtonGroup';
+import Toolbar from '@material-ui/core/Toolbar';
+import IconButton from '@material-ui/core/IconButton';
+import Typography from '@material-ui/core/Typography';
+import AppBar from '@material-ui/core/AppBar';
+import { Link } from "react-router-dom";
+import SearchIcon from '@material-ui/icons/Search';
+import InputBase from '@material-ui/core/InputBase';
+import AccountCircle from '@material-ui/icons/AccountCircle';
+import MoreIcon from '@material-ui/icons/MoreVert';
+import { fade } from '@material-ui/core/styles';
 import {getUID} from './firebase/firebaseAuth'
 const util = require('util')
 
@@ -36,6 +46,58 @@ const tableIcons = {
 };
 
 const styles = theme => ({
+    grow: {
+        flexGrow: 1,
+    },
+    searchIcon: {
+        width: theme.spacing(7),
+        height: '100%',
+        position: 'absolute',
+        pointerEvents: 'none',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+    },
+    search: {
+        position: 'relative',
+        borderRadius: theme.shape.borderRadius,
+        backgroundColor: fade(theme.palette.common.white, 0.15),
+        '&:hover': {
+        backgroundColor: fade(theme.palette.common.white, 0.25),
+    },
+
+    marginRight: theme.spacing(2),
+        marginLeft: 0,
+        width: '100%',
+        [theme.breakpoints.up('sm')]: {
+        marginLeft: theme.spacing(3),
+        width: 'auto',
+        },
+    },
+
+    inputRoot: {
+        color: 'inherit',
+    },
+    inputInput: {
+        padding: theme.spacing(1, 1, 1, 7),
+        transition: theme.transitions.create('width'),
+        width: '100%',
+        [theme.breakpoints.up('md')]: {
+        width: 200,
+        },
+    },
+    title: {
+        display: 'none',
+        [theme.breakpoints.up('sm')]: {
+        display: 'block',
+        },
+    },
+    sectionDesktop: {
+        display: 'none',
+        [theme.breakpoints.up('md')]: {
+        display: 'flex',
+        },
+    },
     paper: {
         margin: theme.spacing(15, 8),
         padding: '2%',
@@ -197,8 +259,80 @@ class Upload extends React.Component {
 
     render() { 
         const { classes } = this.props
+
+        const menuId = 'primary-search-account-menu';
+
+        const handleProfileMenuOpen = event => {
+            //setAnchorEl(event.currentTarget);
+        };
+
+        const handleMobileMenuOpen = event => {
+            this.state.setMobileMoreAnchorEl(event.currentTarget);
+        };
+
+        const mobileMenuId = 'primary-search-account-menu-mobile';
         return (
+        <div className="main">  
+            <div className={classes.grow}>
+                <AppBar position="static" id="appbar">
+                    <Toolbar>
+                        <Typography className={classes.title} variant="h6" noWrap>
+                            Delight
+                        </Typography>
+                        {/* <Link to="/dashboard" id="menu-button">Home</Link> */}
+                        <Link to="/personalRecipe" id="menu-button">Recipes</Link>
+                        <Link to="/upload" id="menu-button">Upload</Link>
+                        
+                        {/* <Button id="menu-button">
+                            Marketplace
+                        </Button> */}
+    
+                        <div className={classes.search}>
+                            <div className={classes.searchIcon}>
+                                <SearchIcon />
+                            </div>
+                            <InputBase
+                                placeholder="Search…"
+                                classes={{
+                                root: classes.inputRoot,
+                                input: classes.inputInput,
+                                }}
+                                inputProps={{ 'aria-label': 'search' }}
+                            />
+                        </div>
+                        <div className={classes.grow} />
+                        <div className={classes.sectionDesktop}>
+                            <IconButton
+                                edge="end"
+                                aria-label="account of current user"
+                                aria-controls={menuId}
+                                aria-haspopup="true"
+                                onClick={handleProfileMenuOpen}
+                                color="inherit"
+                            >
+                            <AccountCircle />
+                        </IconButton>
+    
+                        </div>
+    
+                        {/* <label id="name">Kimleng Hor</label> */}
+                        <Link to="/profile" id="name">Kimleng Hor</Link>
+                        <div className={classes.sectionMobile}>
+                            <IconButton
+                                aria-label="show more"
+                                aria-controls={mobileMenuId}
+                                aria-haspopup="true"
+                                onClick={handleMobileMenuOpen}
+                                color="inherit"
+                                >
+                                <MoreIcon />
+                            </IconButton>
+                        </div>
+                    </Toolbar>
+                </AppBar>
+            </div>
             <div className={classes.paper}>
+
                 <label id="question">Create a new recipe</label>
                 
                 <div className={classes.section}>
@@ -370,6 +504,7 @@ class Upload extends React.Component {
                     </Button>
                 </div>
             </div>
+        </div>      
     );
     }
 }
