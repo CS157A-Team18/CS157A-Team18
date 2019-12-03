@@ -28,6 +28,7 @@ import SearchIcon from '@material-ui/icons/Search';
 import InputBase from '@material-ui/core/InputBase';
 import AccountCircle from '@material-ui/icons/AccountCircle';
 import { fade } from '@material-ui/core/styles';
+import MoreIcon from '@material-ui/icons/MoreVert';
 import {getUID} from './firebase/firebaseAuth'
 const util = require('util')
 
@@ -152,12 +153,28 @@ class Upload extends React.Component {
                 {description: "First step"},
                 {description: "Second step"}
             ],
+            userFullName: ""
         }
     }
 
     componentDidMount = () => {
         getUID().then(user => {
             this.setState({uid: user.uid})
+            fetch(util.format('%s/api/dashboard?uid=%s', process.env.REACT_APP_EXPRESS_BACKEND, user.uid), {
+                method: "GET",
+                headers: {
+                    'Content-type': 'application/json'
+                }
+            })
+            .then(response => {
+                return response.json()
+            })
+            .then(responseData => {
+                this.setState({
+                    userFullName: util.format('%s %s', responseData.firstName, responseData.lastName),
+                    tileData: responseData.allRecipes
+                })
+            })
         })
     }
 
@@ -314,21 +331,8 @@ class Upload extends React.Component {
                         </IconButton>
     
                         </div>
-    
-                        {/* <label id="name">Kimleng Hor</label> */}
-                        <Link to="/profile" id="name">Kimleng Hor</Link>
+                        <Link to="/profile" id="name">{this.state.userFullName}</Link>
                         <Link to="/login" id="name">Sign out</Link>
-                        {/* <div className={classes.sectionMobile}>
-                            <IconButton
-                                aria-label="show more"
-                                aria-controls={mobileMenuId}
-                                aria-haspopup="true"
-                                onClick={handleMobileMenuOpen}
-                                color="inherit"
-                                >
-                                <MoreIcon />
-                            </IconButton>
-                        </div> */}
                     </Toolbar>
                 </AppBar>
             </div>

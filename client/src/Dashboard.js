@@ -312,17 +312,6 @@ class Dashboard extends React.Component {
                         </div>
                         <Link to="/profile" id="name">{this.state.userFullName}</Link>
                         <Link to="/login" id="name">Sign out</Link>
-                        <div className={classes.sectionMobile}>
-                            <IconButton
-                                aria-label="show more"
-                                aria-controls={mobileMenuId}
-                                aria-haspopup="true"
-                                onClick={handleMobileMenuOpen}
-                                color="inherit"
-                                >
-                                <MoreIcon />
-                            </IconButton>
-                        </div>
                     </Toolbar>
                 </AppBar>
     
