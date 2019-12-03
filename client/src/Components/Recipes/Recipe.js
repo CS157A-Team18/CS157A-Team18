@@ -22,6 +22,9 @@ import ChevronRight from '@material-ui/icons/ChevronRight';
 import FirstPage from '@material-ui/icons/FirstPage';
 import LastPage from '@material-ui/icons/LastPage';
 import { Button } from '@material-ui/core';
+// import List from '@material-ui/core/List';
+// import ListItem from '@material-ui/core/ListItem';
+// import ListItemText from '@material-ui/core/ListItemText';
 
 const styles = theme => ({
     root: {
@@ -80,8 +83,8 @@ const styles = theme => ({
             recipeName: "",
             likes: 15,
             dislikes: 15,
-            //ingredients: [],
-            instructions: ["step1", "step2", "step3"],
+            ingredients: ['egg', 'rice', 'salt'],
+            instructions: ['step1', 'step2', 'step3'],
             tutorialLink: "",
             pictureLink: "",
 
@@ -150,13 +153,7 @@ const styles = theme => ({
     updateTutorialLink = e => {
         this.setState({tutorialLink: e.target.value})
     }
-
-    // showInstruction = () => {
-    //     {this.state.instructions.map(item => {
-    //         console.log(item)
-    //     })}
-    // }
-
+    
     render() { 
         const { classes } = this.props
         return (
@@ -315,15 +312,6 @@ const styles = theme => ({
                                         >
                                         Save
                                 </Button>
-
-                                <Button id="submitButton" 
-                                        variant="contained" 
-                                        color="primary" 
-                                        className={classes.button} 
-                                        //onClick={this.handleShow}
-                                        >
-                                        Add to Favourite
-                                </Button>
                             </div>
                     </div>
         
@@ -335,23 +323,16 @@ const styles = theme => ({
                         <div className={classes.section}>
                             <label id ="titleLabel">Ingredients:</label>
                             <br/><br/>
-                            <LocalDiningIcon/>
-                            <label id ="ingredientLabel"> 1 tablespoon Bad Byron's Butt Rub</label>
+                            <ul>
+                                {this.state.ingredients.map(value => <li>{value}</li>)}
+                            </ul>
                         </div>
                         <div className={classes.section}>
                             <label id ="titleLabel">Instructions:</label>
                             <br/>
-                            <TextField
-                                id="outlined-multiline-flexible"
-                                label="5 items"
-                                multiline
-                                rowsMax="4"
-                                value={this.state.instructions.map(item => item)}
-                                //onChange={handleChange}
-                                className={classes.textField}
-                                margin="normal"
-                                variant="outlined"
-                            />
+                            <ul>
+                                {this.state.instructions.map(value => <li>{value}</li>)}
+                            </ul>
                         </div>
                         <div className={classes.section}>
                                 <label id ="titleLabel">Tutorial Link:</label>
@@ -374,6 +355,15 @@ const styles = theme => ({
                         <IconButton id = "dislikeButton" onClick = {this.handleDislike} aria-label="dislike">
                             <ThumbDownIcon />
                         </IconButton>
+
+                        <Button id="submitButton" 
+                            variant="contained" 
+                            color="primary" 
+                            className={classes.button} 
+                            //onClick={this.handleShow}
+                            >
+                            Add to Favourite
+                        </Button>
                     </div>
                 </div>
                 </Grid>
