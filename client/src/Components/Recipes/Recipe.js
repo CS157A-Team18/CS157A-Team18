@@ -84,7 +84,7 @@ const styles = theme => ({
             likes: 15,
             dislikes: 15,
             tutorialLink: "",
-            pictureLink: "",
+            pictureLink: "http://getwallpapers.com/wallpaper/full/7/3/0/1183957-popular-healthy-food-wallpaper-2560x1600-download-free.jpg",
 
             ingredientColumns: [
                 { title: 'Name', field: 'name' },
@@ -365,7 +365,11 @@ const styles = theme => ({
                     </div>
                 </div>
                 </Grid>
-                <Grid item xs={false} sm={4} md={7} className={classes.image} />  
+                <Grid item xs={false} sm={4} md={7}>
+                    <img src={this.state.pictureLink} alt="recipe" id="recipePic"></img>
+                    {/* </img>className={classes.image} */}
+                    
+                </Grid> 
             </Grid>      
         )
     }
