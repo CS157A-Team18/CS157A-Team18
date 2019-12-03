@@ -29,6 +29,8 @@ import InputBase from '@material-ui/core/InputBase';
 import AccountCircle from '@material-ui/icons/AccountCircle';
 import MoreIcon from '@material-ui/icons/MoreVert';
 import { fade } from '@material-ui/core/styles';
+import {getUID} from './firebase/firebaseAuth'
+const util = require('util')
 
 const tableIcons = {
     Check: forwardRef((props, ref) => <Check {...props} ref={ref} />),
@@ -118,11 +120,6 @@ const styles = theme => ({
     },
 });
 
-const handleSubmit = () => {
-    const file = document.getElementById('imagePicker')
-    uploadFile(file.files[0])
-}
-
 class Upload extends React.Component {
     constructor(props) {
         super(props);
@@ -160,7 +157,44 @@ class Upload extends React.Component {
     }
 
     componentDidMount = () => {
-        
+        getUID().then(user => {
+            this.setState({uid: user.uid})
+        })
+    }
+
+    handleSubmit = () => {
+        const file = document.getElementById('imagePicker')
+        if (!file.files[0]) {
+            return
+        }
+
+        uploadFile(file.files[0]).then(url => {
+            this.setState({picURL: url})
+
+            fetch(util.format('%s/api/upload', process.env.REACT_APP_EXPRESS_BACKEND), {
+                method: "POST",
+                headers: {
+                    'Content-type': 'application/json'
+                },
+                body: JSON.stringify(this.state)
+            })
+            .then(result => {
+                console.log(result) // 500 = Internal Service Error; 201 = CREATED
+                if (result.ok) {
+                    // Handle successful recipe upload here
+                    return
+                }
+                // Handle non-successful recipe upload here
+            })
+        })
+    }
+
+    updateRecipe = e => {
+        this.setState({recipeName: e.target.value})
+    }
+
+    updateVidURL = e => {
+        this.setState({vidURL: e.target.value})
     }
 
     handleBreakfastTap = e => {
@@ -308,6 +342,7 @@ class Upload extends React.Component {
                         label="Type in your recipe name"
                         margin="dense"
                         fullWidth
+                        onChange={this.updateRecipe}
                     />
                 </div>
 
@@ -446,6 +481,7 @@ class Upload extends React.Component {
                         label="Type in the video link"
                         margin="dense"
                         fullWidth
+                        onChange={this.updateVidURL}
                     />
                 </div>
 
@@ -462,7 +498,7 @@ class Upload extends React.Component {
                             variant="contained" 
                             color="primary" 
                             // className={classes.button} 
-                            onClick={handleSubmit}
+                            onClick={this.handleSubmit}
                             >
                             Add Recipe
                     </Button>
