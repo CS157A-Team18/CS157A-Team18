@@ -119,7 +119,7 @@ class Login extends React.Component {
             window.location = '/dashboard';
         })
         .catch(err => {
-            document.getElementById("errorMessage").innerHTML = "Please check your email and password!!!"
+            document.getElementById("errorMessage").innerHTML = err
             document.getElementById("errorMessage").style.display = "block"
             console.log(err)
         })

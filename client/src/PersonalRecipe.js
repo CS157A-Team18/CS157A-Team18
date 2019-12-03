@@ -25,6 +25,7 @@ const tableIcons = {
   Add: forwardRef((props, ref) => <Add {...props} ref={ref} />),
   FirstPage: forwardRef((props, ref) => <FirstPage {...props} ref={ref} />),
   LastPage: forwardRef((props, ref) => <LastPage {...props} ref={ref} />),
+  chevron_right: forwardRef((props, ref) => <ChevronRight {...props} ref={ref} />),
 };
 
 // export default function PersonalRecipe() {
@@ -72,20 +73,10 @@ const tableIcons = {
                 icons={tableIcons}
                 title="Your recipes"
                 columns={this.state.columns}
-                // detailPanel={rowData => {
-                //   return (
-                //     <Link to="/dashboard" id="menu-button">Home</Link>
-                //     // <iframe
-                //     //   width="100%"
-                //     //   height="315"
-                //     //   src="https://www.youtube.com/embed/C0DPdy98e4c"
-                //     //   frameborder="0"
-                //     //   allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
-                //     //   allowfullscreen
-                //     // />
-                //   )
-                // }}
-                // onRowClick={(event, rowData, togglePanel) => togglePanel()}
+                detailPanel={rowData => {
+                  window.location = '/dashboard';
+                }}
+                onRowClick={(event, rowData, togglePanel) => togglePanel()}
                 data={this.state.recipeData}
                 editable={{
                   onRowUpdate: (newData, oldData) =>
