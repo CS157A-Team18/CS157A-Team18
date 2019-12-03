@@ -12,6 +12,7 @@ import ChevronLeft from '@material-ui/icons/ChevronLeft';
 import ChevronRight from '@material-ui/icons/ChevronRight';
 import FirstPage from '@material-ui/icons/FirstPage';
 import LastPage from '@material-ui/icons/LastPage';
+import { Link } from "react-router-dom";
 
 const tableIcons = {
   Check: forwardRef((props, ref) => <Check {...props} ref={ref} />),
@@ -24,6 +25,7 @@ const tableIcons = {
   Add: forwardRef((props, ref) => <Add {...props} ref={ref} />),
   FirstPage: forwardRef((props, ref) => <FirstPage {...props} ref={ref} />),
   LastPage: forwardRef((props, ref) => <LastPage {...props} ref={ref} />),
+  DetailPanel: forwardRef((props, ref) => <ChevronRight {...props} ref={ref} />),
 };
 
 // export default function PersonalRecipe() {
@@ -71,6 +73,10 @@ const tableIcons = {
                 icons={tableIcons}
                 title="Your recipes"
                 columns={this.state.columns}
+                detailPanel={rowData => {
+                  window.location = '/dashboard';
+                }}
+                onRowClick={(event, rowData, togglePanel) => togglePanel()}
                 data={this.state.recipeData}
                 editable={{
                   onRowUpdate: (newData, oldData) =>
@@ -110,3 +116,4 @@ const tableIcons = {
   export default PersonalRecipe;
   
 //}
+

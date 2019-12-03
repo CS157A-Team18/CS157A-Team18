@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import './App.css';
-import { BrowserRouter as Router, Switch, Route, Redirect } from "react-router-dom";
+import { BrowserRouter as Router, Switch, Route, Redirect, withRouter } from "react-router-dom";
 import Login from './index';
 import Dashboard from './Dashboard';
 import Profile from './Profile';
@@ -19,7 +19,7 @@ class App extends Component {
             <Route path="/login">
               <Login/>
             </Route>
-            <Route path="/dashboard">
+            <Route path="/dashboard" >
               <Dashboard/>
             </Route>
             <Route path="/profile">
