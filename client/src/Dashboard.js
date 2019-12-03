@@ -130,26 +130,32 @@ class Dashboard extends React.Component {
         this.state = {
             tileData: [
                 {
+                    id: 1,
                     img_url: "https://static.vibe.com/files/2017/02/Roll-Safe-1485964928-compressed.jpg",
                     name: 'Polenta',
                 },
                 {
+                    id: 2,
                     img_url: food2,
                     name: 'Ossobuco',
                 },
                 {
+                    id: 3,
                     img_url: food4,
                     name: 'Risotto',
                 },
                 {
+                    id: 4,
                     img_url: food6,
                     name: 'Bottarga',
                 },
                 {
+                    id: 5,
                     img_url: food5,
                     name: 'Fettuccine Alfredo',
                 },
                 {
+                    id: 6,
                     img_url: food3,
                     name: 'Prohok',
                 },
@@ -162,8 +168,8 @@ class Dashboard extends React.Component {
         }
     }
 
-    handleCardClick = () => {
-        window.location = '/recipe'
+    handleCardClick = e => {
+        window.location = util.format('/recipe?recipe_id=%s', e.id)
     }
     
     componentDidMount() {
@@ -331,10 +337,10 @@ class Dashboard extends React.Component {
                 <label id="category">Recommended</label>
                 <GridList className={classes.gridList} cols={2.5}>
                     {this.state.tileData.map(tile => (
-                    <GridListTile key={tile.img_url}>
+                    <GridListTile key={tile.id}>
                         <img src={tile.img_url} alt={tile.name} />
                         <GridListTileBar
-                            id = "gridlist"
+                            id = {tile.id}
                             title={tile.name}
                             classes={{
                             root: classes.titleBar,
@@ -344,7 +350,7 @@ class Dashboard extends React.Component {
                             // <IconButton aria-label={`star ${tile.title}`}>
                             //     <StarBorderIcon className={classes.title} />
                             // </IconButton>
-                            <Button className={classes.button} onClick={this.handleCardClick}>View</Button>
+                            <Button className={classes.button} onClick={() => this.handleCardClick(tile)}>View</Button>
                         }
                         />
                     </GridListTile>
