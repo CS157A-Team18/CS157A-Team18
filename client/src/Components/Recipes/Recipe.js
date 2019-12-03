@@ -9,45 +9,19 @@ import { withStyles } from '@material-ui/core/styles';
 import IconButton from '@material-ui/core/IconButton';
 import ThumbUpIcon from '@material-ui/icons/ThumbUp';
 import ThumbDownIcon from '@material-ui/icons/ThumbDown';
-
-// import color from '@material-ui/core/colors/red';
-
-// class Recipe extends Component {
-//     constructor(props) {
-//         super(props);
-//         this.state = {
-//             name : this.props.name,
-//             image : this.props.image,
-//             description : "Preheat oven to 350 degrees. In a bowl add the melted butter to the pecan halves and mix together with a spoon. Add the rub and sugar then mix well with spoon. Make sure that the pecans are fully covered. Lay the pecans onto a cooking sheet and bake for 15 mins. ",
-//             quantity: [1,1,2,1],
-//             measurement: ["tablespoon","tablespoon","cups","tablespoon"],
-//             ingredients : ["Bad Byron's Butt Rub","Butter Melted", "Pecan Halves","Sugar"],
-//             url : "https://www.youtube.com/watch?v=943loiK6M70"
-//         };
-//     }
-
-//     render(){
-//         return (
-//             <div style={{position:'relative',textAlign:'center',background:'white',marginBottom:'30px', width:'100%',height:'100%'}}>
-//                 <img src={this.state.image} style={{width:'660px', height:'400px',marginTop:'20px'}}></img>
-//                 <h1 style={{marginTop:'13px',marginBottom: '10px'}}>{this.state.name}</h1>
-//                 <div style={{textAlign: 'left',marginLeft:'390px',marginRight:'385px'}}>
-//                     <div><b>Ingredients</b></div><br/>
-//                     <div>
-//                     {this.state.quantity.map((value, index) => {
-//                         return <div>{`${this.state.quantity[index]} ${this.state.measurement[index]} ${this.state.ingredients[index]}`}</div>
-//                     })}
-//                     </div><br/>
-//                     <div style={{marginBottom: '10px'}}><b>Instructions</b></div>
-//                     {this.state.description}
-//                 </div><br/>
-//                 <a href={this.state.url} target="_blank">Click here for video tutorial</a>
-//             </div>
-//         );
-//     }    
-// }
-
-// export default Recipe;
+import MaterialTable from 'material-table';
+import { forwardRef } from 'react';
+import ArrowUpward from '@material-ui/icons/ArrowUpward';
+import Check from '@material-ui/icons/Check';
+import Clear from '@material-ui/icons/Clear';
+import DeleteOutline from '@material-ui/icons/DeleteOutline';
+import Edit from '@material-ui/icons/Edit';
+import Add from '@material-ui/icons/Add';
+import ChevronLeft from '@material-ui/icons/ChevronLeft';
+import ChevronRight from '@material-ui/icons/ChevronRight';
+import FirstPage from '@material-ui/icons/FirstPage';
+import LastPage from '@material-ui/icons/LastPage';
+import { Button } from '@material-ui/core';
 
 const styles = theme => ({
     root: {
@@ -82,6 +56,19 @@ const styles = theme => ({
     },
   });
 
+  const tableIcons = {
+    Check: forwardRef((props, ref) => <Check {...props} ref={ref} />),
+    Clear: forwardRef((props, ref) => <Clear {...props} ref={ref} />),
+    Delete: forwardRef((props, ref) => <DeleteOutline {...props} ref={ref} />),
+    SortArrow: forwardRef((props, ref) => <ArrowUpward {...props} ref={ref} />),
+    Edit: forwardRef((props, ref) => <Edit {...props} ref={ref} />),
+    NextPage: forwardRef((props, ref) => <ChevronRight {...props} ref={ref} />),
+    PreviousPage: forwardRef((props, ref) => <ChevronLeft {...props} ref={ref} />),
+    Add: forwardRef((props, ref) => <Add {...props} ref={ref} />),
+    FirstPage: forwardRef((props, ref) => <FirstPage {...props} ref={ref} />),
+    LastPage: forwardRef((props, ref) => <LastPage {...props} ref={ref} />),
+};
+
   class Recipe extends React.Component { 
     //const classes = styles();
 
@@ -89,8 +76,13 @@ const styles = theme => ({
         super(props);
         
         this.state = {
+            recipeName: "",
             likes: 15,
-            dislikes: 15
+            dislikes: 15,
+            ingredients: [],
+            instructions: [],
+            tutorialLink: "",
+            pictureLink: "",
         }
     }
 
@@ -114,15 +106,166 @@ const styles = theme => ({
         }
     }
 
+    handleEdit = e => {
+        if (document.getElementById("editMode").style.display == "none") {
+            document.getElementById("editMode").style.display = "block"
+        }
+    }
+
     render() { 
         const { classes } = this.props
         return (
             <Grid container className={classes.root}>
                 <Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square>
                     <div className={classes.paper}>
+                        <div className="editMode" id="editMode">
+                            <div className={classes.section}>
+                                <label id ="titleLabel">Recipe name:</label>
+                                <TextField
+                                    id="recipeName"
+                                    label="Type in your recipe name"
+                                    margin="dense"
+                                    fullWidth
+                                    onChange={this.updateRecipe}
+                                />
+                            </div>
+                            <label id ="titleLabel">Ingredients:</label>
+                            <div className={classes.section}>
+                                <MaterialTable className={classes.table}
+                                    icons={tableIcons}
+                                    title=""
+                                    columns={this.state.ingredientColumns}
+                                    data={this.state.ingredientData}
+                                    editable={{
+                                        onRowAdd: newData =>
+                                        new Promise(resolve => {
+                                            setTimeout(() => {
+                                            resolve();
+                                            this.setState(prevState => {
+                                                const ingredientData = [...prevState.ingredientData];
+                                                ingredientData.push(newData);
+                                                return { ...prevState, ingredientData };
+                                            });
+                                            }, 600);
+                                        }),
+                                        onRowUpdate: (newData, oldData) =>
+                                        new Promise(resolve => {
+                                            setTimeout(() => {
+                                            resolve();
+                                            if (oldData) {
+                                                this.setState(prevState => {
+                                                const ingredientData = [...prevState.ingredientData];
+                                                ingredientData[ingredientData.indexOf(oldData)] = newData;
+                                                return { ...prevState, ingredientData };
+                                                });
+                                            }
+                                            }, 600);
+                                        }),
+                                        onRowDelete: oldData =>
+                                        new Promise(resolve => {
+                                            setTimeout(() => {
+                                            resolve();
+                                            this.setState(prevState => {
+                                                const ingredientData = [...prevState.ingredientData];
+                                                ingredientData.splice(ingredientData.indexOf(oldData), 1);
+                                                return { ...prevState, ingredientData };
+                                            });
+                                            }, 600);
+                                        }),
+                                    }}
+                                    options={{
+                                        search: false
+                                    }}
+                                />
+                            </div>
+
+                            <label id ="titleLabel">Instructions:</label>
+                    
+                            <div className={classes.section}>
+                                <MaterialTable className={classes.table}
+                                    icons={tableIcons}
+                                    title=""
+                                    columns={this.state.instructionColumns}
+                                    data={this.state.instructionData}
+                                    editable={{
+                                        onRowAdd: newData =>
+                                        new Promise(resolve => {
+                                            setTimeout(() => {
+                                            resolve();
+                                            this.setState(prevState => {
+                                                const instructionData = [...prevState.instructionData];
+                                                instructionData.push(newData);
+                                                return { ...prevState, instructionData };
+                                            });
+                                            }, 600);
+                                        }),
+                                        onRowUpdate: (newData, oldData) =>
+                                        new Promise(resolve => {
+                                            setTimeout(() => {
+                                            resolve();
+                                            if (oldData) {
+                                                this.setState(prevState => {
+                                                const instructionData = [...prevState.instructionData];
+                                                instructionData[instructionData.indexOf(oldData)] = newData;
+                                                return { ...prevState, instructionData };
+                                                });
+                                            }
+                                            }, 600);
+                                        }),
+                                        onRowDelete: oldData =>
+                                        new Promise(resolve => {
+                                            setTimeout(() => {
+                                            resolve();
+                                            this.setState(prevState => {
+                                                const instructionData = [...prevState.instructionData];
+                                                instructionData.splice(instructionData.indexOf(oldData), 1);
+                                                return { ...prevState, instructionData };
+                                            });
+                                            }, 600);
+                                        }),
+                                    }}
+                                    options={{
+                                        search: false
+                                    }}
+                                />
+                            </div>
+
+                            <div className={classes.section}>
+                                <label id ="titleLabel">Tutorial Link:</label>
+                                <TextField
+                                    id="tutorial"
+                                    label="Type in the video link"
+                                    margin="dense"
+                                    fullWidth
+                                    onChange={this.updateVidURL}
+                                />
+                            </div>
+
+                            <div className={classes.section}>
+                                <label id ="titleLabel">Upload image:</label>
+                                {/* <IconButton type="file">
+                                    <AddCircleIcon/>
+                                    
+                                </IconButton> */}
+                                <br/>
+                                <br/>
+                                <input type="file" name="picture" accept="image/*" id="imagePicker"></input>
+                                <Button id="submitButton" 
+                                        variant="contained" 
+                                        color="primary" 
+                                        // className={classes.button} 
+                                        onClick={this.handleSubmit}
+                                        >
+                                        Edit Recipe
+                                </Button>
+                            </div>
+                    </div>
+        
+                    <div className="showMode">
                         <div className={classes.section}>
                             <label id ="foodTitle">Barbeque Pecans</label>
                         </div>
+                        
                         <div className={classes.section}>
                             <label id ="titleLabel">Ingredients:</label>
                             <br/><br/>
@@ -148,6 +291,11 @@ const styles = theme => ({
                                 <label id ="titleLabel">Tutorial Link:</label>
                                 <a id ="linkRef" href= "https://www.youtube.com/watch?v=943loiK6M70">Click here for video tutorial</a>
                         </div>
+
+                        <Button variant="outlined" color="primary" onClick={this.handleEdit}>
+                            Edit
+                        </Button>
+
                         <div className={classes.section}>
                             <label id ="titleLabel">Number of Likes: {this.state.likes}</label>
                         </div>
@@ -161,6 +309,7 @@ const styles = theme => ({
                             <ThumbDownIcon />
                         </IconButton>
                     </div>
+                </div>
                 </Grid>
                 <Grid item xs={false} sm={4} md={7} className={classes.image} />  
             </Grid>      
