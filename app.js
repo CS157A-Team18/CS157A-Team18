@@ -14,6 +14,7 @@ var uploadRouter = require('./routes/upload');
 var profileRouter = require('./routes/profile');
 var dashboardRouter = require('./routes/dashboard');
 var personalRecipeRouter = require('./routes/personalRecipe');
+var recipeRouter = require('./routes/recipe');
 const util = require('util');
 
 var app = express();
@@ -47,6 +48,7 @@ app.use('/api/upload', uploadRouter);
 app.use('/api/profile', profileRouter);
 app.use('/api/dashboard', dashboardRouter);
 app.use('/api/personalRecipe', personalRecipeRouter);
+app.use('/api/recipe', recipeRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

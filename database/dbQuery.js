@@ -136,6 +136,14 @@ function getUserRecipes(uid) {
     return dbAccessObject.query(query, [uid])
 }
 
+function getIndividualRecipeAttributes(recipeId) {
+    const query = `SELECT 
+                    name, likes, dislikes, vid_url, img_url 
+                   FROM recipe 
+                   WHERE id = ?`
+    return dbAccessObject.query(query, [recipeId])
+}
+
 function getIndividualRecipeIngredients(recipeId) {
     const query = `SELECT 
 	                ingredient.name, quantity, measurement
@@ -271,5 +279,6 @@ module.exports = {
     getUserLikedRecipes,
     checkIfUserLikedRecipe,
     checkIfUserDislikedRecipe,
-    deleteRecipe
+    deleteRecipe,
+    getIndividualRecipeAttributes
 }
