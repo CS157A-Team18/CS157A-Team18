@@ -83,8 +83,6 @@ const styles = theme => ({
             recipeName: "",
             likes: 15,
             dislikes: 15,
-            ingredients: ['egg', 'rice', 'salt'],
-            instructions: ['step1', 'step2', 'step3'],
             tutorialLink: "",
             pictureLink: "",
 
@@ -153,7 +151,7 @@ const styles = theme => ({
     updateTutorialLink = e => {
         this.setState({tutorialLink: e.target.value})
     }
-    
+
     render() { 
         const { classes } = this.props
         return (
@@ -324,14 +322,14 @@ const styles = theme => ({
                             <label id ="titleLabel">Ingredients:</label>
                             <br/><br/>
                             <ul>
-                                {this.state.ingredients.map(value => <li>{value}</li>)}
+                                {this.state.ingredientData.map(value => <li>{value.name}</li>)}
                             </ul>
                         </div>
                         <div className={classes.section}>
                             <label id ="titleLabel">Instructions:</label>
                             <br/>
                             <ul>
-                                {this.state.instructions.map(value => <li>{value}</li>)}
+                                {this.state.instructionData.map(value => <li>{value.description}</li>)}
                             </ul>
                         </div>
                         <div className={classes.section}>
