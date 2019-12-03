@@ -40,7 +40,8 @@ const styles = theme => ({
         backgroundPosition: 'center',
     },
     button: {
-        margin: theme.spacing(3, 0, 2),
+        //margin: theme.spacing(3, 0, 2),
+        marginLeft: theme.spacing(3),
     },
     form: {
         width: '100%', // Fix IE 11 issue.
@@ -79,10 +80,31 @@ const styles = theme => ({
             recipeName: "",
             likes: 15,
             dislikes: 15,
-            ingredients: [],
-            instructions: [],
+            //ingredients: [],
+            //instructions: [],
             tutorialLink: "",
             pictureLink: "",
+
+            ingredientColumns: [
+                { title: 'Name', field: 'name' },
+                { title: 'Amount', field: 'amount'},
+                { title: 'Measurement', field: 'measurement'}
+            ],
+            instructionColumns: [
+                { title: 'Steps', field: 'description' },
+            ],
+            ingredientData: [
+                { name: 'Soy sauce', amount: 63, measurement: 'oz'},
+                {
+                name: 'Sugar',
+                amount:90,
+                measurement: 'kg'
+                },
+            ],
+            instructionData: [
+                {description: "First step"},
+                {description: "Second step"}
+            ],
         }
     }
 
@@ -107,9 +129,26 @@ const styles = theme => ({
     }
 
     handleEdit = e => {
-        if (document.getElementById("editMode").style.display == "none") {
-            document.getElementById("editMode").style.display = "block"
-        }
+        document.getElementById("editMode").style.display = "block"
+        document.getElementById("showMode").style.display = "none"
+    }
+
+    handleShow = e => {
+        document.getElementById("editMode").style.display = "none"
+        document.getElementById("showMode").style.display = "block"
+    }
+
+    handleCancel = e => {
+        document.getElementById("editMode").style.display = "none"
+        document.getElementById("showMode").style.display = "block"
+    }
+
+    updateRecipe = e => {
+        this.setState({recipeName: e.target.value})
+    }
+
+    updateTutorialLink = e => {
+        this.setState({tutorialLink: e.target.value})
     }
 
     render() { 
@@ -237,7 +276,7 @@ const styles = theme => ({
                                     label="Type in the video link"
                                     margin="dense"
                                     fullWidth
-                                    onChange={this.updateVidURL}
+                                    onChange={this.updateTutorialLink}
                                 />
                             </div>
 
@@ -250,18 +289,28 @@ const styles = theme => ({
                                 <br/>
                                 <br/>
                                 <input type="file" name="picture" accept="image/*" id="imagePicker"></input>
+
                                 <Button id="submitButton" 
                                         variant="contained" 
                                         color="primary" 
                                         // className={classes.button} 
-                                        onClick={this.handleSubmit}
+                                        onClick={this.handleCancel}
+                                        >
+                                        Cancel
+                                </Button>
+
+                                <Button id="submitButton" 
+                                        variant="contained" 
+                                        color="primary" 
+                                        className={classes.button} 
+                                        onClick={this.handleShow}
                                         >
                                         Edit Recipe
                                 </Button>
                             </div>
                     </div>
         
-                    <div className="showMode">
+                    <div className="showMode" id="showMode">
                         <div className={classes.section}>
                             <label id ="foodTitle">Barbeque Pecans</label>
                         </div>
