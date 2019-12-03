@@ -8,6 +8,8 @@ import PersonalRecipe from './PersonalRecipe';
 import Preference from './Preference';
 import Allergy from './Allergy';
 import Upload from './Upload';
+import FavouriteRecipe from './FavoriteRecipe';
+import LikeRecipe from './LikeRecipe';
 import Recipe from './Components/Recipes/Recipe'
 
 class App extends Component {
@@ -39,6 +41,12 @@ class App extends Component {
             </Route>
             <Route path="/recipe">
               <Recipe/>
+            </Route>
+            <Route path="/favorite">
+              <FavouriteRecipe/>
+            </Route>
+            <Route path="/like">
+              <LikeRecipe/>
             </Route>
             <Redirect from="/" to="/login" />
           </Switch>
