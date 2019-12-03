@@ -76,7 +76,7 @@ function addIngredients(recipeId, ingredientArray) {
         })
         .then(rows => {
             const ingredientId = rows[0].id
-            addIngredientToIngredientRecipeJunctionTable(recipeId, ingredientId, ingredient.quantity, ingredient.measurement)
+            addIngredientToIngredientRecipeJunctionTable(recipeId, ingredientId, ingredient.amount, ingredient.measurement)
         })
     }
 }
@@ -104,14 +104,15 @@ function addIngredientToIngredientRecipeJunctionTable(recipeId, ingredientId, qu
 }
 
 function addInstructions(instructionArray, recipeId) {
-    for (let instruction of instructionArray) {
-        addInstructionToTable(instruction, recipeId)
+    for (var i = 0; i < instructionArray.length; i++) {
+        instructionArray[i]["order"] = i + 1
+        addInstructionToTable(instructionArray[i], recipeId)
     }
 }
 
 function addInstructionToTable(instruction, recipeId) {
     const query = `INSERT INTO instruction VALUES (NULL, ?, ?, ?)`
-    return dbAccessObject.query(query, [instruction.instruction, instruction.order, recipeId])
+    return dbAccessObject.query(query, [instruction.description, instruction.order, recipeId])
 }
 
 function addRecipeMealType(recipeId, mealTypeArray) {
