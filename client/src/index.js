@@ -44,25 +44,25 @@ const styles = theme => ({
     },
 });
 
-function Popup() {
-    const { enqueueSnackbar } = useSnackbar();
+// function Popup() {
+//     const { enqueueSnackbar } = useSnackbar();
   
-    const handleClick = () => {
-      enqueueSnackbar('I love snacks.');
-    };
+//     const handleClick = () => {
+//       enqueueSnackbar('I love snacks.');
+//     };
   
-    const handleClickVariant = variant => () => {
-      // variant could be success, error, warning, info, or default
-      enqueueSnackbar('This is a success message!', { variant });
-    };
+//     const handleClickVariant = variant => () => {
+//       // variant could be success, error, warning, info, or default
+//       enqueueSnackbar('This is a success message!', { variant });
+//     };
   
-    return (
-      <React.Fragment>
-        <Button onClick={handleClick}>Show snackbar</Button>
-        <Button onClick={handleClickVariant('success')}>Show success snackbar</Button>
-      </React.Fragment>
-    );
-}
+//     return (
+//       <React.Fragment>
+//         <Button onClick={handleClick}>Show snackbar</Button>
+//         <Button onClick={handleClickVariant('success')}>Show success snackbar</Button>
+//       </React.Fragment>
+//     );
+// }
 
 class Login extends React.Component { 
 
@@ -102,12 +102,14 @@ class Login extends React.Component {
     }
 
     handleLogin = () => {
-        console.log(Popup.handleClick)
+        //console.log(Popup.handleClick)
         // Case when there is invalid input
         if (document.getElementById("email").value === "" || document.getElementById("standard-password").value === "") {
             //setTransition();
             //setOpen(true);
             console.log("Please fill in all requirements!!!")
+            document.getElementById("errorMessage").style.display = "block"
+            document.getElementById("errorMessage").innerHTML = "Please fill in all requirements!!!"
             return
         }
 
@@ -118,6 +120,8 @@ class Login extends React.Component {
             window.location = '/dashboard';
         })
         .catch(err => {
+            document.getElementById("errorMessage").innerHTML = "Please check your email and password!!!"
+            document.getElementById("errorMessage").style.display = "block"
             console.log(err)
         })
     }
@@ -132,6 +136,8 @@ class Login extends React.Component {
             //setTransition();
             //setOpen(true);
             console.log("Please fill in all requirements!!!")
+            document.getElementById("errorMessage").style.display = "block"
+            document.getElementById("errorMessage").innerHTML = "Please fill in all requirements!!!"
             return
         }
 
@@ -160,6 +166,8 @@ class Login extends React.Component {
                         return
                     }
                     // Handle non-successful signup here
+                    document.getElementById("errorMessage").style.display = "block"
+                    document.getElementById("errorMessage").innerHTML = "Please check all your information!!!"
                 })
             })
         })
@@ -184,6 +192,7 @@ class Login extends React.Component {
     }
 
     switchToSignupPage = () => {
+        document.getElementById("errorMessage").style.display = "none"
         document.getElementById("submitButton").innerHTML = "SIGN UP"
         document.getElementById("welcome").innerHTML = "<b>Create an account</b>"
         document.getElementById("forgotLink").style.display = "none";
@@ -198,6 +207,7 @@ class Login extends React.Component {
     }
 
     switchToLoginPage = () => {
+        document.getElementById("errorMessage").style.display = "none"
         document.getElementById("submitButton").innerHTML = "LOGIN"
         document.getElementById("welcome").innerHTML = "<b>Log In to Delight</b>"
         document.getElementById("forgotLink").style.display = "block";
@@ -214,6 +224,7 @@ class Login extends React.Component {
     }
 
     switchToForgotPasswordPage = () => {
+        document.getElementById("errorMessage").style.display = "none"
         document.getElementById("submitButton").innerHTML = "Reset Password"
         document.getElementById("welcome").innerHTML = "<b>Forgot Password</b>"
         document.getElementById("ForgotContent").innerHTML = "Please enter your email address and we will send you an email about how to reset your password.";
@@ -231,19 +242,10 @@ class Login extends React.Component {
         return (
             <div className="Index">
 
-            <SnackbarProvider maxSnack={2}>
+            {/* <SnackbarProvider maxSnack={2}>
                  <Popup />
-            </SnackbarProvider>
-    
-                {/* <Snackbar
-                    open={this.open}
-                    onClose={this.handleClose}
-                    TransitionComponent={this.transition}
-                    ContentProps={{
-                        'aria-describedby': 'message-id',
-                    }}
-                    message={<span id="message-id">Please fill in all the requirements</span>}
-                /> */}
+            </SnackbarProvider> */}
+
     
                 <Grid container className={classes.root}>
                     <Grid item xs={false} sm={4} md={7} className={classes.image} />
@@ -306,6 +308,9 @@ class Login extends React.Component {
                                         onChange={this.updateConfirmPassword}
                                     />
                                 </div>
+
+                                <br/>
+                                <label id="errorMessage">Message: Wrong password</label>
     
                                 <Button id="submitButton"
                                     variant="contained"

@@ -250,7 +250,7 @@ class Dashboard extends React.Component {
                         <Typography className={classes.title} variant="h6" noWrap>
                             Delight
                         </Typography>
-                        {/* <Link to="/dashboard" id="menu-button">Home</Link> */}
+                        <Link to="/dashboard" id="menu-button">Home</Link>
                         <Link to="/personalRecipe" id="menu-button">Recipes</Link>
                         <Link to="/upload" id="menu-button">Upload</Link>
                         

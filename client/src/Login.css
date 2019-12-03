@@ -24,3 +24,9 @@ div.lastnameTextField {
 div.MuiSnackbarContent-root {
     background-color: crimson;
 }
+
+#errorMessage {
+    color: red;
+    font-weight: bold;
+    display: none;
+}
