@@ -78,6 +78,24 @@ const tableIcons = {
       })
       })
     }
+
+    handleDeleteFromDB = data => {
+      fetch(util.format('%s/api/personalRecipe', process.env.REACT_APP_EXPRESS_BACKEND), {
+        method: "DELETE",
+        headers: {
+            'Content-type': 'application/json'
+        },
+        body: JSON.stringify(data)
+      })
+      .then(result => {
+        console.log(result) // 500 = Internal Service Error; 201 = CREATED
+        if (result.ok) {
+            // Handle successful recipe delete here
+            return
+        }
+        // Handle non-successful recipe delete here
+      })
+    }
     
     render() {
       //const { classes } = this.props
@@ -115,6 +133,7 @@ const tableIcons = {
                             recipeData.splice(recipeData.indexOf(oldData), 1);
                             return { ...prevState, recipeData };
                         });
+                        this.handleDeleteFromDB(oldData)
                         }, 600);
                     }),
                 }}

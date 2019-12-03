@@ -248,6 +248,11 @@ function checkIfUserDislikedRecipe(uid, recipeId) {
     return dbAccessObject.query(query, [uid, recipeId])
 }
 
+function deleteRecipe(recipeId) {
+    const query = `DELETE FROM recipe WHERE id = ?`
+    return dbAccessObject.query(query, [recipeId])
+}
+
 module.exports = { 
     addUser, 
     getUserFirstNameAndLastName,
@@ -265,5 +270,6 @@ module.exports = {
     removeDislikeFromRecipe,
     getUserLikedRecipes,
     checkIfUserLikedRecipe,
-    checkIfUserDislikedRecipe
+    checkIfUserDislikedRecipe,
+    deleteRecipe
 }

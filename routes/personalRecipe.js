@@ -13,4 +13,16 @@ router.get('/', function(req, res, next) {
     })
 });
 
+router.delete('/', function(req, res, next) {
+  console.log(req.body.id)
+  db.deleteRecipe(req.body.id)
+  .then(() => {
+    res.sendStatus(200)
+  })
+  .catch(err => {
+    console.log(err)
+    res.sendStatus(500)
+  })
+});
+
 module.exports = router;
