@@ -7,8 +7,9 @@ export function readFile(fileName) {
 }
 
 export function uploadFile(file) {
-    const storageRef = storage.ref(file.name)
+    const fileUUID = uuidv4()
+    const storageRef = storage.ref(fileUUID)
     return storageRef.put(file).then(() => {
-        return readFile(file.name)
+        return readFile(fileUUID)
     })
 }
