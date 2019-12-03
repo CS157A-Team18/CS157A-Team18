@@ -81,7 +81,7 @@ const styles = theme => ({
             likes: 15,
             dislikes: 15,
             //ingredients: [],
-            //instructions: [],
+            instructions: ["step1", "step2", "step3"],
             tutorialLink: "",
             pictureLink: "",
 
@@ -150,6 +150,12 @@ const styles = theme => ({
     updateTutorialLink = e => {
         this.setState({tutorialLink: e.target.value})
     }
+
+    // showInstruction = () => {
+    //     {this.state.instructions.map(item => {
+    //         console.log(item)
+    //     })}
+    // }
 
     render() { 
         const { classes } = this.props
@@ -288,8 +294,10 @@ const styles = theme => ({
                                 </IconButton> */}
                                 <br/>
                                 <br/>
-                                <input type="file" name="picture" accept="image/*" id="imagePicker"></input>
+                                <input type="file" name="picture" accept="image/*" id="imagePicker"></input>   
+                            </div>
 
+                            <div className={classes.section}>
                                 <Button id="submitButton" 
                                         variant="contained" 
                                         color="primary" 
@@ -305,7 +313,16 @@ const styles = theme => ({
                                         className={classes.button} 
                                         onClick={this.handleShow}
                                         >
-                                        Edit Recipe
+                                        Save
+                                </Button>
+
+                                <Button id="submitButton" 
+                                        variant="contained" 
+                                        color="primary" 
+                                        className={classes.button} 
+                                        //onClick={this.handleShow}
+                                        >
+                                        Add to Favourite
                                 </Button>
                             </div>
                     </div>
@@ -329,7 +346,7 @@ const styles = theme => ({
                                 label="5 items"
                                 multiline
                                 rowsMax="4"
-                                //value={value}
+                                value={this.state.instructions.map(item => item)}
                                 //onChange={handleChange}
                                 className={classes.textField}
                                 margin="normal"
