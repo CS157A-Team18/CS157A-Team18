@@ -151,6 +151,9 @@ const styles = theme => ({
                         <div className={classes.section}>
                             <label id ="titleLabel">Number of Likes: {this.state.likes}</label>
                         </div>
+                        <div className={classes.section}>
+                            <label id ="titleLabel">Number of Dislikes: {this.state.dislikes}</label>
+                        </div>
                         <IconButton id="likeButton" onClick = {this.handleLike} aria-label="like">
                             <ThumbUpIcon />
                         </IconButton>
