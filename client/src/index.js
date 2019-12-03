@@ -13,7 +13,6 @@ import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import Link from '@material-ui/core/Link';
 import { withStyles } from '@material-ui/core/styles';
-import { SnackbarProvider, useSnackbar } from 'notistack';
 
 import { login, signUp, getUID } from './firebase/firebaseAuth.js'
 var util = require('util');

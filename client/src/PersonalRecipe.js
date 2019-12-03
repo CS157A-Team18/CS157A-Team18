@@ -12,6 +12,7 @@ import ChevronLeft from '@material-ui/icons/ChevronLeft';
 import ChevronRight from '@material-ui/icons/ChevronRight';
 import FirstPage from '@material-ui/icons/FirstPage';
 import LastPage from '@material-ui/icons/LastPage';
+import { Link } from "react-router-dom";
 
 const tableIcons = {
   Check: forwardRef((props, ref) => <Check {...props} ref={ref} />),
@@ -71,6 +72,20 @@ const tableIcons = {
                 icons={tableIcons}
                 title="Your recipes"
                 columns={this.state.columns}
+                // detailPanel={rowData => {
+                //   return (
+                //     <Link to="/dashboard" id="menu-button">Home</Link>
+                //     // <iframe
+                //     //   width="100%"
+                //     //   height="315"
+                //     //   src="https://www.youtube.com/embed/C0DPdy98e4c"
+                //     //   frameborder="0"
+                //     //   allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
+                //     //   allowfullscreen
+                //     // />
+                //   )
+                // }}
+                // onRowClick={(event, rowData, togglePanel) => togglePanel()}
                 data={this.state.recipeData}
                 editable={{
                   onRowUpdate: (newData, oldData) =>
@@ -110,3 +125,40 @@ const tableIcons = {
   export default PersonalRecipe;
   
 //}
+
+// class DetailPanelWithRowClick extends React.Component {
+//   render() {
+//     return (
+//       <MaterialTable
+//         columns={[
+//           { title: 'Name', field: 'name' },
+//           { title: 'Surname', field: 'surname' },
+//           { title: 'Birth Year', field: 'birthYear', type: 'numeric' },
+//           {
+//             title: 'Birth Place',
+//             field: 'birthCity',
+//             lookup: { 34: 'İstanbul', 63: 'Şanlıurfa' },
+//           },
+//         ]}
+//         data={[
+//           { name: 'Mehmet', surname: 'Baran', birthYear: 1987, birthCity: 63 },
+//           { name: 'Zerya Betül', surname: 'Baran', birthYear: 1987, birthCity: 63 },
+//         ]}
+//         title="Detail Panel With RowClick Preview"
+//         detailPanel={rowData => {
+//           return (
+//             <iframe
+//               width="100%"
+//               height="315"
+//               src="https://www.youtube.com/embed/C0DPdy98e4c"
+//               frameborder="0"
+//               allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
+//               allowfullscreen
+//             />
+//           )
+//         }}
+//         onRowClick={(event, rowData, togglePanel) => togglePanel()}
+//       />
+//     )
+//   }
+// }

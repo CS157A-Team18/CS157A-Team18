@@ -19,7 +19,7 @@ class App extends Component {
             <Route path="/login">
               <Login/>
             </Route>
-            <Route path="/dashboard">
+            <Route path="/dashboard" >
               <Dashboard/>
             </Route>
             <Route path="/profile">
