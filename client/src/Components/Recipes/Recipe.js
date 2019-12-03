@@ -96,7 +96,7 @@ const styles = theme => ({
                 { title: 'Measurement', field: 'measurement'}
             ],
             instructionColumns: [
-                { title: 'Steps', field: 'description' },
+                { title: 'Steps', field: 'instruction' },
             ],
             ingredientData: [
                 { name: 'Soy sauce', amount: 63, measurement: 'oz'},
