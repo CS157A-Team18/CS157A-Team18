@@ -173,6 +173,81 @@ function getAllRecipes() {
     return dbAccessObject.query(query)
 }
 
+function addLikeToRecipe(uid, recipeId) {
+    const query = `INSERT INTO user_recipe_junction_table_likes VALUES (?, ?)`
+    return dbAccessObject.query(query, [uid, recipeId]).then(() => {
+        incrementRecipeLikes(recipeId)
+    })
+}
+
+function incrementRecipeLikes(recipeId) {
+    const query = `UPDATE recipe SET likes = likes + 1 WHERE id = ?`
+    return dbAccessObject.query(query, [recipeId])
+}
+
+function addDislikeToRecipe(uid, recipeId) {
+    const query = `INSERT INTO user_recipe_junction_table_dislikes VALUES (?, ?)`
+    return dbAccessObject.query(query, [uid, recipeId]).then(() => {
+        incrementRecipeDislikes(recipeId)
+    })
+}
+
+function incrementRecipeDislikes(recipeId) {
+    const query = `UPDATE recipe SET dislikes = dislikes + 1 WHERE id = ?`
+    return dbAccessObject.query(query, [recipeId])
+}
+
+function removeLikeFromRecipe(uid, recipeId) {
+    const query = `DELETE FROM user_recipe_junction_table_likes 
+                   WHERE uid = '?' AND recipe_id = ?`
+    return dbAccessObject.query(query, [uid, recipeId]).then(() => {
+        decrementRecipeLikes(recipeId)
+    })
+}
+
+function decrementRecipeLikes(recipeId) {
+    const query = `UPDATE recipe SET likes = likes - 1 WHERE id = ?`
+    return dbAccessObject.query(query, [recipeId])
+}
+
+function removeDislikeFromRecipe(uid, recipeId) {
+    const query = `DELETE FROM user_recipe_junction_table_dislikes 
+                   WHERE uid = '?' AND recipe_id = ?`
+    return dbAccessObject.query(query, [uid, recipeId]).then(() => {
+        decrementRecipeDislikes(recipeId)
+    })
+}
+
+function decrementRecipeDislikes(recipeId) {
+    const query = `UPDATE recipe SET dislikes = dislikes - 1 WHERE id = ?`
+    return dbAccessObject.query(query, [recipeId])
+}
+
+function getUserLikedRecipes(uid) {
+    const query = `SELECT
+	                id, name, likes, dislikes, img_url
+                   FROM user_recipe_junction_table_likes
+                   JOIN recipe ON recipe_id = id
+                   WHERE uid = ?`
+    return dbAccessObject.query(query, [uid])
+}
+
+function checkIfUserLikedRecipe(uid, recipeId) {
+    const query = `SELECT
+	                COUNT(*) AS liked_recipe
+                   FROM user_recipe_junction_table_likes
+                   WHERE uid = ? AND recipe_id = ?`
+    return dbAccessObject.query(query, [uid, recipeId])
+}
+
+function checkIfUserDislikedRecipe(uid, recipeId) {
+    const query = `SELECT
+	                COUNT(*) AS disliked_recipe
+                   FROM user_recipe_junction_table_dislikes
+                   WHERE uid = ? AND recipe_id = ?`
+    return dbAccessObject.query(query, [uid, recipeId])
+}
+
 module.exports = { 
     addUser, 
     getUserFirstNameAndLastName,
@@ -183,5 +258,12 @@ module.exports = {
     getIndividualRecipeIngredients,
     getIndividualRecipeInstructions,
     getInvididualRecipeMealTypes,
-    getAllRecipes
+    getAllRecipes,
+    addLikeToRecipe,
+    addDislikeToRecipe,
+    removeLikeFromRecipe,
+    removeDislikeFromRecipe,
+    getUserLikedRecipes,
+    checkIfUserLikedRecipe,
+    checkIfUserDislikedRecipe
 }
