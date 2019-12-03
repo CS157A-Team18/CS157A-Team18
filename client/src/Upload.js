@@ -182,6 +182,7 @@ class Upload extends React.Component {
                 console.log(result) // 500 = Internal Service Error; 201 = CREATED
                 if (result.ok) {
                     // Handle successful recipe upload here
+                    window.location = '/dashboard'
                     return
                 }
                 // Handle non-successful recipe upload here
