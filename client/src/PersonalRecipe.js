@@ -13,6 +13,9 @@ import ChevronRight from '@material-ui/icons/ChevronRight';
 import FirstPage from '@material-ui/icons/FirstPage';
 import LastPage from '@material-ui/icons/LastPage';
 import { Link } from "react-router-dom";
+import {getUID} from './firebase/firebaseAuth'
+
+const util = require('util');
 
 const tableIcons = {
   Check: forwardRef((props, ref) => <Check {...props} ref={ref} />),
@@ -53,16 +56,27 @@ const tableIcons = {
             { title: 'Likes', field: 'likes' },
             { title: 'Dislikes', field: 'dislikes' },
           ],
-          recipeData: [
-            { name: 'Banh mi', likes: 1987, dislikes: 2 },
-            {
-              name: 'Pho',
-              likes: 2017,
-              dislikes: 2 
-            },
-          ],
+          recipeData: [],
         }
+    }
 
+    componentDidMount() {
+      getUID().then(user => {
+        fetch(util.format('%s/api/personalRecipe?uid=%s', process.env.REACT_APP_EXPRESS_BACKEND, user.uid), {
+          method: "GET",
+          headers: {
+              'Content-type': 'application/json'
+          }
+      })
+      .then(response => {
+          return response.json()
+      })
+      .then(responseData => {
+          this.setState({
+              recipeData: responseData
+          })
+      })
+      })
     }
     
     render() {
@@ -73,8 +87,8 @@ const tableIcons = {
                 icons={tableIcons}
                 title="Your recipes"
                 columns={this.state.columns}
-                detailPanel={rowData => {
-                  window.location = '/recipe';
+                detailPanel={event => {
+                  window.location = util.format('/recipe?recipe_id=%s', event.id);
                 }}
                 onRowClick={(event, rowData, togglePanel) => togglePanel()}
                 data={this.state.recipeData}
