@@ -80,11 +80,12 @@ const styles = theme => ({
         super(props);
         
         this.state = {
+            recipe_id: "",
             recipeName: "",
             likes: 15,
             dislikes: 15,
             tutorialLink: "",
-            pictureLink: "",
+            pictureLink: "http://getwallpapers.com/wallpaper/full/7/3/0/1183957-popular-healthy-food-wallpaper-2560x1600-download-free.jpg",
 
             ingredientColumns: [
                 { title: 'Name', field: 'name' },
@@ -109,7 +110,22 @@ const styles = theme => ({
         }
     }
 
+    componentDidMount() {
+        //this.setState({recipe_id: this.getUrlVars()["recipe_id"]})
+        this.state.recipe_id = this.getUrlVars()["recipe_id"]
+        console.log(this.state.recipe_id)
+    }
+
+    getUrlVars = () => {
+        var vars = {};
+        var parts = window.location.href.replace(/[?&]+([^=&]+)=([^&]*)/gi, function(m,key,value) {
+            vars[key] = value;
+        });
+        return vars;
+    }
+
     handleLike = e => {
+        // console.log(this.getUrlVars()["recipe_id"])
         if  (document.getElementById("likeButton").style.color == "blue") {
             //deselect
             document.getElementById("likeButton").style.color = "gray";
@@ -365,7 +381,11 @@ const styles = theme => ({
                     </div>
                 </div>
                 </Grid>
-                <Grid item xs={false} sm={4} md={7} className={classes.image} />  
+                <Grid item xs={false} sm={4} md={7}>
+                    <img src={this.state.pictureLink} alt="recipe" id="recipePic"></img>
+                    {/* </img>className={classes.image} */}
+                    
+                </Grid> 
             </Grid>      
         )
     }
