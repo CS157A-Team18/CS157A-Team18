@@ -20,7 +20,7 @@ import GridListTileBar from '@material-ui/core/GridListTileBar';
 import StarBorderIcon from '@material-ui/icons/StarBorder';
 import { Link } from "react-router-dom";
 import { withStyles } from '@material-ui/core/styles';
-//import { Button } from '@material-ui/core';
+import { Button } from '@material-ui/core';
 
 //images
 import food1 from './images/food1.jpg';
@@ -31,6 +31,11 @@ import food5 from './images/food5.jpg';
 import food6 from './images/food6.jpeg';
 
 const styles = theme => ({
+
+    button: {
+        color: 'white',
+    },
+
     root: {
         display: 'flex',
         flexWrap: 'wrap',
@@ -160,6 +165,10 @@ class Dashboard extends React.Component {
             setMobileMoreAnchorEl: null
         }
     }
+
+    handleCardClick = () => {
+        window.location = '/recipe'
+    }
     
     render() {
         // const [anchorEl, setAnchorEl] = React.useState(null);
@@ -288,6 +297,7 @@ class Dashboard extends React.Component {
     
                         {/* <label id="name">Kimleng Hor</label> */}
                         <Link to="/profile" id="name">Kimleng Hor</Link>
+                        <Link to="/login" id="name">Sign out</Link>
                         <div className={classes.sectionMobile}>
                             <IconButton
                                 aria-label="show more"
@@ -326,9 +336,10 @@ class Dashboard extends React.Component {
                             title: classes.title,
                         }}
                         actionIcon={
-                            <IconButton aria-label={`star ${tile.title}`}>
-                                <StarBorderIcon className={classes.title} />
-                            </IconButton>
+                            // <IconButton aria-label={`star ${tile.title}`}>
+                            //     <StarBorderIcon className={classes.title} />
+                            // </IconButton>
+                            <Button className={classes.button} onClick={this.handleCardClick}>View</Button>
                         }
                         />
                     </GridListTile>

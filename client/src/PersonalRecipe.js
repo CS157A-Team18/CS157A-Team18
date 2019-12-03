@@ -74,7 +74,7 @@ const tableIcons = {
                 title="Your recipes"
                 columns={this.state.columns}
                 detailPanel={rowData => {
-                  window.location = '/dashboard';
+                  window.location = '/recipe';
                 }}
                 onRowClick={(event, rowData, togglePanel) => togglePanel()}
                 data={this.state.recipeData}
