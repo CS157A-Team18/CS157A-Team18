@@ -11,3 +11,7 @@
     padding-left: 10px;
     font-size: 14px;
 }
+
+#editMode {
+    display: none;
+}
