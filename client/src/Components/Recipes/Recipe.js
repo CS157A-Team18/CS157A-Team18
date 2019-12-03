@@ -5,6 +5,10 @@ import Paper from '@material-ui/core/Paper';
 import './Recipe.css';
 import LocalDiningIcon from '@material-ui/icons/LocalDining';
 import TextField from '@material-ui/core/TextField';
+import { withStyles } from '@material-ui/core/styles';
+import IconButton from '@material-ui/core/IconButton';
+import ThumbUpIcon from '@material-ui/icons/ThumbUp';
+import ThumbDownIcon from '@material-ui/icons/ThumbDown';
 
 // import color from '@material-ui/core/colors/red';
 
@@ -45,7 +49,7 @@ import TextField from '@material-ui/core/TextField';
 
 // export default Recipe;
 
-const styles = makeStyles(theme => ({
+const styles = theme => ({
     root: {
         height: '100vh',
     },
@@ -76,45 +80,92 @@ const styles = makeStyles(theme => ({
         //marginRight: theme.spacing(1),
         width: 500,
     },
-  }));
+  });
 
-export default function Recipe() { 
-    const classes = styles();
-    return (
-        <Grid container className={classes.root}>
-            <Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square>
-                <div className={classes.paper}>
-                    <div className={classes.section}>
-                        <label id ="foodTitle">Barbeque Pecans</label>
+  class Recipe extends React.Component { 
+    //const classes = styles();
+
+    constructor(props) {
+        super(props);
+        
+        this.state = {
+            likes: 15,
+            dislikes: 15
+        }
+    }
+
+    handleLike = e => {
+        if  (document.getElementById("likeButton").style.color == "blue") {
+            //deselect
+            document.getElementById("likeButton").style.color = "gray";
+        } else {
+            document.getElementById("likeButton").style.color = "blue";
+            document.getElementById("dislikeButton").style.color = "gray";
+        }
+    }
+
+    handleDislike = e => {
+        if  (document.getElementById("dislikeButton").style.color == "red") {
+            //deselect
+            document.getElementById("dislikeButton").style.color = "gray";
+        } else {
+            document.getElementById("dislikeButton").style.color = "red";
+            document.getElementById("likeButton").style.color = "gray";
+        }
+    }
+
+    render() { 
+        const { classes } = this.props
+        return (
+            <Grid container className={classes.root}>
+                <Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square>
+                    <div className={classes.paper}>
+                        <div className={classes.section}>
+                            <label id ="foodTitle">Barbeque Pecans</label>
+                        </div>
+                        <div className={classes.section}>
+                            <label id ="titleLabel">Ingredients:</label>
+                            <br/><br/>
+                            <LocalDiningIcon/>
+                            <label id ="ingredientLabel"> 1 tablespoon Bad Byron's Butt Rub</label>
+                        </div>
+                        <div className={classes.section}>
+                            <label id ="titleLabel">Instructions:</label>
+                            <br/>
+                            <TextField
+                                id="outlined-multiline-flexible"
+                                label="5 items"
+                                multiline
+                                rowsMax="4"
+                                //value={value}
+                                //onChange={handleChange}
+                                className={classes.textField}
+                                margin="normal"
+                                variant="outlined"
+                            />
+                        </div>
+                        <div className={classes.section}>
+                                <label id ="titleLabel">Tutorial Link:</label>
+                                <a id ="linkRef" href= "https://www.youtube.com/watch?v=943loiK6M70">Click here for video tutorial</a>
+                        </div>
+                        <div className={classes.section}>
+                            <label id ="titleLabel">Number of Likes: {this.state.likes}</label>
+                        </div>
+                        <div className={classes.section}>
+                            <label id ="titleLabel">Number of Dislikes: {this.state.dislikes}</label>
+                        </div>
+                        <IconButton id="likeButton" onClick = {this.handleLike} aria-label="like">
+                            <ThumbUpIcon />
+                        </IconButton>
+                        <IconButton id = "dislikeButton" onClick = {this.handleDislike} aria-label="dislike">
+                            <ThumbDownIcon />
+                        </IconButton>
                     </div>
-                    <div className={classes.section}>
-                        <label id ="titleLabel">Ingredients:</label>
-                        <br/><br/>
-                        <LocalDiningIcon/>
-                        <label id ="ingredientLabel"> 1 tablespoon Bad Byron's Butt Rub</label>
-                    </div>
-                    <div className={classes.section}>
-                        <label id ="titleLabel">Instructions:</label>
-                        <br/>
-                        <TextField
-                            id="outlined-multiline-flexible"
-                            label="5 items"
-                            multiline
-                            rowsMax="4"
-                            //value={value}
-                            //onChange={handleChange}
-                            className={classes.textField}
-                            margin="normal"
-                            variant="outlined"
-                        />
-                    </div>
-                    <div className={classes.section}>
-                            <label id ="titleLabel">Tutorial Link:</label>
-                            <a id ="linkRef" href= "https://www.youtube.com/watch?v=943loiK6M70">Click here for video tutorial</a>
-                    </div>
-                </div>
-            </Grid>
-            <Grid item xs={false} sm={4} md={7} className={classes.image} />  
-        </Grid>      
-    )
+                </Grid>
+                <Grid item xs={false} sm={4} md={7} className={classes.image} />  
+            </Grid>      
+        )
+    }
 }
+
+export default withStyles(styles)(Recipe)
