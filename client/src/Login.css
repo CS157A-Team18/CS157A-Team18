@@ -21,6 +21,14 @@ div.lastnameTextField {
     display: none;
 }
 
+#signupButton {
+    display: none;
+}
+
+#resetButton{
+    display: none;
+}
+
 div.MuiSnackbarContent-root {
     background-color: crimson;
 }

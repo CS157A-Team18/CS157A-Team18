@@ -57,8 +57,7 @@ export default function Login() {
         email: "",
         firstName: "",
         lastName: "",
-        isLogin: true,
-        isReset: false
+        isLogin: true
     };
 
 
@@ -156,45 +155,17 @@ export default function Login() {
         })
     }
 
-    const handleReset = () => {
-        return (<div class="modal fade" id="resetModal" role="dialog">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    <h4 class="modal-title">Modal Header</h4>
-                    </div>
-                    <div class="modal-body">
-                    <p>Some text in the modal.</p>
-                    </div>
-                    <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-        );
-    }
-
     const handleSubmit = () => {
         //Login
         if (state.isLogin) {
             handleLogin();
             return;
-        }
-        else if (state.isReset) {
-            handleReset();
         }   
-        else {
-            handleSignup()
-        }
+        handleSignup()
     }
 
     const switchToSignupPage = () => {
-        document.getElementById("signupButton").style.display = "block";
-        document.getElementById("signupButton").innerHTML = "SIGN UP"
-        document.getElementById("resetButton").style.display = "none";
-        document.getElementById("loginButton").style.display = "none";
+        document.getElementById("submitButton").innerHTML = "SIGN UP"
         document.getElementById("welcome").innerHTML = "<b>Create an account</b>"
         document.getElementById("forgotLink").style.display = "none";
         document.getElementById("createAccountLink").style.display = "none";
@@ -204,15 +175,11 @@ export default function Login() {
         document.getElementById("firstTextField").style.display = "block";
         document.getElementById("lastTextField").style.display = "block";
         state.isLogin = false
-        state.isReset = false
         resetState()
     }
 
     const switchToLoginPage = () => {
-        document.getElementById("loginButton").style.display = "block";
-        document.getElementById("loginButton").innerHTML = "LOGIN"
-        document.getElementById("resetButton").style.display = "none";
-        document.getElementById("signupButton").style.display = "none";
+        document.getElementById("submitButton").innerHTML = "LOGIN"
         document.getElementById("welcome").innerHTML = "<b>Log In to Delight</b>"
         document.getElementById("forgotLink").style.display = "block";
         document.getElementById("createAccountLink").style.display = "block";
@@ -224,15 +191,11 @@ export default function Login() {
         document.getElementById("lastTextField").style.display = "none";
         document.getElementById("ForgotContent").innerHTML = "";
         state.isLogin = true
-        state.isReset = false
         resetState()
     }
 
     const switchToForgotPasswordPage = () => {
-        document.getElementById("resetButton").style.display = "block";
-        document.getElementById("resetButton").innerHTML = "Reset Password"
-        document.getElementById("loginButton").style.display = "none";
-        document.getElementById("signupButton").style.display = "none";
+        document.getElementById("submitButton").innerHTML = "Reset Password"
         document.getElementById("welcome").innerHTML = "<b>Forgot Password</b>"
         document.getElementById("ForgotContent").innerHTML = "Please enter your email address and we will send you an email about how to reset your password.";
         document.getElementById("emailField").style.display = "block";
@@ -241,7 +204,6 @@ export default function Login() {
         document.getElementById("createAccountLink").style.display = "none";
         document.getElementById("forgotLink").style.display = "none";
         state.isLogin = false
-        state.isReset = true
         resetState()
     }
 
@@ -321,34 +283,13 @@ export default function Login() {
                                 />
                             </div>
 
-
-                            <Button id="loginButton"
+                            <Button id="submitButton"
                                 variant="contained"
                                 color="primary"
                                 className={classes.button}
                                 fullWidth
                                 onClick={handleSubmit}>
                                 Login
-                            </Button> 
-
-                            <Button id="signupButton"
-                                variant="contained"
-                                color="primary"
-                                className={classes.button}
-                                fullWidth
-                                onClick={handleSubmit}>
-                                Sign Up
-                            </Button>
-
-                            <Button id="resetButton"
-                                variant="contained"
-                                color="primary"
-                                className={classes.button}
-                                fullWidth
-                                onClick={handleSubmit}
-                                data-toggle="modal" 
-                                data-target="#resetModal">
-                                Reset Password
                             </Button>
 
                             <Grid container align-items={'center'}>
