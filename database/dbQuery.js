@@ -207,7 +207,7 @@ function incrementRecipeDislikes(recipeId) {
 
 function removeLikeFromRecipe(uid, recipeId) {
     const query = `DELETE FROM user_recipe_junction_table_likes 
-                   WHERE uid = '?' AND recipe_id = ?`
+                   WHERE uid = ? AND recipe_id = ?`
     return dbAccessObject.query(query, [uid, recipeId]).then(() => {
         decrementRecipeLikes(recipeId)
     })
@@ -220,7 +220,7 @@ function decrementRecipeLikes(recipeId) {
 
 function removeDislikeFromRecipe(uid, recipeId) {
     const query = `DELETE FROM user_recipe_junction_table_dislikes 
-                   WHERE uid = '?' AND recipe_id = ?`
+                   WHERE uid = ? AND recipe_id = ?`
     return dbAccessObject.query(query, [uid, recipeId]).then(() => {
         decrementRecipeDislikes(recipeId)
     })

@@ -84,9 +84,9 @@ const styles = theme => ({
         
         this.state = {
 
-            isRecipeLiked: false,
-            isRecipeDisliked: false,
-
+            isRecipeLiked: 0,
+            isRecipeDisliked: 0,
+            uid: "",
             recipe_id: "",
             recipeName: "",
             likes: 15,
@@ -118,17 +118,9 @@ const styles = theme => ({
     }
 
     componentDidMount() {
-
-        if (this.state.isRecipeLiked == true) {
-            document.getElementById("likeButton").style.color = "blue"
-        }
-
-        if (this.state.isRecipeDisliked == true) {
-            document.getElementById("dislikeButton").style.color = "red"
-        }
-
         this.state.recipe_id = this.getUrlVars()["recipe_id"]
         getUID().then(user => {
+            this.setState({uid: user.uid})
             fetch(util.format('%s/api/recipe?uid=%s&recipe_id=%s', process.env.REACT_APP_EXPRESS_BACKEND, user.uid, this.state.recipe_id), {
                 method: "GET",
                 headers: {
@@ -146,8 +138,17 @@ const styles = theme => ({
                     tutorialLink: responseData.vidURL,
                     pictureLink: responseData.imgURL,
                     ingredientData: responseData.ingredients,
-                    instructionData: responseData.instructions
+                    instructionData: responseData.instructions,
+                    isRecipeLiked: responseData.userLikedRecipe,
+                    isRecipeDisliked: responseData.userDislikedRecipe
                 })
+                if (this.state.isRecipeLiked == true) {
+                    document.getElementById("likeButton").style.color = "blue"
+                }
+        
+                if (this.state.isRecipeDisliked == true) {
+                    document.getElementById("dislikeButton").style.color = "red"
+                }
             })
         })
         
@@ -161,24 +162,104 @@ const styles = theme => ({
         return vars;
     }
 
+    addLikeToDB = () => {
+        return fetch(util.format('%s/api/recipe/addLike', process.env.REACT_APP_EXPRESS_BACKEND), {
+            method: "POST",
+            headers: {
+                'Content-type': 'application/json'
+            },
+            body: JSON.stringify(this.state)
+        })
+        .then(result => {
+            console.log(result) // 500 = Internal Service Error; 201 = CREATED
+            if (result.ok) {
+                // Handle successful recipe upload here
+                return
+            }
+            // Handle non-successful recipe upload here
+        })
+    }
+
+    removeLikeFromDB = () => {
+        return fetch(util.format('%s/api/recipe/delLike', process.env.REACT_APP_EXPRESS_BACKEND), {
+            method: "DELETE",
+            headers: {
+                'Content-type': 'application/json'
+            },
+            body: JSON.stringify(this.state)
+        })
+        .then(result => {
+            console.log(result) // 500 = Internal Service Error; 201 = CREATED
+            if (result.ok) {
+                // Handle successful recipe upload here
+                return
+            }
+            // Handle non-successful recipe upload here
+        })
+    }
+
+    addDislikeToDB = () => {
+        return fetch(util.format('%s/api/recipe/addDislike', process.env.REACT_APP_EXPRESS_BACKEND), {
+            method: "POST",
+            headers: {
+                'Content-type': 'application/json'
+            },
+            body: JSON.stringify(this.state)
+        })
+        .then(result => {
+            console.log(result) // 500 = Internal Service Error; 201 = CREATED
+            if (result.ok) {
+                // Handle successful recipe upload here
+                return
+            }
+            // Handle non-successful recipe upload here
+        })
+    }
+
+    removeDislikeFromDB = () => {
+        return fetch(util.format('%s/api/recipe/delDislike', process.env.REACT_APP_EXPRESS_BACKEND), {
+            method: "DELETE",
+            headers: {
+                'Content-type': 'application/json'
+            },
+            body: JSON.stringify(this.state)
+        })
+        .then(result => {
+            console.log(result) // 500 = Internal Service Error; 201 = CREATED
+            if (result.ok) {
+                // Handle successful recipe upload here
+                return
+            }
+            // Handle non-successful recipe upload here
+        })
+    }
+
     handleLike = e => {
         // console.log(this.getUrlVars()["recipe_id"])
         if  (document.getElementById("likeButton").style.color == "blue") {
             //deselect
-            document.getElementById("likeButton").style.color = "gray";
+            this.removeLikeFromDB().then(() =>{
+                document.getElementById("likeButton").style.color = "gray";
+            })
         } else {
-            document.getElementById("likeButton").style.color = "blue";
-            document.getElementById("dislikeButton").style.color = "gray";
+            this.addLikeToDB().then(() => {
+                document.getElementById("likeButton").style.color = "blue";
+                document.getElementById("dislikeButton").style.color = "gray";
+            })
         }
     }
 
     handleDislike = e => {
         if  (document.getElementById("dislikeButton").style.color == "red") {
             //deselect
-            document.getElementById("dislikeButton").style.color = "gray";
+            this.removeDislikeFromDB().then(() => {
+                document.getElementById("dislikeButton").style.color = "gray";
+            })
         } else {
-            document.getElementById("dislikeButton").style.color = "red";
-            document.getElementById("likeButton").style.color = "gray";
+            this.addDislikeToDB().then(() => {
+                document.getElementById("dislikeButton").style.color = "red";
+                document.getElementById("likeButton").style.color = "gray";
+            })
         }
     }
 
