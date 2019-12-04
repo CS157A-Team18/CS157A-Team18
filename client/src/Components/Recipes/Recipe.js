@@ -86,6 +86,7 @@ const styles = theme => ({
 
             isRecipeLiked: 0,
             isRecipeDisliked: 0,
+            isRecipeFavorited: 0,
             uid: "",
             recipe_id: "",
             recipeName: "",
@@ -114,6 +115,7 @@ const styles = theme => ({
                 {instruction: "First step"},
                 {instruction: "Second step"}
             ],
+            favoriteButtonText: "Add to Favourite"
         }
     }
 
@@ -140,7 +142,8 @@ const styles = theme => ({
                     ingredientData: responseData.ingredients,
                     instructionData: responseData.instructions,
                     isRecipeLiked: responseData.userLikedRecipe,
-                    isRecipeDisliked: responseData.userDislikedRecipe
+                    isRecipeDisliked: responseData.userDislikedRecipe,
+                    isRecipeFavorited: responseData.userFavoritedRecipe
                 })
                 if (this.state.isRecipeLiked == true) {
                     document.getElementById("likeButton").style.color = "blue"
@@ -148,6 +151,10 @@ const styles = theme => ({
         
                 if (this.state.isRecipeDisliked == true) {
                     document.getElementById("dislikeButton").style.color = "red"
+                }
+
+                if (this.state.isRecipeFavorited) {
+                    this.setState({favoriteButtonText: "Remove From Favorites"})
                 }
             })
         })
@@ -234,6 +241,42 @@ const styles = theme => ({
         })
     }
 
+    addRecipeToFavorites = () => {
+        return fetch(util.format('%s/api/recipe/addFavorite', process.env.REACT_APP_EXPRESS_BACKEND), {
+            method: "POST",
+            headers: {
+                'Content-type': 'application/json'
+            },
+            body: JSON.stringify(this.state)
+        })
+        .then(result => {
+            console.log(result) // 500 = Internal Service Error; 201 = CREATED
+            if (result.ok) {
+                // Handle successful recipe upload here
+                return
+            }
+            // Handle non-successful recipe upload here
+        })
+    }
+
+    removeRecipeFromFavorites = () => {
+        return fetch(util.format('%s/api/recipe/delFavorite', process.env.REACT_APP_EXPRESS_BACKEND), {
+            method: "DELETE",
+            headers: {
+                'Content-type': 'application/json'
+            },
+            body: JSON.stringify(this.state)
+        })
+        .then(result => {
+            console.log(result) // 500 = Internal Service Error; 201 = CREATED
+            if (result.ok) {
+                // Handle successful recipe upload here
+                return
+            }
+            // Handle non-successful recipe upload here
+        })
+    }
+
     handleLike = e => {
         // console.log(this.getUrlVars()["recipe_id"])
         if  (document.getElementById("likeButton").style.color == "blue") {
@@ -263,14 +306,21 @@ const styles = theme => ({
         }
     }
 
+    handleFavorite = e => {
+        if (this.state.isRecipeFavorited) {
+            this.removeRecipeFromFavorites().then(() => {
+                this.setState({favoriteButtonText: "Add to Favorites"})
+            })
+            return
+        }
+        this.addRecipeToFavorites().then(() => {
+            this.setState({favoriteButtonText: "Remove From Favorites"})
+        })
+    }
+
     handleEdit = e => {
         document.getElementById("editMode").style.display = "block"
         document.getElementById("showMode").style.display = "none"
-    }
-
-    handleShow = e => {
-        document.getElementById("editMode").style.display = "none"
-        document.getElementById("showMode").style.display = "block"
     }
 
     handleCancel = e => {
@@ -427,7 +477,7 @@ const styles = theme => ({
                             </div>
 
                             <div className={classes.section}>
-                                <Button id="submitButton" 
+                                <Button id="cancelButton" 
                                         variant="contained" 
                                         color="primary" 
                                         // className={classes.button} 
@@ -436,11 +486,11 @@ const styles = theme => ({
                                         Cancel
                                 </Button>
 
-                                <Button id="submitButton" 
+                                <Button id="saveButton" 
                                         variant="contained" 
                                         color="primary" 
                                         className={classes.button} 
-                                        onClick={this.handleShow}
+                                        onClick={this.handleFavorite}
                                         >
                                         Save
                                 </Button>
@@ -488,13 +538,13 @@ const styles = theme => ({
                             <ThumbDownIcon />
                         </IconButton>
 
-                        <Button id="submitButton" 
+                        <Button id="favoriteButton" 
                             variant="contained" 
                             color="primary" 
                             className={classes.button} 
-                            //onClick={this.handleShow}
+                            onClick={this.handleFavorite}
                             >
-                            Add to Favourite
+                            {this.state.favoriteButtonText}
                         </Button>
                     </div>
                 </div>
