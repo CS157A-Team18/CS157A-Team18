@@ -33,11 +33,11 @@ router.get('/', function(req, res, next) {
     })
     .then(rows => {
         recipeResponse.instructions = rows
-        return db.checkIfUserLikedRecipe(uid)
+        return db.checkIfUserLikedRecipe(uid, recipeId)
     })
     .then(rows => {
         recipeResponse.userLikedRecipe = rows[0].liked_recipe
-        return db.checkIfUserDislikedRecipe(uid)
+        return db.checkIfUserDislikedRecipe(uid, recipeId)
     })
     .then(rows => {
         recipeResponse.userDislikedRecipe = rows[0].disliked_recipe
@@ -50,6 +50,32 @@ router.get('/', function(req, res, next) {
       res.sendStatus(500)
     })
 });
+
+router.post('/addLike', function(req, res, next) {
+  db.addLikeToRecipe(req.body.uid, req.body.recipe_id).then(() => {
+    res.sendStatus(200)
+  })
+});
+
+router.delete('/delLike', function(req, res, next) {
+  db.removeLikeFromRecipe(req.body.uid, req.body.recipe_id).then(() => {
+    res.sendStatus(200)
+  })
+});
+
+router.post('/addDislike', function(req, res, next) {
+  db.addDislikeToRecipe(req.body.uid, req.body.recipe_id).then(() => {
+    res.sendStatus(200)
+  })
+});
+
+router.delete('/delDislike', function(req, res, next) {
+  db.removeDislikeFromRecipe(req.body.uid, req.body.recipe_id).then(() => {
+    res.sendStatus(200)
+  })
+});
+
+
 
 router.use(function (err, req, res, next) {
     if (err) {
