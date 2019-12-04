@@ -84,9 +84,10 @@ const styles = theme => ({
         
         this.state = {
 
-            isRecipeLiked: false,
-            isRecipeDisliked: false,
-
+            isRecipeLiked: 0,
+            isRecipeDisliked: 0,
+            isRecipeFavorited: 0,
+            uid: "",
             recipe_id: "",
             recipeName: "",
             likes: 15,
@@ -114,21 +115,14 @@ const styles = theme => ({
                 {instruction: "First step"},
                 {instruction: "Second step"}
             ],
+            favoriteButtonText: "Add to Favourite"
         }
     }
 
     componentDidMount() {
-
-        if (this.state.isRecipeLiked == true) {
-            document.getElementById("likeButton").style.color = "blue"
-        }
-
-        if (this.state.isRecipeDisliked == true) {
-            document.getElementById("dislikeButton").style.color = "red"
-        }
-
         this.state.recipe_id = this.getUrlVars()["recipe_id"]
         getUID().then(user => {
+            this.setState({uid: user.uid})
             fetch(util.format('%s/api/recipe?uid=%s&recipe_id=%s', process.env.REACT_APP_EXPRESS_BACKEND, user.uid, this.state.recipe_id), {
                 method: "GET",
                 headers: {
@@ -146,8 +140,22 @@ const styles = theme => ({
                     tutorialLink: responseData.vidURL,
                     pictureLink: responseData.imgURL,
                     ingredientData: responseData.ingredients,
-                    instructionData: responseData.instructions
+                    instructionData: responseData.instructions,
+                    isRecipeLiked: responseData.userLikedRecipe,
+                    isRecipeDisliked: responseData.userDislikedRecipe,
+                    isRecipeFavorited: responseData.userFavoritedRecipe
                 })
+                if (this.state.isRecipeLiked == true) {
+                    document.getElementById("likeButton").style.color = "blue"
+                }
+        
+                if (this.state.isRecipeDisliked == true) {
+                    document.getElementById("dislikeButton").style.color = "red"
+                }
+
+                if (this.state.isRecipeFavorited) {
+                    this.setState({favoriteButtonText: "Remove From Favorites"})
+                }
             })
         })
         
@@ -161,35 +169,158 @@ const styles = theme => ({
         return vars;
     }
 
+    addLikeToDB = () => {
+        return fetch(util.format('%s/api/recipe/addLike', process.env.REACT_APP_EXPRESS_BACKEND), {
+            method: "POST",
+            headers: {
+                'Content-type': 'application/json'
+            },
+            body: JSON.stringify(this.state)
+        })
+        .then(result => {
+            console.log(result) // 500 = Internal Service Error; 201 = CREATED
+            if (result.ok) {
+                // Handle successful recipe upload here
+                return
+            }
+            // Handle non-successful recipe upload here
+        })
+    }
+
+    removeLikeFromDB = () => {
+        return fetch(util.format('%s/api/recipe/delLike', process.env.REACT_APP_EXPRESS_BACKEND), {
+            method: "DELETE",
+            headers: {
+                'Content-type': 'application/json'
+            },
+            body: JSON.stringify(this.state)
+        })
+        .then(result => {
+            console.log(result) // 500 = Internal Service Error; 201 = CREATED
+            if (result.ok) {
+                // Handle successful recipe upload here
+                return
+            }
+            // Handle non-successful recipe upload here
+        })
+    }
+
+    addDislikeToDB = () => {
+        return fetch(util.format('%s/api/recipe/addDislike', process.env.REACT_APP_EXPRESS_BACKEND), {
+            method: "POST",
+            headers: {
+                'Content-type': 'application/json'
+            },
+            body: JSON.stringify(this.state)
+        })
+        .then(result => {
+            console.log(result) // 500 = Internal Service Error; 201 = CREATED
+            if (result.ok) {
+                // Handle successful recipe upload here
+                return
+            }
+            // Handle non-successful recipe upload here
+        })
+    }
+
+    removeDislikeFromDB = () => {
+        return fetch(util.format('%s/api/recipe/delDislike', process.env.REACT_APP_EXPRESS_BACKEND), {
+            method: "DELETE",
+            headers: {
+                'Content-type': 'application/json'
+            },
+            body: JSON.stringify(this.state)
+        })
+        .then(result => {
+            console.log(result) // 500 = Internal Service Error; 201 = CREATED
+            if (result.ok) {
+                // Handle successful recipe upload here
+                return
+            }
+            // Handle non-successful recipe upload here
+        })
+    }
+
+    addRecipeToFavorites = () => {
+        return fetch(util.format('%s/api/recipe/addFavorite', process.env.REACT_APP_EXPRESS_BACKEND), {
+            method: "POST",
+            headers: {
+                'Content-type': 'application/json'
+            },
+            body: JSON.stringify(this.state)
+        })
+        .then(result => {
+            console.log(result) // 500 = Internal Service Error; 201 = CREATED
+            if (result.ok) {
+                // Handle successful recipe upload here
+                return
+            }
+            // Handle non-successful recipe upload here
+        })
+    }
+
+    removeRecipeFromFavorites = () => {
+        return fetch(util.format('%s/api/recipe/delFavorite', process.env.REACT_APP_EXPRESS_BACKEND), {
+            method: "DELETE",
+            headers: {
+                'Content-type': 'application/json'
+            },
+            body: JSON.stringify(this.state)
+        })
+        .then(result => {
+            console.log(result) // 500 = Internal Service Error; 201 = CREATED
+            if (result.ok) {
+                // Handle successful recipe upload here
+                return
+            }
+            // Handle non-successful recipe upload here
+        })
+    }
+
     handleLike = e => {
         // console.log(this.getUrlVars()["recipe_id"])
         if  (document.getElementById("likeButton").style.color == "blue") {
             //deselect
-            document.getElementById("likeButton").style.color = "gray";
+            this.removeLikeFromDB().then(() =>{
+                document.getElementById("likeButton").style.color = "gray";
+            })
         } else {
-            document.getElementById("likeButton").style.color = "blue";
-            document.getElementById("dislikeButton").style.color = "gray";
+            this.addLikeToDB().then(() => {
+                document.getElementById("likeButton").style.color = "blue";
+                document.getElementById("dislikeButton").style.color = "gray";
+            })
         }
     }
 
     handleDislike = e => {
         if  (document.getElementById("dislikeButton").style.color == "red") {
             //deselect
-            document.getElementById("dislikeButton").style.color = "gray";
+            this.removeDislikeFromDB().then(() => {
+                document.getElementById("dislikeButton").style.color = "gray";
+            })
         } else {
-            document.getElementById("dislikeButton").style.color = "red";
-            document.getElementById("likeButton").style.color = "gray";
+            this.addDislikeToDB().then(() => {
+                document.getElementById("dislikeButton").style.color = "red";
+                document.getElementById("likeButton").style.color = "gray";
+            })
         }
+    }
+
+    handleFavorite = e => {
+        if (this.state.isRecipeFavorited) {
+            this.removeRecipeFromFavorites().then(() => {
+                this.setState({favoriteButtonText: "Add to Favorites"})
+            })
+            return
+        }
+        this.addRecipeToFavorites().then(() => {
+            this.setState({favoriteButtonText: "Remove From Favorites"})
+        })
     }
 
     handleEdit = e => {
         document.getElementById("editMode").style.display = "block"
         document.getElementById("showMode").style.display = "none"
-    }
-
-    handleShow = e => {
-        document.getElementById("editMode").style.display = "none"
-        document.getElementById("showMode").style.display = "block"
     }
 
     handleCancel = e => {
@@ -346,7 +477,7 @@ const styles = theme => ({
                             </div>
 
                             <div className={classes.section}>
-                                <Button id="submitButton" 
+                                <Button id="cancelButton" 
                                         variant="contained" 
                                         color="primary" 
                                         // className={classes.button} 
@@ -355,11 +486,11 @@ const styles = theme => ({
                                         Cancel
                                 </Button>
 
-                                <Button id="submitButton" 
+                                <Button id="saveButton" 
                                         variant="contained" 
                                         color="primary" 
                                         className={classes.button} 
-                                        onClick={this.handleShow}
+                                        onClick={this.handleFavorite}
                                         >
                                         Save
                                 </Button>
@@ -407,13 +538,13 @@ const styles = theme => ({
                             <ThumbDownIcon />
                         </IconButton>
 
-                        <Button id="submitButton" 
+                        <Button id="favoriteButton" 
                             variant="contained" 
                             color="primary" 
                             className={classes.button} 
-                            //onClick={this.handleShow}
+                            onClick={this.handleFavorite}
                             >
-                            Add to Favourite
+                            {this.state.favoriteButtonText}
                         </Button>
                     </div>
                 </div>
