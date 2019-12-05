@@ -12,7 +12,8 @@ router.get('/', function(req, res, next) {
         ingredients: [],
         instructions: [],
         userLikedRecipe: 0,
-        userDislikedRecipe: 0
+        userDislikedRecipe: 0,
+        userFavoritedRecipe: 0
     }
 
     const recipeId = req.query.recipe_id
@@ -33,22 +34,61 @@ router.get('/', function(req, res, next) {
     })
     .then(rows => {
         recipeResponse.instructions = rows
-        return db.checkIfUserLikedRecipe(uid)
+        return db.checkIfUserLikedRecipe(uid, recipeId)
     })
     .then(rows => {
         recipeResponse.userLikedRecipe = rows[0].liked_recipe
-        return db.checkIfUserDislikedRecipe(uid)
+        return db.checkIfUserDislikedRecipe(uid, recipeId)
     })
     .then(rows => {
         recipeResponse.userDislikedRecipe = rows[0].disliked_recipe
-        console.log(recipeResponse)
-        res.send(recipeResponse)
+        return db.checkIfUserFavoritedRecipe(uid, recipeId)
+    })
+    .then(rows => {
+      recipeResponse.userFavoritedRecipe = rows[0].favorited_recipe
+      res.send(recipeResponse)
     })
     .catch(err => {
       console.log(err)
       console.log(recipeResponse)
       res.sendStatus(500)
     })
+});
+
+router.post('/addLike', function(req, res, next) {
+  db.addLikeToRecipe(req.body.uid, req.body.recipe_id).then(() => {
+    res.sendStatus(200)
+  })
+});
+
+router.delete('/delLike', function(req, res, next) {
+  db.removeLikeFromRecipe(req.body.uid, req.body.recipe_id).then(() => {
+    res.sendStatus(200)
+  })
+});
+
+router.post('/addDislike', function(req, res, next) {
+  db.addDislikeToRecipe(req.body.uid, req.body.recipe_id).then(() => {
+    res.sendStatus(200)
+  })
+});
+
+router.delete('/delDislike', function(req, res, next) {
+  db.removeDislikeFromRecipe(req.body.uid, req.body.recipe_id).then(() => {
+    res.sendStatus(200)
+  })
+});
+
+router.post('/addFavorite', function(req, res, next) {
+  db.addRecipeToFavorites(req.body.uid, req.body.recipe_id).then(() => {
+    res.sendStatus(200)
+  })
+});
+
+router.delete('/delFavorite', function(req, res, next) {
+  db.removeRecipeFromFavorites(req.body.uid, req.body.recipe_id).then(() => {
+    res.sendStatus(200)
+  })
 });
 
 router.use(function (err, req, res, next) {

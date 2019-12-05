@@ -40,16 +40,16 @@ function addRecipe(uid, name, ingredientArray, instructionArray, mealTypeArray, 
     return dbAccessObject.query(query, [name, vidURL, imgURL]).then(() => {
         return getRecipeId(name, vidURL, imgURL)
     })
-    .then(rows => {
-        const recipeId = rows[0].id
-        addRecipeToUserRecipeUploadTable(uid, recipeId)
-        addIngredients(recipeId, ingredientArray)
-        addInstructions(instructionArray, recipeId)
-        addRecipeMealType(recipeId, mealTypeArray)
-    })
-    .catch(err => {
-        console.log(err)
-    })
+        .then(rows => {
+            const recipeId = rows[0].id
+            addRecipeToUserRecipeUploadTable(uid, recipeId)
+            addIngredients(recipeId, ingredientArray)
+            addInstructions(instructionArray, recipeId)
+            addRecipeMealType(recipeId, mealTypeArray)
+        })
+        .catch(err => {
+            console.log(err)
+        })
 }
 
 function getRecipeId(name, vidURL, imgURL) {
@@ -71,13 +71,13 @@ function addIngredients(recipeId, ingredientArray) {
                 addIngredientToTable(ingredient.name.toUpperCase())
             }
         })
-        .then(() => {
-            return getIngredientId(ingredient.name.toUpperCase())
-        })
-        .then(rows => {
-            const ingredientId = rows[0].id
-            addIngredientToIngredientRecipeJunctionTable(recipeId, ingredientId, ingredient.amount, ingredient.measurement)
-        })
+            .then(() => {
+                return getIngredientId(ingredient.name.toUpperCase())
+            })
+            .then(rows => {
+                const ingredientId = rows[0].id
+                addIngredientToIngredientRecipeJunctionTable(recipeId, ingredientId, ingredient.amount, ingredient.measurement)
+            })
     }
 }
 
@@ -207,7 +207,7 @@ function incrementRecipeDislikes(recipeId) {
 
 function removeLikeFromRecipe(uid, recipeId) {
     const query = `DELETE FROM user_recipe_junction_table_likes 
-                   WHERE uid = '?' AND recipe_id = ?`
+                   WHERE uid = ? AND recipe_id = ?`
     return dbAccessObject.query(query, [uid, recipeId]).then(() => {
         decrementRecipeLikes(recipeId)
     })
@@ -220,7 +220,7 @@ function decrementRecipeLikes(recipeId) {
 
 function removeDislikeFromRecipe(uid, recipeId) {
     const query = `DELETE FROM user_recipe_junction_table_dislikes 
-                   WHERE uid = '?' AND recipe_id = ?`
+                   WHERE uid = ? AND recipe_id = ?`
     return dbAccessObject.query(query, [uid, recipeId]).then(() => {
         decrementRecipeDislikes(recipeId)
     })
@@ -233,7 +233,7 @@ function decrementRecipeDislikes(recipeId) {
 
 function getUserLikedRecipes(uid) {
     const query = `SELECT
-	                id, name, likes, dislikes, img_url
+	                id, name, likes, dislikes
                    FROM user_recipe_junction_table_likes
                    JOIN recipe ON recipe_id = id
                    WHERE uid = ?`
@@ -261,8 +261,38 @@ function deleteRecipe(recipeId) {
     return dbAccessObject.query(query, [recipeId])
 }
 
-module.exports = { 
-    addUser, 
+function getUserFavoritedRecipes(uid) {
+    const query = `SELECT
+	                id, name, likes, dislikes
+                   FROM user_recipe_junction_table_favorites
+                   JOIN recipe ON recipe_id = id
+                   WHERE uid = ?`
+    return dbAccessObject.query(query, [uid])
+}
+
+function addRecipeToFavorites(uid, recipeId) {
+    const query = `INSERT INTO 
+                    user_recipe_junction_table_favorites
+                   VALUES (?, ?)`
+    return dbAccessObject.query(query, [uid, recipeId])
+}
+
+function removeRecipeFromFavorites(uid, recipeId) {
+    const query = `DELETE FROM user_recipe_junction_table_favorites 
+                   WHERE uid = ? AND recipe_id = ?`
+    return dbAccessObject.query(query, [uid, recipeId])
+}
+
+function checkIfUserFavoritedRecipe(uid, recipeId) {
+    const query = `SELECT
+	                COUNT(*) AS favorited_recipe
+                   FROM user_recipe_junction_table_favorites
+                   WHERE uid = ? AND recipe_id = ?`
+    return dbAccessObject.query(query, [uid, recipeId])
+}
+
+module.exports = {
+    addUser,
     getUserFirstNameAndLastName,
     editPersonalInformation,
     getPersonalInformation,
@@ -280,5 +310,9 @@ module.exports = {
     checkIfUserLikedRecipe,
     checkIfUserDislikedRecipe,
     deleteRecipe,
-    getIndividualRecipeAttributes
+    getIndividualRecipeAttributes,
+    getUserFavoritedRecipes,
+    addRecipeToFavorites,
+    removeRecipeFromFavorites,
+    checkIfUserFavoritedRecipe
 }

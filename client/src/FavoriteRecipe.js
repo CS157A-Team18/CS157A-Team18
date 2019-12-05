@@ -46,22 +46,22 @@ const tableIcons = {
     }
 
     componentDidMount() {
-    //   getUID().then(user => {
-    //     fetch(util.format('%s/api/personalRecipe?uid=%s', process.env.REACT_APP_EXPRESS_BACKEND, user.uid), {
-    //       method: "GET",
-    //       headers: {
-    //           'Content-type': 'application/json'
-    //       }
-    //   })
-    //   .then(response => {
-    //       return response.json()
-    //   })
-    //   .then(responseData => {
-    //       this.setState({
-    //           recipeData: responseData
-    //       })
-    //   })
-    //   })
+      getUID().then(user => {
+        fetch(util.format('%s/api/favorites?uid=%s', process.env.REACT_APP_EXPRESS_BACKEND, user.uid), {
+          method: "GET",
+          headers: {
+              'Content-type': 'application/json'
+          }
+        })
+        .then(response => {
+            return response.json()
+        })
+        .then(responseData => {
+            this.setState({
+                recipeData: responseData
+            })
+        })
+      })
     }
     
     render() {
