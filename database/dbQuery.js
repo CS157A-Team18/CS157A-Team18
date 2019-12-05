@@ -233,7 +233,7 @@ function decrementRecipeDislikes(recipeId) {
 
 function getUserLikedRecipes(uid) {
     const query = `SELECT
-	                id, name, likes, dislikes, img_url
+	                id, name, likes, dislikes
                    FROM user_recipe_junction_table_likes
                    JOIN recipe ON recipe_id = id
                    WHERE uid = ?`
