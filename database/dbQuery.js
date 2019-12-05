@@ -65,12 +65,14 @@ function addRecipeToUserRecipeUploadTable(uid, recipeId) {
 }
 
 function addIngredients(recipeId, ingredientArray) {
+    var promises = []
     for (let ingredient of ingredientArray) {
-        checkIfIngredientExists(ingredient.name.toUpperCase()).then(rows => {
-            if (!rows[0].isInTable) {
-                addIngredientToTable(ingredient.name.toUpperCase())
-            }
-        })
+        promises.push(
+            checkIfIngredientExists(ingredient.name.toUpperCase()).then(rows => {
+                if (!rows[0].isInTable) {
+                    addIngredientToTable(ingredient.name.toUpperCase())
+                }
+            })
             .then(() => {
                 return getIngredientId(ingredient.name.toUpperCase())
             })
@@ -78,6 +80,8 @@ function addIngredients(recipeId, ingredientArray) {
                 const ingredientId = rows[0].id
                 addIngredientToIngredientRecipeJunctionTable(recipeId, ingredientId, ingredient.amount, ingredient.measurement)
             })
+        )
+        return Promise.all(promises)
     }
 }
 
@@ -103,16 +107,18 @@ function addIngredientToIngredientRecipeJunctionTable(recipeId, ingredientId, qu
     return dbAccessObject.query(query, [recipeId, ingredientId, quantity, measurement.toUpperCase()])
 }
 
-function addInstructions(instructionArray, recipeId) {
+function addInstructions(recipeId, instructionArray) {
+    var promises = []
     for (var i = 0; i < instructionArray.length; i++) {
         instructionArray[i]["order"] = i + 1
-        addInstructionToTable(instructionArray[i], recipeId)
+        promises.push(addInstructionToTable(instructionArray[i], recipeId))
     }
+    return Promise.all(promises)
 }
 
 function addInstructionToTable(instruction, recipeId) {
     const query = `INSERT INTO instruction VALUES (NULL, ?, ?, ?)`
-    return dbAccessObject.query(query, [instruction.description, instruction.order, recipeId])
+    return dbAccessObject.query(query, [instruction.instruction, instruction.order, recipeId])
 }
 
 function addRecipeMealType(recipeId, mealTypeArray) {
@@ -146,7 +152,7 @@ function getIndividualRecipeAttributes(recipeId) {
 
 function getIndividualRecipeIngredients(recipeId) {
     const query = `SELECT 
-	                ingredient.name, quantity, measurement
+	                ingredient.id, ingredient.name, quantity, measurement
                    FROM ingredient
                    JOIN recipe_ingredient_junction_table ON id = ingredient_id
                    JOIN recipe ON recipe_id = recipe.id
@@ -156,7 +162,7 @@ function getIndividualRecipeIngredients(recipeId) {
 
 function getIndividualRecipeInstructions(recipeId) {
     const query = `SELECT 
-	                instruction
+	                id, instruction
                    FROM instruction
                    WHERE recipe_id = ?
                    ORDER BY \`order\` ASC`
@@ -291,6 +297,74 @@ function checkIfUserFavoritedRecipe(uid, recipeId) {
     return dbAccessObject.query(query, [uid, recipeId])
 }
 
+function editRecipe(recipeId, name, vidURL, imgURL) {
+    const query = `UPDATE recipe 
+                    SET 
+                        name = ?,
+                        vid_url = ?,
+                        img_url = ?
+                    WHERE id = ?`
+    return dbAccessObject.query(query, [name, vidURL, imgURL, recipeId])
+}
+
+function editIngredients(ingredientArray) {
+    var promises = []
+    for (let ingredient of ingredientArray) {
+        promises.push(editIngredient(ingredient))
+    }
+    return Promise.all(promises)
+}
+
+function editIngredient(ingredient) {
+    const query = `UPDATE ingredient 
+                    SET 
+                        name = ?
+                    WHERE id = ?`
+    return dbAccessObject.query(query, [ingredient.name, ingredient.id])
+}
+
+function deleteIngredients(ingredientsArray) {
+    var promises = []
+    for (let ingredient of ingredientsArray) {
+        promises.push(deleteIngredient(ingredient))
+    }
+    return Promise.all(promises)
+}
+
+function deleteIngredient(ingredient) {
+    const query = `DELETE FROM ingredient WHERE id = ?`
+    return dbAccessObject.query(query, [ingredient.id])
+}
+
+function deleteInstructions(instructionArray) {
+    var promises = []
+    for (let instruction of instructionArray) {
+        promises.push(deleteInstruction(instruction))
+    }
+    return Promise.all(promises)
+}
+
+function deleteInstruction(instruction) {
+    const query = `DELETE FROM instruction WHERE id = ?`
+    return dbAccessObject.query(query, [instruction.id])
+}
+
+function editInstructions(instructionArray) {
+    var promises = []
+    for (let instruction of instructionArray) {
+        promises.push(editInstruction(instruction))
+    }
+    return Promise.all(promises)
+}
+
+function editInstruction(instruction) {
+    const query = `UPDATE instruction 
+                    SET 
+                        instruction = ?
+                    WHERE id = ?`
+    return dbAccessObject.query(query, [instruction.instruction, instruction.id])
+}
+
 module.exports = {
     addUser,
     getUserFirstNameAndLastName,
@@ -314,5 +388,12 @@ module.exports = {
     getUserFavoritedRecipes,
     addRecipeToFavorites,
     removeRecipeFromFavorites,
-    checkIfUserFavoritedRecipe
+    checkIfUserFavoritedRecipe,
+    addIngredients,
+    deleteIngredients,
+    editIngredients,
+    addInstructions,
+    deleteInstructions,
+    editInstructions,
+    editRecipe
 }
