@@ -55,6 +55,52 @@ router.get('/', function(req, res, next) {
     })
 });
 
+router.post('/editRecipe', function(req, res, next) {
+  const recipeId = req.body.recipe_id
+  const recipeName = req.body.recipeName
+  const vidURL = req.body.tutorialLink
+  const imgURL = req.body.pictureLink
+  db.editRecipe(recipeId, recipeName, vidURL, imgURL).then(() => {
+    res.sendStatus(200)
+  })
+});
+
+router.post('/addIngredients', function(req, res, next) {
+  db.addIngredients(req.body.recipe_id, req.body.addedIngredientData).then(() => {
+    res.sendStatus(200)
+  })
+});
+
+router.post('/editIngredients', function(req, res, next) {
+  db.editIngredients(req.body.editedIngredientData).then(() => {
+    res.sendStatus(200)
+  })
+});
+
+router.delete('/delIngredients', function(req, res, next) {
+  db.deleteIngredients(req.body.deletedIngredientData).then(() => {
+    res.sendStatus(200)
+  })
+});
+
+router.post('/addInstructions', function(req, res, next) {
+  db.addInstructions(req.body.recipe_id, req.body.addedInstructionData).then(() => {
+    res.sendStatus(200)
+  })
+});
+
+router.post('/editInstructions', function(req, res, next) {
+  db.editInstructions(req.body.editedInstructionData).then(() => {
+    res.sendStatus(200)
+  })
+});
+
+router.delete('/delInstructions', function(req, res, next) {
+  db.deleteInstructions(req.body.deletedInstructionData).then(() => {
+    res.sendStatus(200)
+  })
+});
+
 router.post('/addLike', function(req, res, next) {
   db.addLikeToRecipe(req.body.uid, req.body.recipe_id).then(() => {
     res.sendStatus(200)
