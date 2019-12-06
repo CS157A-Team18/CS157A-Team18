@@ -23,6 +23,7 @@ import FirstPage from '@material-ui/icons/FirstPage';
 import LastPage from '@material-ui/icons/LastPage';
 import { Button } from '@material-ui/core';
 import {getUID} from '../../firebase/firebaseAuth'
+import {uploadFile} from '../../firebase/firebaseStorage'
 
 const util = require('util');
 // import List from '@material-ui/core/List';
@@ -111,10 +112,16 @@ const styles = theme => ({
                 measurement: 'kg'
                 },
             ],
+            addedIngredientData: [],
+            deletedIngredientData: [],
+            editedIngredientData: [],
             instructionData: [
                 {instruction: "First step"},
                 {instruction: "Second step"}
             ],
+            addedInstructionData: [],
+            deletedInstructionData: [],
+            editedInstructionData: [],
             favoriteButtonText: "Add to Favourite"
         }
     }
@@ -318,6 +325,199 @@ const styles = theme => ({
         })
     }
 
+    handleSave = e => {
+        const file = document.getElementById('imagePicker')
+        if (file.files[0]) {
+            uploadFile(file.files[0]).then(url => {
+                this.setState({pictureLink: url})
+                console.log(this.state.pictureLink)
+    
+                fetch(util.format('%s/api/recipe/editRecipe', process.env.REACT_APP_EXPRESS_BACKEND), {
+                    method: "POST",
+                    headers: {
+                        'Content-type': 'application/json'
+                    },
+                    body: JSON.stringify(this.state)
+                })
+                .then(result => {
+                    console.log(result) // 500 = Internal Service Error; 201 = CREATED
+                    if (result.ok) {
+                        // Handle successful recipe upload here
+                        window.location = util.format('/recipe?recipe_id=%s', this.state.recipe_id)
+                    }
+                    // Handle non-successful recipe upload here
+                })
+            })
+        } else {
+            console.log(this.state.pictureLink)
+            fetch(util.format('%s/api/recipe/editRecipe', process.env.REACT_APP_EXPRESS_BACKEND), {
+                method: "POST",
+                headers: {
+                    'Content-type': 'application/json'
+                },
+                body: JSON.stringify(this.state)
+            })
+            .then(result => {
+                console.log(result) // 500 = Internal Service Error; 201 = CREATED
+                if (result.ok) {
+                    // Handle successful recipe upload here
+                    window.location = util.format('/recipe?recipe_id=%s', this.state.recipe_id)
+                }
+                // Handle non-successful recipe upload here
+            })
+        }
+
+        if (this.state.addedIngredientData.length > 0) {
+            this.addIngredientsToDB()
+        }
+
+        if (this.state.deletedIngredientData.length > 0) {
+            this.removeIngredientsFromDB()
+        }
+
+        if (this.state.editedIngredientData.length > 0) {
+            this.editDBIngredients()
+        }
+
+        if (this.state.addedInstructionData.length > 0) {
+            this.addInstructionsToDB()
+        }
+
+        if (this.state.deletedInstructionData.length > 0) {
+            this.removeInstructionsFromDB()
+        }
+
+        if (this.state.editedInstructionData.length > 0) {
+            this.editDBInstructions()
+        }
+    }
+
+    editRecipe = () => {
+        return fetch(util.format('%s/api/recipe/editRecipe', process.env.REACT_APP_EXPRESS_BACKEND), {
+            method: "POST",
+            headers: {
+                'Content-type': 'application/json'
+            },
+            body: JSON.stringify(this.state)
+        })
+        .then(result => {
+            console.log(result) // 500 = Internal Service Error; 201 = CREATED
+            if (result.ok) {
+                // Handle successful recipe upload here
+                return
+            }
+            // Handle non-successful recipe upload here
+        })
+    }
+
+    addIngredientsToDB = () => {
+        return fetch(util.format('%s/api/recipe/addIngredients', process.env.REACT_APP_EXPRESS_BACKEND), {
+            method: "POST",
+            headers: {
+                'Content-type': 'application/json'
+            },
+            body: JSON.stringify(this.state)
+        })
+        .then(result => {
+            console.log(result) // 500 = Internal Service Error; 201 = CREATED
+            if (result.ok) {
+                // Handle successful recipe upload here
+                return
+            }
+            // Handle non-successful recipe upload here
+        })
+    }
+
+    removeIngredientsFromDB = () => {
+        return fetch(util.format('%s/api/recipe/delIngredients', process.env.REACT_APP_EXPRESS_BACKEND), {
+            method: "DELETE",
+            headers: {
+                'Content-type': 'application/json'
+            },
+            body: JSON.stringify(this.state)
+        })
+        .then(result => {
+            console.log(result) // 500 = Internal Service Error; 201 = CREATED
+            if (result.ok) {
+                // Handle successful recipe upload here
+                return
+            }
+            // Handle non-successful recipe upload here
+        })
+    }
+
+    editDBIngredients = () => {
+        return fetch(util.format('%s/api/recipe/editIngredients', process.env.REACT_APP_EXPRESS_BACKEND), {
+            method: "POST",
+            headers: {
+                'Content-type': 'application/json'
+            },
+            body: JSON.stringify(this.state)
+        })
+        .then(result => {
+            console.log(result) // 500 = Internal Service Error; 201 = CREATED
+            if (result.ok) {
+                // Handle successful recipe upload here
+                return
+            }
+            // Handle non-successful recipe upload here
+        })
+    }
+
+    addInstructionsToDB = () => {
+        return fetch(util.format('%s/api/recipe/addInstructions', process.env.REACT_APP_EXPRESS_BACKEND), {
+            method: "POST",
+            headers: {
+                'Content-type': 'application/json'
+            },
+            body: JSON.stringify(this.state)
+        })
+        .then(result => {
+            console.log(result) // 500 = Internal Service Error; 201 = CREATED
+            if (result.ok) {
+                // Handle successful recipe upload here
+                return
+            }
+            // Handle non-successful recipe upload here
+        })
+    }
+
+    removeInstructionsFromDB = () => {
+        return fetch(util.format('%s/api/recipe/delInstructions', process.env.REACT_APP_EXPRESS_BACKEND), {
+            method: "DELETE",
+            headers: {
+                'Content-type': 'application/json'
+            },
+            body: JSON.stringify(this.state)
+        })
+        .then(result => {
+            console.log(result) // 500 = Internal Service Error; 201 = CREATED
+            if (result.ok) {
+                // Handle successful recipe upload here
+                return
+            }
+            // Handle non-successful recipe upload here
+        })
+    }
+
+    editDBInstructions = () => {
+        return fetch(util.format('%s/api/recipe/editInstructions', process.env.REACT_APP_EXPRESS_BACKEND), {
+            method: "POST",
+            headers: {
+                'Content-type': 'application/json'
+            },
+            body: JSON.stringify(this.state)
+        })
+        .then(result => {
+            console.log(result) // 500 = Internal Service Error; 201 = CREATED
+            if (result.ok) {
+                // Handle successful recipe upload here
+                return
+            }
+            // Handle non-successful recipe upload here
+        })
+    }
+
     handleEdit = e => {
         document.getElementById("editMode").style.display = "block"
         document.getElementById("showMode").style.display = "none"
@@ -367,8 +567,10 @@ const styles = theme => ({
                                             resolve();
                                             this.setState(prevState => {
                                                 const ingredientData = [...prevState.ingredientData];
+                                                const addedIngredientData = [...prevState.addedIngredientData]
                                                 ingredientData.push(newData);
-                                                return { ...prevState, ingredientData };
+                                                addedIngredientData.push(newData)
+                                                return { ...prevState, ingredientData, addedIngredientData };
                                             });
                                             }, 600);
                                         }),
@@ -379,8 +581,10 @@ const styles = theme => ({
                                             if (oldData) {
                                                 this.setState(prevState => {
                                                 const ingredientData = [...prevState.ingredientData];
+                                                const editedIngredientData = [...prevState.editedIngredientData];
+                                                editedIngredientData.push(newData)
                                                 ingredientData[ingredientData.indexOf(oldData)] = newData;
-                                                return { ...prevState, ingredientData };
+                                                return { ...prevState, ingredientData, editedIngredientData };
                                                 });
                                             }
                                             }, 600);
@@ -391,8 +595,10 @@ const styles = theme => ({
                                             resolve();
                                             this.setState(prevState => {
                                                 const ingredientData = [...prevState.ingredientData];
+                                                const deletedIngredientData = [...prevState.deletedIngredientData]
                                                 ingredientData.splice(ingredientData.indexOf(oldData), 1);
-                                                return { ...prevState, ingredientData };
+                                                deletedIngredientData.push(oldData)
+                                                return { ...prevState, ingredientData, deletedIngredientData };
                                             });
                                             }, 600);
                                         }),
@@ -418,8 +624,10 @@ const styles = theme => ({
                                             resolve();
                                             this.setState(prevState => {
                                                 const instructionData = [...prevState.instructionData];
+                                                const addedInstructionData = [...prevState.addedInstructionData]
                                                 instructionData.push(newData);
-                                                return { ...prevState, instructionData };
+                                                addedInstructionData.push(newData)
+                                                return { ...prevState, instructionData, addedInstructionData };
                                             });
                                             }, 600);
                                         }),
@@ -430,8 +638,10 @@ const styles = theme => ({
                                             if (oldData) {
                                                 this.setState(prevState => {
                                                 const instructionData = [...prevState.instructionData];
+                                                const editedInstructionData = [...prevState.editedInstructionData]
+                                                editedInstructionData.push(newData)
                                                 instructionData[instructionData.indexOf(oldData)] = newData;
-                                                return { ...prevState, instructionData };
+                                                return { ...prevState, instructionData, editedInstructionData };
                                                 });
                                             }
                                             }, 600);
@@ -442,8 +652,10 @@ const styles = theme => ({
                                             resolve();
                                             this.setState(prevState => {
                                                 const instructionData = [...prevState.instructionData];
+                                                const deletedInstructionData = [...prevState.instructionData]
+                                                deletedInstructionData.push(oldData)
                                                 instructionData.splice(instructionData.indexOf(oldData), 1);
-                                                return { ...prevState, instructionData };
+                                                return { ...prevState, instructionData, deletedInstructionData };
                                             });
                                             }, 600);
                                         }),
@@ -490,7 +702,7 @@ const styles = theme => ({
                                         variant="contained" 
                                         color="primary" 
                                         className={classes.button} 
-                                        onClick={this.handleFavorite}
+                                        onClick={this.handleSave}
                                         >
                                         Save
                                 </Button>
