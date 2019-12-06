@@ -113,7 +113,7 @@ const tableIcons = {
 
     componentDidMount() {
       getUID().then(user => {
-        fetch(util.format('%s/api/favorites?uid=%s', process.env.REACT_APP_EXPRESS_BACKEND, user.uid), {
+        fetch(util.format('%s/api/dashboard?uid=%s', process.env.REACT_APP_EXPRESS_BACKEND, user.uid), {
           method: "GET",
           headers: {
               'Content-type': 'application/json'
@@ -168,7 +168,7 @@ const tableIcons = {
                         />
                     </div>
                     <div className={classes.grow} />
-                    <div className={classes.sectionDesktop}>
+                    {/* <div className={classes.sectionDesktop}>
                         <IconButton
                             edge="end"
                             aria-label="account of current user"
@@ -179,7 +179,7 @@ const tableIcons = {
                         <AccountCircle />
                     </IconButton>
 
-                    </div>
+                    </div> */}
                     <Link to="/profile" id="name">{this.state.userFullName}</Link>
                     <Link to="/login" id="name">Sign out</Link>
                 </Toolbar>
