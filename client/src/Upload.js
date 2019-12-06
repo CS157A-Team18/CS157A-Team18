@@ -160,7 +160,7 @@ class Upload extends React.Component {
     componentDidMount = () => {
         getUID().then(user => {
             this.setState({uid: user.uid})
-            fetch(util.format('%s/api/dashboard?uid=%s', process.env.REACT_APP_EXPRESS_BACKEND, user.uid), {
+            fetch(util.format('%s/api/upload?uid=%s', process.env.REACT_APP_EXPRESS_BACKEND, user.uid), {
                 method: "GET",
                 headers: {
                     'Content-type': 'application/json'
@@ -171,6 +171,7 @@ class Upload extends React.Component {
             })
             .then(responseData => {
                 this.setState({
+                    recipeData: responseData,
                     userFullName: util.format('%s %s', responseData.firstName, responseData.lastName),
                     tileData: responseData.allRecipes
                 })
@@ -217,12 +218,8 @@ class Upload extends React.Component {
     handleBreakfastTap = e => {
         console.log(this.state.mealTypeArray[0])
         if (this.state.selectedMealType.includes(1)) {
-            document.getElementById('breakfast').style.backgroundColor = "white"
-            document.getElementById('breakfast').style.color = "black"
             this.state.selectedMealType.splice(this.state.selectedMealType.indexOf(1), 1)
         } else {
-            document.getElementById('breakfast').style.backgroundColor = "#3f51b5"
-            document.getElementById('breakfast').style.color = "white"
             this.state.selectedMealType.push(1)
         }
         console.log(this.state.selectedMealType)
@@ -231,12 +228,8 @@ class Upload extends React.Component {
     handleLunchTap = e => {
         console.log(this.state.mealTypeArray[1])
         if (this.state.selectedMealType.includes(4)) {
-            document.getElementById('lunch').style.backgroundColor = "white"
-            document.getElementById('lunch').style.color = "black"
             this.state.selectedMealType.splice(this.state.selectedMealType.indexOf(4), 1)
         } else {
-            document.getElementById('lunch').style.backgroundColor = "#3f51b5"
-            document.getElementById('lunch').style.color = "white"
             this.state.selectedMealType.push(4)
         }
         console.log(this.state.selectedMealType)
@@ -245,12 +238,8 @@ class Upload extends React.Component {
     handleDinnerTap = e => {
         console.log(this.state.mealTypeArray[2])
         if (this.state.selectedMealType.includes(3)) {
-            document.getElementById('dinner').style.backgroundColor = "white"
-            document.getElementById('dinner').style.color = "black"
             this.state.selectedMealType.splice(this.state.selectedMealType.indexOf(3), 1)
         } else {
-            document.getElementById('dinner').style.backgroundColor = "#3f51b5"
-            document.getElementById('dinner').style.color = "white"
             this.state.selectedMealType.push(3)
         }
         console.log(this.state.selectedMealType)
@@ -259,12 +248,8 @@ class Upload extends React.Component {
     handleDessertTap = e => {
         console.log(this.state.mealTypeArray[3])
         if (this.state.selectedMealType.includes(2)) {
-            document.getElementById('dessert').style.backgroundColor = "white"
-            document.getElementById('dessert').style.color = "black"
             this.state.selectedMealType.splice(this.state.selectedMealType.indexOf(2), 1)
         } else {
-            document.getElementById('dessert').style.backgroundColor = "#3f51b5"
-            document.getElementById('dessert').style.color = "white"
             this.state.selectedMealType.push(2)
         }
         console.log(this.state.selectedMealType)
@@ -273,12 +258,8 @@ class Upload extends React.Component {
     handleSnackTap = e => {
         console.log(this.state.mealTypeArray[4])
         if (this.state.selectedMealType.includes(5)) {
-            document.getElementById('snack').style.backgroundColor = "white"
-            document.getElementById('snack').style.color = "black"
             this.state.selectedMealType.splice(this.state.selectedMealType.indexOf(5), 1)
         } else {
-            document.getElementById('snack').style.backgroundColor = "#3f51b5"
-            document.getElementById('snack').style.color = "white"
             this.state.selectedMealType.push(5)
         }
         console.log(this.state.selectedMealType)
@@ -287,12 +268,8 @@ class Upload extends React.Component {
     handleSupperTap = e => {
         console.log(this.state.mealTypeArray[5])
         if (this.state.selectedMealType.includes(6)) {
-            document.getElementById('supper').style.backgroundColor = "white"
-            document.getElementById('supper').style.color = "black"
             this.state.selectedMealType.splice(this.state.selectedMealType.indexOf(6), 1)
         } else {
-            document.getElementById('supper').style.backgroundColor = "#3f51b5"
-            document.getElementById('supper').style.color = "white"
             this.state.selectedMealType.push(6)
         }
         console.log(this.state.selectedMealType)
@@ -303,10 +280,6 @@ class Upload extends React.Component {
 
         const menuId = 'primary-search-account-menu';
 
-        const handleProfileMenuOpen = event => {
-            //setAnchorEl(event.currentTarget);
-        };
-
         const handleMobileMenuOpen = event => {
             this.state.setMobileMoreAnchorEl(event.currentTarget);
         };
@@ -315,7 +288,7 @@ class Upload extends React.Component {
         return (
         <div className="main">  
             <div className={classes.grow}>
-                <AppBar position="static" id="appbar">
+            <AppBar position="static" id="appbar">
                     <Toolbar>
                         <Typography className={classes.title} variant="h6" noWrap>
                             Delight
@@ -325,7 +298,6 @@ class Upload extends React.Component {
                         <Link to="/upload" id="menu-button">Upload</Link>
                         <Link to="/favorite" id="menu-button">Favorite</Link>
                         <Link to="/like" id="menu-button">Like</Link>
-                        
                         {/* <Button id="menu-button">
                             Marketplace
                         </Button> */}
@@ -350,7 +322,6 @@ class Upload extends React.Component {
                                 aria-label="account of current user"
                                 aria-controls={menuId}
                                 aria-haspopup="true"
-                                onClick={handleProfileMenuOpen}
                                 color="inherit"
                             >
                             <AccountCircle />
@@ -381,12 +352,12 @@ class Upload extends React.Component {
                 <div className={classes.section}>
                     <Grid className={classes.button}>
                         <ButtonGroup fullWidth aria-label="full width outlined button group">
-                            <Button id="breakfast" onClick = {this.handleBreakfastTap}> {this.state.mealTypeArray[0]} </Button>
-                            <Button id="lunch" onClick = {this.handleLunchTap}> {this.state.mealTypeArray[1]}</Button>
-                            <Button id="dinner" onClick = {this.handleDinnerTap} >{this.state.mealTypeArray[2]}</Button>
-                            <Button id="dessert" onClick = {this.handleDessertTap} >{this.state.mealTypeArray[3]}</Button>
-                            <Button id="snack" onClick = {this.handleSnackTap} >{this.state.mealTypeArray[4]}</Button>
-                            <Button id="supper" onClick = {this.handleSupperTap} >{this.state.mealTypeArray[5]}</Button>
+                            <Button onClick = {this.handleBreakfastTap}> {this.state.mealTypeArray[0]} </Button>
+                            <Button onClick = {this.handleLunchTap}> {this.state.mealTypeArray[1]}</Button>
+                            <Button onClick = {this.handleDinnerTap} >{this.state.mealTypeArray[2]}</Button>
+                            <Button onClick = {this.handleDessertTap} >{this.state.mealTypeArray[3]}</Button>
+                            <Button onClick = {this.handleSnackTap} >{this.state.mealTypeArray[4]}</Button>
+                            <Button onClick = {this.handleSupperTap} >{this.state.mealTypeArray[5]}</Button>
                         </ButtonGroup>
                     </Grid>
                 </div>
