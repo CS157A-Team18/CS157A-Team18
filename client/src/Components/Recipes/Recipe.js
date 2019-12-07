@@ -195,7 +195,7 @@ const styles = theme => ({
         this.state.recipe_id = this.getUrlVars()["recipe_id"]
         getUID().then(user => {
             this.setState({uid: user.uid})
-            fetch(util.format('%s/api/dashboard?uid=%s&recipe_id=%s', process.env.REACT_APP_EXPRESS_BACKEND, user.uid, this.state.recipe_id), {
+            fetch(util.format('%s/api/recipe?uid=%s&recipe_id=%s', process.env.REACT_APP_EXPRESS_BACKEND, user.uid, this.state.recipe_id), {
                 method: "GET",
                 headers: {
                     'Content-type': 'application/json'

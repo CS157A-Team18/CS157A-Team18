@@ -113,7 +113,7 @@ const tableIcons = {
 
     componentDidMount() {
       getUID().then(user => {
-        fetch(util.format('%s/api/dashboard?uid=%s', process.env.REACT_APP_EXPRESS_BACKEND, user.uid), {
+        fetch(util.format('%s/api/favorite?uid=%s', process.env.REACT_APP_EXPRESS_BACKEND, user.uid), {
           method: "GET",
           headers: {
               'Content-type': 'application/json'
