@@ -171,7 +171,7 @@ class Upload extends React.Component {
             })
             .then(responseData => {
                 this.setState({
-                    recipeData: responseData
+                    recipeData: responseData,
                     tileData: responseData.allRecipes
                 })
             })
