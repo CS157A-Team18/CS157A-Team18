@@ -215,8 +215,7 @@ const styles = theme => ({
                     instructionData: responseData.instructions,
                     isRecipeLiked: responseData.userLikedRecipe,
                     isRecipeDisliked: responseData.userDislikedRecipe,
-                    isRecipeFavorited: responseData.userFavoritedRecipe,
-                    userFullName: util.format('%s %s', responseData.firstName, responseData.lastName),
+                    isRecipeFavorited: responseData.userFavoritedRecipe
                 })
                 if (this.state.isRecipeLiked == true) {
                     document.getElementById("likeButton").style.color = "blue"

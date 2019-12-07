@@ -139,7 +139,6 @@ const tableIcons = {
       .then(responseData => {
           this.setState({
               recipeData: responseData,
-              userFullName: util.format('%s %s', responseData.firstName, responseData.lastName),
               tileData: responseData.allRecipes
           })
       })

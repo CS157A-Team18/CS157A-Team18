@@ -131,8 +131,7 @@ class Profile extends React.Component {
                     this.setState({
                         firstName: responseData.first_name,
                         lastName: responseData.last_name,
-                        isLoading: false,
-                        userFullName: util.format('%s %s', responseData.firstName, responseData.lastName),
+                        isLoading: false
                     })
                 })
         })

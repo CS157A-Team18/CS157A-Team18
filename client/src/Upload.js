@@ -171,8 +171,7 @@ class Upload extends React.Component {
             })
             .then(responseData => {
                 this.setState({
-                    recipeData: responseData,
-                    userFullName: util.format('%s %s', responseData.firstName, responseData.lastName),
+                    recipeData: responseData
                     tileData: responseData.allRecipes
                 })
             })
