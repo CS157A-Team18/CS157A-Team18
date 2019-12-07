@@ -127,7 +127,7 @@ const tableIcons = {
 
     componentDidMount() {
       getUID().then(user => {
-        fetch(util.format('%s/api/dashboard?uid=%s', process.env.REACT_APP_EXPRESS_BACKEND, user.uid), {
+        fetch(util.format('%s/api/personalRecipe?uid=%s', process.env.REACT_APP_EXPRESS_BACKEND, user.uid), {
           method: "GET",
           headers: {
               'Content-type': 'application/json'
@@ -138,8 +138,7 @@ const tableIcons = {
       })
       .then(responseData => {
           this.setState({
-              recipeData: responseData,
-              tileData: responseData.allRecipes
+              recipeData: responseData
           })
       })
       })
