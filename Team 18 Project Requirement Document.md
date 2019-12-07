@@ -90,13 +90,12 @@ Our team will be creating a website to help people find recipes for maintaining 
 - Users will see a list of ingredients for the meal.
 - Users will be able to save recipes to their Favorites list.
 
-7. Post review & leave rating
-- Users will be able to rate a recipe by liking/disliking, and have an option to write a review.
+7. Leave rating
+- Users will be able to rate a recipe by liking/disliking.
 - Users will to able to click a thumbs up and a thumbs down next to each recipe, representing liking and disliking, respectively. The like/dislike button will glow when selected.
 - The like/dislike buttons should act like a toggle. For example, if the user previously clicked "dislike" and decides to click "like", the "dislike" button should be unselected. Likewise, if the user previously clicked "like" and decides to click "dislike", the "like" button should be unselected.
 - Reviews will simply be comments. Other users will have the option to like, dislike, and/or comment on reviews.
 - The like/dislike feature for the reviews will act in the same manner as described above.
-- User can select whether they would like to make the review public or to keep it private
 
 ### Nonfunctional Requirements
 + Usability
@@ -119,7 +118,7 @@ Our team will be creating a website to help people find recipes for maintaining 
 
 + Security && Reliability
     - User data will be protected by credentials.
-    - On top of credentials, two-factor authentication shall be enabled. This prevents an attacker from gaining access to a user's account should the account be compromised. Additionally, user passwords shall be encrypted with 256-bit AES. Should an attacker gain access to the database, the users' passwords will not be compromised.
+    - User passwords shall be encrypted with 256-bit AES. Should an attacker gain access to the database, the users' passwords will not be compromised.
     - For access control, only the creators of the website shall have the ability to manage the database and edit the site. Users shall only have the ability to navigate the website.
     - The website should be running with no errors. All errors should be handled by throwing exceptions.
     - The website server should be down in a small period of time during the maintenance.
