@@ -24,6 +24,14 @@ import LastPage from '@material-ui/icons/LastPage';
 import { Button } from '@material-ui/core';
 import {getUID} from '../../firebase/firebaseAuth'
 import {uploadFile} from '../../firebase/firebaseStorage'
+import Toolbar from '@material-ui/core/Toolbar';
+import Typography from '@material-ui/core/Typography';
+import AppBar from '@material-ui/core/AppBar';
+import { Link } from "react-router-dom";
+import SearchIcon from '@material-ui/icons/Search';
+import InputBase from '@material-ui/core/InputBase';
+import AccountCircle from '@material-ui/icons/AccountCircle';
+import { fade } from '@material-ui/core/styles';
 
 const util = require('util');
 // import List from '@material-ui/core/List';
@@ -61,6 +69,61 @@ const styles = theme => ({
         //marginLeft: theme.spacing(1),
         //marginRight: theme.spacing(1),
         width: 500,
+    },
+    grow: {
+        flexGrow: 1,
+    },
+    searchIcon: {
+        width: theme.spacing(7),
+        height: '100%',
+        position: 'absolute',
+        pointerEvents: 'none',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+    },
+    search: {
+        position: 'relative',
+        borderRadius: theme.shape.borderRadius,
+        backgroundColor: fade(theme.palette.common.white, 0.15),
+        '&:hover': {
+        backgroundColor: fade(theme.palette.common.white, 0.25),
+    },
+
+    marginRight: theme.spacing(2),
+        marginLeft: 0,
+        width: '100%',
+        [theme.breakpoints.up('sm')]: {
+        marginLeft: theme.spacing(3),
+        width: 'auto',
+        },
+    },
+
+    inputRoot: {
+        color: 'inherit',
+    },
+    inputInput: {
+        padding: theme.spacing(1, 1, 1, 7),
+        transition: theme.transitions.create('width'),
+        width: '100%',
+        [theme.breakpoints.up('md')]: {
+        width: 200,
+        },
+    },
+    title: {
+        display: 'none',
+        [theme.breakpoints.up('sm')]: {
+        display: 'block',
+        },
+    },
+    sectionDesktop: {
+        display: 'none',
+        [theme.breakpoints.up('md')]: {
+        display: 'flex',
+        },
+    },
+    textarea: {
+        height: '500px',
     },
   });
 
@@ -123,6 +186,8 @@ const styles = theme => ({
             deletedInstructionData: [],
             editedInstructionData: [],
             favoriteButtonText: "Add to Favourite"
+            ,
+            userFullName: ""
         }
     }
 
@@ -130,7 +195,7 @@ const styles = theme => ({
         this.state.recipe_id = this.getUrlVars()["recipe_id"]
         getUID().then(user => {
             this.setState({uid: user.uid})
-            fetch(util.format('%s/api/recipe?uid=%s&recipe_id=%s', process.env.REACT_APP_EXPRESS_BACKEND, user.uid, this.state.recipe_id), {
+            fetch(util.format('%s/api/dashboard?uid=%s&recipe_id=%s', process.env.REACT_APP_EXPRESS_BACKEND, user.uid, this.state.recipe_id), {
                 method: "GET",
                 headers: {
                     'Content-type': 'application/json'
@@ -150,7 +215,8 @@ const styles = theme => ({
                     instructionData: responseData.instructions,
                     isRecipeLiked: responseData.userLikedRecipe,
                     isRecipeDisliked: responseData.userDislikedRecipe,
-                    isRecipeFavorited: responseData.userFavoritedRecipe
+                    isRecipeFavorited: responseData.userFavoritedRecipe,
+                    userFullName: util.format('%s %s', responseData.firstName, responseData.lastName),
                 })
                 if (this.state.isRecipeLiked == true) {
                     document.getElementById("likeButton").style.color = "blue"
@@ -538,7 +604,55 @@ const styles = theme => ({
 
     render() { 
         const { classes } = this.props
+        const menuId = 'primary-search-account-menu';
         return (
+            <div className="main">  
+            <div className={classes.grow}>
+            <AppBar position="static" id="appbar">
+                    <Toolbar>
+                        <Typography className={classes.title} variant="h6" noWrap>
+                            Delight
+                        </Typography>
+                        <Link to="/dashboard" id="menu-button">Home</Link>
+                        <Link to="/personalRecipe" id="menu-button">Recipes</Link>
+                        <Link to="/upload" id="menu-button">Upload</Link>
+                        <Link to="/favorite" id="menu-button">Favorite</Link>
+                        <Link to="/like" id="menu-button">Like</Link>
+                        {/* <Button id="menu-button">
+                            Marketplace
+                        </Button> */}
+    
+                        <div className={classes.search}>
+                            <div className={classes.searchIcon}>
+                                <SearchIcon />
+                            </div>
+                            <InputBase
+                                placeholder="Search…"
+                                classes={{
+                                root: classes.inputRoot,
+                                input: classes.inputInput,
+                                }}
+                                inputProps={{ 'aria-label': 'search' }}
+                            />
+                        </div>
+                        <div className={classes.grow} />
+                        <div className={classes.sectionDesktop}>
+                            <IconButton
+                                edge="end"
+                                aria-label="account of current user"
+                                aria-controls={menuId}
+                                aria-haspopup="true"
+                                color="inherit"
+                            >
+                            <AccountCircle />
+                        </IconButton>
+    
+                        </div>
+                        <Link to="/profile" id="name">{this.state.userFullName}</Link>
+                        <Link to="/login" id="name">Sign out</Link>
+                    </Toolbar>
+                </AppBar>
+            </div>    
             <Grid container className={classes.root}>
                 <Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square>
                     <div className={classes.paper}>
@@ -766,7 +880,8 @@ const styles = theme => ({
                     {/* </img>className={classes.image} */}
                     
                 </Grid> 
-            </Grid>      
+            </Grid> 
+        </div>         
         )
     }
 }

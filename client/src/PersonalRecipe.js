@@ -212,7 +212,8 @@ const tableIcons = {
                       </IconButton>
   
                       </div>
-                      <Link to="/profile" id="name">{this.state.userFullName}</Link>
+                      {/* <Link to="/profile" id="name">{this.state.userFullName}</Link> */}
+                      <Link to="/profile" id="name">J</Link>
                       <Link to="/login" id="name">Sign out</Link>
                   </Toolbar>
               </AppBar>
