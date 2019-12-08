@@ -171,7 +171,6 @@ class Dashboard extends React.Component {
     handleCardClick = e => {
         window.location = util.format('/recipe?recipe_id=%s', e.id)
     }
-    
     componentDidMount() {
         getUID().then(user => {
             fetch(util.format('%s/api/dashboard?uid=%s', process.env.REACT_APP_EXPRESS_BACKEND, user.uid), {
@@ -286,7 +285,6 @@ class Dashboard extends React.Component {
                         <Link to="/upload" id="menu-button">Upload</Link>
                         <Link to="/favorite" id="menu-button">Favorite</Link>
                         <Link to="/like" id="menu-button">Like</Link>
-                        
                         {/* <Button id="menu-button">
                             Marketplace
                         </Button> */}
@@ -320,17 +318,6 @@ class Dashboard extends React.Component {
                         </div>
                         <Link to="/profile" id="name">{this.state.userFullName}</Link>
                         <Link to="/login" id="name">Sign out</Link>
-                        <div className={classes.sectionMobile}>
-                            <IconButton
-                                aria-label="show more"
-                                aria-controls={mobileMenuId}
-                                aria-haspopup="true"
-                                onClick={handleMobileMenuOpen}
-                                color="inherit"
-                                >
-                                <MoreIcon />
-                            </IconButton>
-                        </div>
                     </Toolbar>
                 </AppBar>
     

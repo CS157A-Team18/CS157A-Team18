@@ -28,6 +28,7 @@ import SearchIcon from '@material-ui/icons/Search';
 import InputBase from '@material-ui/core/InputBase';
 import AccountCircle from '@material-ui/icons/AccountCircle';
 import { fade } from '@material-ui/core/styles';
+import MoreIcon from '@material-ui/icons/MoreVert';
 import {getUID} from './firebase/firebaseAuth'
 const util = require('util')
 
@@ -152,6 +153,7 @@ class Upload extends React.Component {
                 {description: "First step"},
                 {description: "Second step"}
             ],
+            userFullName: ""
         }
     }
 
@@ -286,10 +288,6 @@ class Upload extends React.Component {
 
         const menuId = 'primary-search-account-menu';
 
-        const handleProfileMenuOpen = event => {
-            //setAnchorEl(event.currentTarget);
-        };
-
         const handleMobileMenuOpen = event => {
             this.state.setMobileMoreAnchorEl(event.currentTarget);
         };
@@ -298,7 +296,7 @@ class Upload extends React.Component {
         return (
         <div className="main">  
             <div className={classes.grow}>
-                <AppBar position="static" id="appbar">
+            <AppBar position="static" id="appbar">
                     <Toolbar>
                         <Typography className={classes.title} variant="h6" noWrap>
                             Delight
@@ -308,7 +306,6 @@ class Upload extends React.Component {
                         <Link to="/upload" id="menu-button">Upload</Link>
                         <Link to="/favorite" id="menu-button">Favorite</Link>
                         <Link to="/like" id="menu-button">Like</Link>
-                        
                         {/* <Button id="menu-button">
                             Marketplace
                         </Button> */}
@@ -333,28 +330,14 @@ class Upload extends React.Component {
                                 aria-label="account of current user"
                                 aria-controls={menuId}
                                 aria-haspopup="true"
-                                onClick={handleProfileMenuOpen}
                                 color="inherit"
                             >
                             <AccountCircle />
                         </IconButton>
     
                         </div>
-    
-                        {/* <label id="name">Kimleng Hor</label> */}
-                        <Link to="/profile" id="name">Kimleng Hor</Link>
+                        <Link to="/profile" id="name">{this.state.userFullName}</Link>
                         <Link to="/login" id="name">Sign out</Link>
-                        {/* <div className={classes.sectionMobile}>
-                            <IconButton
-                                aria-label="show more"
-                                aria-controls={mobileMenuId}
-                                aria-haspopup="true"
-                                onClick={handleMobileMenuOpen}
-                                color="inherit"
-                                >
-                                <MoreIcon />
-                            </IconButton>
-                        </div> */}
                     </Toolbar>
                 </AppBar>
             </div>
