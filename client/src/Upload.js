@@ -160,21 +160,6 @@ class Upload extends React.Component {
     componentDidMount = () => {
         getUID().then(user => {
             this.setState({uid: user.uid})
-            fetch(util.format('%s/api/upload?uid=%s', process.env.REACT_APP_EXPRESS_BACKEND, user.uid), {
-                method: "GET",
-                headers: {
-                    'Content-type': 'application/json'
-                }
-            })
-            .then(response => {
-                return response.json()
-            })
-            .then(responseData => {
-                this.setState({
-                    recipeData: responseData,
-                    tileData: responseData.allRecipes
-                })
-            })
         })
     }
 
