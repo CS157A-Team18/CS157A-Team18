@@ -29,32 +29,44 @@ Our team will be creating a website to help people find recipes for maintaining 
 
 ### Functional Requirements
 
-1. Create an account
+1. Signup
 - The website will provide a form for users to fill in their information. The form requires first name, last name, email address, password and confirm password.
-- Users must provide complete information in order to proceed with the operation.
-- The system will check whether the information that is provided by the user existing in the database. 
-- The system will confirm the password is correct for a user account.
+- The system will check whether the information that is provided by the user existing in the database (**READ operation**).
+- If the user does not already exist and the password requirements are met, the system will create a new user entry into the database (**CREATE operation**)
 
-2. Manage account.
-- Users will be able to change their information; such as email address, password but not their username.
-- Users will be able to change their food preferences.
-- The system will save and remember all the information that are changed by the user.
+2. Dashboard
+- When the user logs in successfully, a he/she will be redirected to the dashboard.
+- The dashboard should show all the recipes uploaded by every user (**READ operation**)
+- The dashboard should display the user's full name in the top right corner (**READ operation**)
 
-3. Food Preference
-- Users will be able to set their own preferences for food recipes; such as the level of spiciness, the food cultures, and many more.
-- The system will save the information and organize the pages to fit the user preference.
+2. Manage Account.
+- Users will be able to change their information. This includes their names and passwords, but not their email addresses (**UPDATE operation**).
 
-4. Display instructional video, a picture of the meal, and step-by-step instruction guide
-- Users will be able to have access to an instructional video, a picture of the meal, and a step-by-step guide on how to make the meal.
-- Users will see a list of ingredients for the meal.
-- Users will be able to save recipes to their Favorites list.
+3. Upload Recipe
+- Users will be able to upload recipes which include attributes like the recipe name, ingredients, instructions, video URL, and picture URL (**CREATE operation**).
+- The system will check whether the ingredients already exist in the database (**READ operation**)
+- If the ingredient does not already exist, the system will add the ingredient to the database (**CREATE operation**)
 
-5. Leave rating
-- Users will be able to rate a recipe by liking/disliking.
-- Users will to able to click a thumbs up and a thumbs down next to each recipe, representing liking and disliking, respectively. The like/dislike button will glow when selected.
-- The like/dislike buttons should act like a toggle. For example, if the user previously clicked "dislike" and decides to click "like", the "dislike" button should be unselected. Likewise, if the user previously clicked "like" and decides to click "dislike", the "like" button should be unselected.
-- Reviews will simply be comments. Other users will have the option to like, dislike, and/or comment on reviews.
-- The like/dislike feature for the reviews will act in the same manner as described above.
+4. Uploaded Recipes Page
+- Users will be able to view the recipes they uploaded (**READ operation**)
+- Users will be able to edit the recipes they uploaded (**UPDATE operation**)
+- Users will be able to delete the recipes they uploaded (**DELETE operation**)
+
+4. View Recipe
+- Users will be able to have access to an instructional video, a picture of the meal, and a step-by-step guide on how to make the meal (**READ operation**).
+- Users will be able to see whether they have liked, disliked, and/or favorited a recipe (**READ operation**).
+
+5. Favorites List
+- Users will be able to save recipes to their Favorites list (**CREATE operation**).
+- Users will be able to remove recipes from their Favorites list (**DELETE operation**).
+- Users will be able to access their Favorites list (**READ operation**).
+
+6. Leave Rating
+- Users will be able to rate a recipe by liking/disliking (**CREATE operation**).
+- Users can deselect their likes/dislikes (**DELETE operation**).
+
+7. Liked Recipes List
+- Users will be able to view the recipes they liked (**READ operation**).
 
 ### Nonfunctional Requirements
 + Usability
