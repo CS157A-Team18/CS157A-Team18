@@ -104,30 +104,35 @@ Our team will be creating a website to help people find recipes for maintaining 
 
 ### Entity Sets
 
-1. User 
-Attributes: username (primary key), first name, last name, and password
-The primary key for this set is username, which means the username must be unique.
-Password is stored safely with an encryption.
-This entity set stores the record and the information of the user.
+1. User 
+Attributes: uid (primary key), first_name, last_name
+The primary key for this set is username, which means the username must be unique.
+Password is stored safely with an encryption.
+This entity set stores the record and the information of the user.
 
-2. Food Allergy
-Attributes: name (primary key)
-This set has name as primary key because each food allergy has to be unique.
-This entity set stores all kinds of food allergies.
+2. Food Allergy
+Attributes: id (primary key), name
+This set has name as primary key because each food allergy has to be unique.
+This entity set stores all kinds of food allergies.
 
-3. Ingredients
-Attributes: name (primary key)
-Name is the primary key of this set so that we can distinguish it from other ingredients.
-This entity set stores many kinds of ingredients.
+3. Ingredients
+Attributes: id (primary key), name
+Name is the primary key of this set so that we can distinguish it from other ingredients.
+This entity set stores many kinds of ingredients.
 
-4. Recipe
-Attributes: timestamp (primary key), name, likes, dislikes, vid_url
-Each recipe will be determined with a timestamp as the primary key.
-This entity set stores the record of the recipe; such as name, likes, dislikes and video link.
+4. Recipe
+Attributes: id (primary key), name, likes, dislikes, vid_url, pic_url
+Each recipe will be determined with a timestamp as the primary key.
+This entity set stores the record of the recipe; such as name, likes, dislikes and video link.
 
-5. Meal Type
-	Attributes: name (primary key)
-This entity set stores the type of the food (breakfast, lunch, and dinner).
+5. Meal Type
+Attributes: id (primary key), name
+This entity set stores the type of the food (breakfast, lunch, and dinner).
+
+6. Instruction
+Attributes: id (primary key), instruction
+This entity set stores the instructions for the recipes.
+
 
 
 ### Relationships
