@@ -188,6 +188,44 @@ This relationship linked user and recipe together in order to determine which re
 <img src="/images/recipe_meal_type_junction_table.png">
 
 
+### Normalization
+User
+    User (uid, first_name, last_name)
+    Let A=uid, B=first_name, C=last_name
+    Functional Dependency: A -> BC
+    A -> BC is a nontrivial functional dependency and A is a superkey. Hence the User table is in BCNF.
+
+Food Allergy
+    Food Allergy (id, name)
+    Let A=id, B=name
+    Functional Dependency: A -> B
+    A -> B is a nontrivial functional dependency and A is a superkey. Hence the Food Allergy table is in BCNF.
+
+Ingredients
+    Ingredients (id, name)
+    Let A=id, B=name
+    Functional Dependency: A -> B
+    A -> B is a nontrivial functional dependency and A is a superkey. Hence the Ingredients table is in BCNF.
+
+Recipe
+    Recipe (id, name, dislikes, likes, vid_url, pic_url)
+    Let A=id, B=name, C=dislikes, D=likes, E=vid_url, F=pic_url
+    Functional Dependency: A -> BCDEF
+    A -> BCDEF is a nontrivial functional dependency and A is a superkey. Hence the Recipe table is in BCNF.
+
+Meal Type
+    Meal Type (id, name)
+    Let A=id, B=name
+    Functional Dependency: A -> B
+    A -> B is a nontrivial functional dependency and A is a superkey. Hence the Meal Type table is in BCNF.
+
+Instruction
+    Instruction (id, instruction)
+    Let A=id, B=name
+    Functional Dependency: A -> B
+    A -> B is a nontrivial functional dependency and A is a superkey. Hence the Instruction table is in BCNF.
+
+
 ### Bibliography
 Barclay, Eliza, et al. “It's Easy to Become Obese in America. These 7 Charts Explain Why.” Vox, Vox, 9 Aug. 2018, www.vox.com/2016/8/31/12368246/obesity-america-2018-charts.
 
